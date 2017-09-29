@@ -12,5 +12,5 @@
 */
 
 Route::get('/', function () {
-    return "Welcome to trndii";
+    return view('welcome');
 });
