@@ -70,7 +70,6 @@
                 </div>
             </div>
         </nav>
-        <script src="https://js.stripe.com/v3/"></script>
         @yield('content')
         
     </div>
