@@ -14,7 +14,7 @@
         </div>
         <div class="form-group">
             {{Form::label('email', 'E-Mail')}}
-            {{Form::text('email', '', ['class' => 'form-control'])}}
+            {{Form::email('email', '', ['class' => 'form-control'])}}
         </div>
         {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}
     {!! Form::close() !!}
