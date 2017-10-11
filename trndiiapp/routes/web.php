@@ -19,4 +19,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/preregistration', 'ViewsController@preregistration');
 
+Route::get('/successpreregistration', 'ViewsController@successpreregistration');
+
 Route::resource('preregisteredusers', 'PreregisteredUsersController');

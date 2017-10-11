@@ -36,16 +36,16 @@ class PreregisteredUsersController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'firstname' => 'required',
-            'lastname' => 'required',
+            'firstName' => 'required',
+            'lastName' => 'required',
             'email' => 'required'
         ]);
 
-        $preregistereduser = new PreregisteredUser;
-        $preregistereduser->firstname = $request->input('firstname');
-        $preregistereduser->lastName = $request->input('lastname');
-        $preregistereduser->email = $request->input('email');
-        $preregistereduser->save();
+        $preregisteredUser = new PreregisteredUser;
+        $preregisteredUser->firstName = $request->input('firstName');
+        $preregisteredUser->lastName = $request->input('lastName');
+        $preregisteredUser->email = $request->input('email');
+        $preregisteredUser->save();
 
         return redirect('successpreregistration');
     }

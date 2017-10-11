@@ -15,9 +15,9 @@ class CreatePreregisteredUsersTable extends Migration
     {
         Schema::create('preregistered_users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('FirstName');
-            $table->string('LastName');
-            $table->string('Email')->unique();
+            $table->string('firstName');
+            $table->string('lastName');
+            $table->string('email')->unique();
             $table->timestamps();
         });
     }

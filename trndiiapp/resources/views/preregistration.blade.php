@@ -5,12 +5,12 @@
     <h3>Please fill out the form below!</h3>
     {!! Form::open(['action' => 'PreregisteredUsersController@store', 'method' => 'POST']) !!}
         <div class="form-group">
-            {{Form::label('firstname', 'First Name')}}
-            {{Form::text('firstname', '', ['class' => 'form-control'])}}
+            {{Form::label('firstName', 'First Name')}}
+            {{Form::text('firstName', '', ['class' => 'form-control'])}}
         </div>
         <div class="form-group">
-            {{Form::label('lastname', 'Last Name')}}
-            {{Form::text('lastname', '', ['class' => 'form-control'])}}
+            {{Form::label('lastName', 'Last Name')}}
+            {{Form::text('lastName', '', ['class' => 'form-control'])}}
         </div>
         <div class="form-group">
             {{Form::label('email', 'E-Mail')}}
