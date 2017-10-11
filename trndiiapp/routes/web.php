@@ -18,6 +18,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-Route::get('/editAccount', 'EditAccountController@index');
+//Route::get('/editAccount', 'EditAccountController@index')->middleware('authenticated');
+Route::get('/editAccount', 'EditAccountController@index')->middleware('auth');
 
 
