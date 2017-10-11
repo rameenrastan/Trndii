@@ -19,4 +19,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/payment', 'PagesController@payment');
 
-Route::post('/updatecard', 'PaymentsController@updateCard');
+Route::post('/payment', 'PaymentsController@updateCard');

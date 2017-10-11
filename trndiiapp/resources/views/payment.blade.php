@@ -1,7 +1,7 @@
 <html>
     <body>
 
-        <form action="/updatecard" method="POST">
+        <form action="/payment" method="POST">
 
             {{ csrf_field() }}
 

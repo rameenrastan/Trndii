@@ -10,10 +10,10 @@ class PaymentsController extends Controller
 {
     public function updateCard(){
 
+
        Stripe::setApiKey('sk_test_NT3PRUGQkLOj8cnPlp1X2APb');
        
        $user = Auth::user();
-      // $source = request('stripeToken');
        
        $customer = Customer::create([
 
@@ -22,10 +22,13 @@ class PaymentsController extends Controller
 
        ]);
 
+   
         $user->stripe_id = $customer->id;
         $user->save();
-       
-        return request('stripeToken');
+        
+        //$customer = Customer::retrieve($user->stripe_id);
+        return redirect() -> action('HomeController@index');
 
     }
+
 }
