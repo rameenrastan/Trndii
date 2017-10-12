@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use App\User;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -78,7 +80,20 @@ class UsersController extends Controller
             'email' => 'required'
         ]);
 
+
+
+
         $user = Auth::user();
+
+        $curPassword =$request->input('password');
+        $newPassword = $request->input('newpassword');
+
+        if (Hash::check($curPassword, $user->password)) {
+
+            $user->password = Hash::make($newPassword);
+
+        }
+
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->country = $request->input('country');
