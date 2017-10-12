@@ -17,7 +17,13 @@ class CreateItemsTable extends Migration
             $table->increments('id');
             $table->string('Name');
             $table->double('Price',15, 2);
+            $table->double('Bulk_Price');
             $table->integer('Threshold');
+            $table->integer('Tokens_Given');
+            $table->string('Short_Description');
+            $table->string('Long_Description');
+            $table->datetime('Start_Date');
+            $table->datetime('End_Date');
             $table->timestamps();
         });
     }
