@@ -17,4 +17,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/listing', 'ItemsController@index');
+Route::get('/adminHome', 'AdminController@index');
+
+Route::resource('item', 'ItemsController');

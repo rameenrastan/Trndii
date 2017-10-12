@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\item;
+use App\admin;
 use Illuminate\Http\Request;
 
-class ItemsController extends Controller
+class AdminController extends Controller
 {
-    public function index(){
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return view('admin.adminHome');
     }
 
     /**
@@ -19,7 +25,6 @@ class ItemsController extends Controller
     public function create()
     {
 
-        return view('item.create');
     }
 
     /**
@@ -30,34 +35,16 @@ class ItemsController extends Controller
      */
     public function store(Request $request)
     {
-        //Validate data
-        $this->validate($request, array(
-
-            'Name'=>'required|max:255',
-            'Price'=>'required',
-            'Threshold' => 'required| integer'
-        ));
-
-        //Store in database
-        $item= new item;
-
-        $item->Name=$request->Name;
-        $item->Price=$request->Price;
-        $item->Threshold=$request->Threshold;
-
-        $item->save();
-
-        //Redirect
-        return redirect()->route('item.show', $item->id);
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\item  $item
+     * @param  \App\admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function show(item $item)
+    public function show(admin $admin)
     {
         //
     }
@@ -65,10 +52,10 @@ class ItemsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\item  $item
+     * @param  \App\admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function edit(item $item)
+    public function edit(admin $admin)
     {
         //
     }
@@ -77,10 +64,10 @@ class ItemsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\item  $item
+     * @param  \App\admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, item $item)
+    public function update(Request $request, admin $admin)
     {
         //
     }
@@ -88,10 +75,10 @@ class ItemsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\item  $item
+     * @param  \App\admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function destroy(item $item)
+    public function destroy(admin $admin)
     {
         //
     }
