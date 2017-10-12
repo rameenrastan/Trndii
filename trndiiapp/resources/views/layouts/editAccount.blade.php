@@ -4,9 +4,8 @@
 @section('content')
     <h1>Edit your account information!</h1>
 
-    {!! Form::open(['action' => 'UsersController@update', 'method' => 'POST']) !!}
+    {!! Form::open(['action' => ['UsersController@update', $user->id], 'method' => 'POST']) !!}
     <div class="form-group">
-        {{--{{Form::label('name', 'First Name')}}--}}
         {{Form::label('name', 'Name')}}
         {{Form::text('name', Auth::user()->name, ['class' => 'form-control'])}}
     </div>
@@ -31,6 +30,7 @@
         {{Form::label('country', 'Country')}}
         {{Form::text('country', Auth::user()->country, ['class' => 'form-control'])}}
     </div>
+    {{Form::hidden('_method', 'PUT')}}
     {{Form::submit('Update', ['class' => 'btn btn-primary'])}}
     {!! Form::close() !!}
 @endsection

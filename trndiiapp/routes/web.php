@@ -16,11 +16,13 @@ Route::get('/', 'HomeController@index')->name('home');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-//Route::get('/editDetails', 'UsersController@index');
+Route::get('/editDetails', 'UsersController@edit');
 
 
 
 Route::get('/editAccount', 'EditAccountController@index')->middleware('authenticated');
+
+Route::resource('users', 'UsersController');
 
 
 
