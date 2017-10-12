@@ -74,8 +74,7 @@ class UsersController extends Controller
     {
 
         $this->validate($request, [
-            'firstName' => 'required',
-            'lastName' => 'required',
+            'name' => 'required',
             'email' => 'required'
         ]);
 
@@ -83,11 +82,12 @@ class UsersController extends Controller
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->country = $request->input('country');
-        $user->postalCode = $request->input('postalCode');
-        $user->phone = $request->input('phoneNumber');
+        $user->postalcode = $request->input('postalcode');
+        $user->phone = $request->input('phone');
         $user->address = $request->input('address');
         $user->save();
-        return redirect('auth.login');
+        return redirect('/login');
+//        return view('auth.login');
 
 
 

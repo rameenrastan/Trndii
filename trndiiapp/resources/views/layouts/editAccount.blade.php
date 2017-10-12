@@ -7,7 +7,8 @@
     {!! Form::open(['action' => ['UsersController@update', $user->id], 'method' => 'POST']) !!}
     <div class="form-group">
         {{Form::label('name', 'Name')}}
-        {{Form::text('name', Auth::user()->name, ['class' => 'form-control'])}}
+        {{--{{Form::text('name', Auth::user()->name, ['class' => 'form-control'])}}--}}
+        {{Form::text('name', $user->name, ['class' => 'form-control'])}}
     </div>
 
     <div class="form-group">
@@ -15,16 +16,16 @@
         {{Form::email('email', Auth::user()->email, ['class' => 'form-control'])}}
     </div>
     <div class="form-group">
-        {{Form::label('phoneNumber', 'Phone Number')}}
-        {{Form::text('phoneNumber',Auth::user()->phonenumber , ['class' => 'form-control'])}}
+        {{Form::label('phone', 'Phone Number')}}
+        {{Form::text('phone',Auth::user()->phone , ['class' => 'form-control'])}}
     </div>
     <div class="form-group">
         {{Form::label('address', 'Address')}}
         {{Form::text('address', Auth::user()->address, ['class' => 'form-control'])}}
     </div>
     <div class="form-group">
-        {{Form::label('postalCode', 'Postal Code')}}
-        {{Form::text('postalCode', Auth::user()->postalcode, ['class' => 'form-control'])}}
+        {{Form::label('postalcode', 'Postal Code')}}
+        {{Form::text('postalcode', Auth::user()->postalcode, ['class' => 'form-control'])}}
     </div>
     <div class="form-group">
         {{Form::label('country', 'Country')}}
