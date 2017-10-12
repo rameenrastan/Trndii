@@ -13,3 +13,9 @@
 1. Run `git clone https://github.com/Laradock/laradock.git` in trndiiapp folder
 2. Run `composer install` in trndiiapp folder
 3. Run `docker-compose up -d nginx mysql in trndiiapp/laradock` folder
+
+## DB Migration:
+
+1. Run `docker-compose exec workspace bash`  in laradock folder
+2. Run `php artisan migrate:rollback`
+3. Run `php artisan:migrate`
