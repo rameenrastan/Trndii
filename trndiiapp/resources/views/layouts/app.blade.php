@@ -52,6 +52,12 @@
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
+                                       <li>
+                                        <a href="/editDetails">
+                                            Edit Account
+                                        </a>
+
+                                    </li>
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
@@ -76,6 +82,6 @@
 
     <!-- Scripts -->
     @yield('scripts')
-   <!-- <script src="@yield('scripts')"></script> -->
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
