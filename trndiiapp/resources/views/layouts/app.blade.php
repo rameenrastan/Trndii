@@ -75,6 +75,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    @yield('scripts')
+   <!-- <script src="@yield('scripts')"></script> -->
 </body>
 </html>

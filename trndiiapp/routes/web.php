@@ -17,6 +17,15 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/payment', 'PagesController@payment');
-
 Route::post('/payment', 'PaymentsController@updateCard');
+
+Route::get('/editDetails', 'UsersController@edit')->middleware('authenticated');
+
+Route::get('/editAccount', 'EditAccountController@index')->middleware('authenticated');
+
+Route::resource('users', 'UsersController');
+
+
+
+
+
