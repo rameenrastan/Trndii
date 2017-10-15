@@ -101,7 +101,7 @@ class UsersController extends Controller
         $user->phone = $request->input('phone');
         $user->address = $request->input('address');
         $user->save();
-        return redirect('/login');
+        return redirect('/editDetails')->with('success', 'Account Details Updated!');
 //        return view('auth.login');
 
 
