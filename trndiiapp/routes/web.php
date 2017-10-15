@@ -25,7 +25,8 @@ Route::get('/editAccount', 'EditAccountController@index')->middleware('authentic
 
 Route::resource('users', 'UsersController');
 
+Route::get('/preregistration', 'ViewsController@preregistration');
 
+Route::get('/successpreregistration', 'ViewsController@successpreregistration');
 
-
-
+Route::resource('preregisteredusers', 'PreregisteredUsersController');
