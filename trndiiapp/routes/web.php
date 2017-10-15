@@ -30,3 +30,14 @@ Route::get('/preregistration', 'ViewsController@preregistration');
 Route::get('/successpreregistration', 'ViewsController@successpreregistration');
 
 Route::resource('preregisteredusers', 'PreregisteredUsersController');
+    Route::prefix('admin')->group(function() {
+        Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
+        Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
+        Route::get('/', 'AdminController@index')->name('admin.home');
+   });
+
+//Route::get('/admin/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
+//Route::post('/admin/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
+//Route::get('/admin', 'AdminController@index')->name('admin.home');
+    
+Route::resource('item', 'ItemsController');
