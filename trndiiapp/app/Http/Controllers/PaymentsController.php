@@ -27,7 +27,7 @@ class PaymentsController extends Controller
         $user->save();
         
         //$customer = Customer::retrieve($user->stripe_id);
-        return redirect('/editDetails')->with('user',$user);
+        return redirect('/editDetails')->with('success', 'Credit Card Updated');
 
     }
 
