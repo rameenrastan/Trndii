@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Trndii') }}</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -17,6 +17,7 @@
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
+         
                 <div class="navbar-header">
 
                     <!-- Collapsed Hamburger -->
@@ -52,6 +53,12 @@
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
+                                       <li>
+                                        <a href="/editDetails">
+                                            Edit Account
+                                        </a>
+
+                                    </li>
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
@@ -70,11 +77,13 @@
                 </div>
             </div>
         </nav>
-
+        @include('inc.messages')
         @yield('content')
+        
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    @yield('scripts')
+   <!-- <script src="{{ asset('js/app.js') }}"></script>-->
 </body>
 </html>

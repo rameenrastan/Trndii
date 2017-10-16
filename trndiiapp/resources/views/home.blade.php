@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('scripts')
+<script src="{{ asset('js/app.js') }}"></script>
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row">
@@ -13,11 +17,13 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
+                        
                     You are logged in!
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
 @endsection
