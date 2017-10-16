@@ -33,12 +33,12 @@
     {{Form::textarea('Long Description', null, array('class' => 'form-control'))}}
 
     {{Form::label('Start Date')}}
-    {{Form::date('Start Date', null, array('class' => 'form-control'))}}
+    {{Form::date('Start Date', null, array('class' => 'form-control', 'id' => 'start-date'))}}
 
     {{Form::label('End Date')}}
-    {{Form::date('End Date', null, array('class' => 'form-control'))}}
+    {{Form::date('End Date', null, array('class' => 'form-control', 'id' => 'end-date'))}}
 
-    {{Form::submit('Create Item', array('class' => 'btn'))}}
+    {{Form::submit('Create Item', array('class' => 'btn', 'id' => 'create-item'))}}
 
     {!! Form::close() !!}
 

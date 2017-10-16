@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\PreregisteredUser;
+use Illuminate\Validation\Rule;
 
 class PreregisteredUsersController extends Controller
 {
@@ -38,7 +39,7 @@ class PreregisteredUsersController extends Controller
         $this->validate($request, [
             'firstName' => 'required',
             'lastName' => 'required',
-            'email' => 'required'
+            'email' => 'required|unique:preregistered_users'
         ]);
 
         $preregisteredUser = new PreregisteredUser;
@@ -47,7 +48,7 @@ class PreregisteredUsersController extends Controller
         $preregisteredUser->email = $request->input('email');
         $preregisteredUser->save();
 
-        return redirect('successpreregistration');
+        return redirect('/preregistration')->with('success', 'Thank you for your interest! You will be notified via email when the website goes live.');
     }
 
     /**

@@ -9,11 +9,11 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 class EditAccountTest extends DuskTestCase
 {
     /**
-     * A Dusk test example.
+     * Tests editing a user's account information.
      *
      * @return void
      */
-    public function testExample()
+    public function testEditAccount()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')

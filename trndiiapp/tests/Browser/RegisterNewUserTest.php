@@ -13,7 +13,7 @@ class RegisterNewUserTest extends DuskTestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testNewRegistration()
     {
         $this->browse(function (Browser $browser) {
             $string = str_random(40);
