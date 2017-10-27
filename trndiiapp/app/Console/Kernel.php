@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Console;
-
+use App\item;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\User;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,8 +25,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule-> call(function() {
+
+            $user = User::find(1);
+            
+            app('App\Http\Controllers\PaymentsController')->charge("150", $user->stripe_id);
+
+        });
     }
 
     /**
