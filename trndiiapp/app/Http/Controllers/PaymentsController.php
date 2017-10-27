@@ -8,6 +8,10 @@ use Stripe\{Stripe, Charge, Customer};
 
 class PaymentsController extends Controller
 {
+
+    /**
+     * Updates a user's credit card info
+     */
     public function updateCard(){
 
 
@@ -26,9 +30,27 @@ class PaymentsController extends Controller
         $user->stripe_id = $customer->id;
         $user->save();
         
-        //$customer = Customer::retrieve($user->stripe_id);
         return redirect('/editDetails')->with('success', 'Credit Card Updated');
 
     }
+
+    /**
+     * Charges a user's credit card
+     *
+     * @param  amount, customer
+     */
+    public function charge($amount, $customerId){
+
+        Stripe::setApiKey('sk_test_NT3PRUGQkLOj8cnPlp1X2APb');    
+
+        $charge = Charge::create([
+
+            "amount" => $amount,
+            "currency" => "cad",
+            "customer" => $customerId
+
+        ]);
+
+    }   
 
 }
