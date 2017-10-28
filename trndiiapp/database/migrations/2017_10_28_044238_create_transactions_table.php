@@ -17,7 +17,6 @@ class CreateTransactionsTable extends Migration
             $table->increments('id');
             $table->string('email');
             $table->integer('item_fk');
-            $table->string('status');
             $table->timestamps();
         });
     }

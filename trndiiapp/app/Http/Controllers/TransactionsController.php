@@ -26,7 +26,7 @@ class TransactionsController extends Controller
 
         $transactions = DB::table('items')
                         ->join('transactions', 'items.id', '=', 'transactions.item_fk')
-                        ->select('items.Name', 'items.Price', 'items.Bulk_Price', 'items.Short_Description', 'items.Start_Date', 'items.End_Date', 'transactions.status')
+                        ->select('items.Name', 'items.Price', 'items.Bulk_Price', 'items.Short_Description', 'items.Start_Date', 'items.End_Date', 'items.Status')
                         ->get();
 
         //return $transactions;

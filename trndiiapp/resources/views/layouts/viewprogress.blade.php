@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="display-group">
                                     <h4><b>Progress</b></h4>
-                                    <div>{{$transaction->status}}</div>
+                                    <div>{{$transaction->Status}}</div>
                                     <br/>
                                 </div>
                             <br/>
