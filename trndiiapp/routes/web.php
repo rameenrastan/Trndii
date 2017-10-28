@@ -31,6 +31,8 @@ Route::get('/successpreregistration', 'ViewsController@successpreregistration');
 
 Route::get('/purchaseHistory', 'PurchasedItemsController@index');
 
+Route::get('/viewProgress', 'TransactionsController@index');
+
 Route::resource('preregisteredusers', 'PreregisteredUsersController');
     Route::prefix('admin')->group(function() {
         Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
@@ -45,3 +47,5 @@ Route::resource('preregisteredusers', 'PreregisteredUsersController');
 Route::resource('item', 'ItemsController');
 
 Route::resource('purchaseditems', 'PurchasedItemsController');
+
+Route::resource('transactions', 'TransactionsController');
