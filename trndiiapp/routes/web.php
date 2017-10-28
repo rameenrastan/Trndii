@@ -41,3 +41,5 @@ Route::resource('preregisteredusers', 'PreregisteredUsersController');
 //Route::get('/admin', 'AdminController@index')->name('admin.home');
     
 Route::resource('item', 'ItemsController');
+
+Route::post('/send', 'EmailController@send');

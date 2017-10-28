@@ -100,13 +100,13 @@ class PaymentsController extends Controller
 
 
     /**
-     *  Sends a confirmation to the email specified
+     *  Sends an order confirmation to the email specified
      * 
      * @param $customerEmail
      */
     public function notifyCustomer($customerEmail){
 
-        
+
 
     }
 
