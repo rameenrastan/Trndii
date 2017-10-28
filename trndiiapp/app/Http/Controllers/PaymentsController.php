@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
-
+use DB;
 use Stripe\{Stripe, Charge, Customer};
+use App\Transaction;
+use Carbon\Carbon;
+use App\item;
 
 class PaymentsController extends Controller
 {
 
     /**
      * Updates a user's credit card info
+     * @return \Illuminate\Http\Response
      */
     public function updateCard(){
 
@@ -37,7 +41,7 @@ class PaymentsController extends Controller
     /**
      * Charges a user's credit card
      *
-     * @param  amount, customer
+     * @param  $amount, $customer
      */
     public function charge($amount, $customerId){
 
@@ -51,6 +55,34 @@ class PaymentsController extends Controller
 
         ]);
 
-    }   
+    }
+    
+    /**
+     * Runs daily by Task Scheduler in Kernel.php
+     * Checks if any item expires today, and charges all users if threshold is reached.
+     */
+    public function chargeCustomers(){
+        
+        $expiredItems = DB::table('items')->whereRaw('date(End_Date) = ?', [Carbon::today()])->get();
+
+        if(!empty($expiredItems)){
+
+            foreach($expiredItems as $expiredItem){
+                
+                $transactions = DB::table('transactions')->where('item_id', $expiredItem->id)->get();
+
+                foreach($transactions as $transaction){
+
+                    $user = DB::table('users')->where('id', $transaction->customer_id)->first();
+        
+                    app('App\Http\Controllers\PaymentsController')->charge($expiredItem->Price, $user->stripe_id);
+
+                }
+
+            }
+
+        }
+
+    }
 
 }
