@@ -111,6 +111,16 @@ class TransactionsController extends Controller
         }           
     }
 
+    public function updatePurchaseHistory($email, $itemId){
+
+
+        DB::table('purchased_items')->insert([
+
+            ['email' => $email, 'item_fk' => $itemId] 
+
+        ]);
+    }
+
     /**
      * Remove the specified resource from storage.
      *

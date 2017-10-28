@@ -90,6 +90,8 @@ class PaymentsController extends Controller
         
                     app('App\Http\Controllers\PaymentsController')->charge($expiredItem->Price, $user->stripe_id);
 
+                    app('App\Http\Controllers\TransactionsController')->updatePurchaseHistory($user->email, $expiredItem->id);
+
                 }
 
             }
