@@ -48,3 +48,7 @@ Route::resource('transactions', 'TransactionsController');
 
 Route::post('/send', 'EmailController@send');
 
+Route::get('/contact', function(){
+    return view('contact');
+});
+
