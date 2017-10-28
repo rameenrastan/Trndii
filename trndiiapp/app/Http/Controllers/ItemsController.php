@@ -83,6 +83,24 @@ class ItemsController extends Controller
         return view('item.show')->withitem($item);
     }
 
+    
+    /**
+     * Displays the current number of users who are commmited to an item.
+     *
+     * @param  $id
+     * @return $numTransactions
+     */
+    public function numTransactions($id)
+    {
+
+        $numTransactions = DB::table('transactions')->where('item_fk', $id)->count();
+
+        return $numTransactions;
+
+    }
+
+
+
     /**
      * Show the form for editing the specified resource.
      *

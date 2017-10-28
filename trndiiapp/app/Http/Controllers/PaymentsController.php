@@ -82,11 +82,11 @@ class PaymentsController extends Controller
 
             foreach($expiredItems as $expiredItem){
                 
-                $transactions = DB::table('transactions')->where('item_id', $expiredItem->id)->get();
+                $transactions = DB::table('transactions')->where('item_fk', $expiredItem->id)->get();
 
                 foreach($transactions as $transaction){
 
-                    $user = DB::table('users')->where('id', $transaction->customer_id)->first();
+                    $user = DB::table('users')->where('email', $transaction->email)->first();
         
                     app('App\Http\Controllers\PaymentsController')->charge($expiredItem->Price, $user->stripe_id);
 
@@ -98,16 +98,5 @@ class PaymentsController extends Controller
 
     }
 
-
-    /**
-     *  Sends an order confirmation to the email specified
-     * 
-     * @param $customerEmail
-     */
-    public function notifyCustomer($customerEmail){
-
-
-
-    }
 
 }

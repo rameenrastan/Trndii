@@ -50,9 +50,14 @@ class TransactionsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request, $itemId)
+    { 
+        DB::table('transactions')->insert([
+
+            ['email' => Auth::user()->email, 'item_fk' => $itemid]
+
+        ]);
+        
     }
 
     /**
@@ -86,7 +91,12 @@ class TransactionsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::table('transactions')->insert([
+            
+                 ['email' => Auth::user()->email, 'item_fk' => $id]
+            
+             ]);
+                    
     }
 
     /**

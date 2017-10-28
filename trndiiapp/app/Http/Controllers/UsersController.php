@@ -80,9 +80,6 @@ class UsersController extends Controller
             'email' => 'required'
         ]);
 
-
-
-
         $user = Auth::user();
 
         $curPassword =$request->input('password');
