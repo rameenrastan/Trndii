@@ -14,9 +14,13 @@
     <p>Long Description: {{$item->Long_Description}}</p>
     <p>Start Date: {{$item->Start_Date}}</p>
     <p>End Date: {{$item->End_Date}}</p>
-
+    @if($checkCommit == 0)
     {!! Form::open(['action' => ['TransactionsController@update', $item->id], 'method' => 'POST']) !!}
-      {{Form::hidden('_method', 'PUT')}}
+    {{Form::hidden('_method', 'PUT')}}
     {{Form::submit('Purchase', ['class' => 'btn btn-primary', 'onclick' => 'return confirm("Are you sure you want to commit to this purchase?");'])}}
     {!! Form::close() !!}
+    @else
+        <p>You have already commited to this item. Stay tuned!</p>
+    @endif
+        
 @endsection

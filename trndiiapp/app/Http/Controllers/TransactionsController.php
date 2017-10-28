@@ -50,13 +50,9 @@ class TransactionsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $itemId)
+    public function store(Request $request)
     { 
-        DB::table('transactions')->insert([
-
-            ['email' => Auth::user()->email, 'item_fk' => $itemid]
-
-        ]);
+       
         
     }
 
@@ -96,6 +92,10 @@ class TransactionsController extends Controller
                  ['email' => Auth::user()->email, 'item_fk' => $id]
             
              ]);
+
+        app('App\Http\Controllers\ItemsController')->numTransactions($id);    
+
+        return redirect('/')->with('success', 'You have successfully commited to this purchase. You will be notified if the item reaches its threshold. Thanks!');
                     
     }
 

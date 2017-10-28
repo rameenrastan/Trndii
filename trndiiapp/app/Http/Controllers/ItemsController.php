@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use DB;
+use Auth;
 
 class ItemsController extends Controller
 {
@@ -79,8 +81,11 @@ class ItemsController extends Controller
      */
     public function show($id)
     {
+        $checkCommit = DB::table('transactions')->where('email', Auth::user()->email)->count();
+
         $item=item::find($id);
-        return view('item.show')->withitem($item);
+        return view('item.show')->withitem($item)
+                                ->with('checkCommit', $checkCommit);
     }
 
     
@@ -95,8 +100,9 @@ class ItemsController extends Controller
 
         $numTransactions = DB::table('transactions')->where('item_fk', $id)->count();
 
-        return $numTransactions;
-
+        DB::table('items')
+                        ->where('id', $id)
+                        ->update(['Number_Transactions' => $numTransactions]);
     }
 
 
