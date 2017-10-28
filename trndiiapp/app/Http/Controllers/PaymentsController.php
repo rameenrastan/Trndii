@@ -38,6 +38,19 @@ class PaymentsController extends Controller
 
     }
 
+
+    /**
+     * Creates a transaction and adds it to the database
+     * 
+     * @param $customerId, $itemId
+     */
+    public function commitPurchase($customerId, $itemId){
+
+        $transaction = new Transaction(['customer_id' => $customerId, 'item_id' => $itemId]);
+        $transaction -> save();
+
+    }
+
     /**
      * Charges a user's credit card
      *
