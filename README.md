@@ -18,3 +18,4 @@
 
 1. Run `docker-compose exec workspace bash`  in laradock folder
 2. Run `php artisan migrate:refresh`
+3. Run `php artisan db:seed` to populate database with test data
