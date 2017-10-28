@@ -78,9 +78,15 @@ class PaymentsController extends Controller
         
         $expiredItems = DB::table('items')->whereRaw('date(End_Date) = ?', [Carbon::today()])->get();
 
+
         if(!empty($expiredItems)){
 
             foreach($expiredItems as $expiredItem){
+
+                if($expiredItem->Number_Transactions )
+                
+                DB::table('items')->where('id', $expiredItem->id)
+                                  ->update(['status' => 'threshold reached']);
                 
                 $transactions = DB::table('transactions')->where('item_fk', $expiredItem->id)->get();
 
