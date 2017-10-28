@@ -28,7 +28,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 $factory->define(App\item::class, function (Faker\Generator $faker) {
 
     return [
-        'id' => $faker->randomNumber(),
+        'id' => $faker->unique()->randomNumber(),
         'Name' => $faker->name,
         'Price'=>$faker->randomNumber()/100,
         'Bulk_Price'=>$faker->randomNumber()/100,
@@ -36,6 +36,7 @@ $factory->define(App\item::class, function (Faker\Generator $faker) {
         'Tokens_Given'=>$faker->randomNumber(),
         'Short_Description'=>$faker->sentence,
         'Long_Description'=>$faker->sentence,
+        'Status'=>$faker->sentence,
         'Start_Date'=>$faker->date,
         'End_Date'=>$faker->date,
         'created_at'=>$faker->date,
