@@ -87,16 +87,28 @@ class TransactionsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DB::table('transactions')->insert([
-            
-                 ['email' => Auth::user()->email, 'item_fk' => $id]
-            
-             ]);
 
-        app('App\Http\Controllers\ItemsController')->numTransactions($id);    
+        $stripeId = Auth::user()->stripe_id;
 
-        return redirect('/')->with('success', 'You have successfully commited to this purchase. You will be notified if the item reaches its threshold. Thanks!');
-                    
+        if($stripeId != ''){
+
+            DB::table('transactions')->insert([
+                
+                    ['email' => Auth::user()->email, 'item_fk' => $id]
+                
+                ]);
+
+            app('App\Http\Controllers\ItemsController')->numTransactions($id);    
+
+            return redirect('/')->with('success', 'You have successfully commited to this purchase. You will be notified if the item reaches its threshold. Thanks!');
+            
+        }
+        
+        else{
+
+            return back()->with('error', 'You do not have Credit Card registered with this account. Please go to the Edit Account page and register a payment option.');
+
+        }           
     }
 
     /**
