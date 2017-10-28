@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\PurchasedItem;
 use Illuminate\Http\Request;
+use Auth;
+use App\User;
+use Log;
+use Illuminate\Support\Facades\DB;
 
 class PurchasedItemsController extends Controller
 {
@@ -13,7 +18,17 @@ class PurchasedItemsController extends Controller
      */
     public function index()
     {
-        return view('layouts.purchasehistory');
+
+        $itemsfk = DB::table('purchased_items')->where('email', Auth::user()->email)->pluck('item_fk');
+
+         echo $itemsfk;
+
+
+        $items = DB::table('items')->whereIn('id',$itemsfk)->select('*')->get();
+
+        echo $items;
+
+        //return view('layouts.purchasehistory');
     }
 
     /**
