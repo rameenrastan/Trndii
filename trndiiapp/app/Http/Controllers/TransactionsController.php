@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Transaction;
 use Illuminate\Http\Request;
+use Auth;
+use Log;
+use App\User;
+use Illuminate\Support\Facades\DB;
 
 class TransactionsController extends Controller
 {
@@ -13,7 +18,20 @@ class TransactionsController extends Controller
      */
     public function index()
     {
-        return view('layouts.viewprogress');
+        $itemsfk = DB::table('transactions')->where('email', Auth::user()->email)->pluck('item_fk');
+
+        //return $itemsfk;
+
+        //$transactions = DB::table('items')->wherein('id',$itemsfk)->select('*')->get();
+
+        $transactions = DB::table('items')
+                        ->join('transactions', 'items.id', '=', 'transactions.item_fk')
+                        ->select('items.Name', 'items.Price', 'items.Bulk_Price', 'items.Short_Description', 'items.Start_Date', 'items.End_Date', 'transactions.status')
+                        ->get();
+
+        //return $transactions;
+
+        return view('layouts.viewprogress')->with('transactions', $transactions);
     }
 
     /**
