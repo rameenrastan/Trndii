@@ -102,6 +102,7 @@ class TransactionsController extends Controller
                 ]);
 
             app('App\Http\Controllers\ItemsController')->numTransactions($id);    
+            
             $item = item::find($id);    
             Mail::to(Auth::user()->email)->send(new PurchaseConfirmation($item, Auth::user() ));
 
@@ -111,7 +112,7 @@ class TransactionsController extends Controller
         
         else{
 
-            return back()->with('error', 'You do not have Credit Card registered with this account. Please go to the Edit Account page and register a payment option.');
+            return back()->with('error', 'You do not have a Credit Card registered with this account. Please go to the Edit Account page and register a payment option.');
 
         }           
     }

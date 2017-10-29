@@ -18,7 +18,7 @@ class PurchaseConfirmation extends Mailable
 
     /**
      * Create a new message instance.
-     *
+     * @param $item, $user
      * @return void
      */
     public function __construct(item $item, User $user)
@@ -28,7 +28,7 @@ class PurchaseConfirmation extends Mailable
     }
 
     /**
-     * Build the message.
+     * Build Purchase Confirmation message
      *
      * @return $this
      */
