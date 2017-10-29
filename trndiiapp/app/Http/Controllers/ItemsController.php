@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use DB;
+use Auth;
 
 class ItemsController extends Controller
 {
@@ -79,9 +81,31 @@ class ItemsController extends Controller
      */
     public function show($id)
     {
+        $checkCommit = DB::table('transactions')->where('email', Auth::user()->email)->count();
+
         $item=item::find($id);
-        return view('item.show')->withitem($item);
+        return view('item.show')->withitem($item)
+                                ->with('checkCommit', $checkCommit);
     }
+
+    
+    /**
+     * Displays the current number of users who are commmited to an item.
+     *
+     * @param  $id
+     * @return $numTransactions
+     */
+    public function numTransactions($id)
+    {
+
+        $numTransactions = DB::table('transactions')->where('item_fk', $id)->count();
+
+        DB::table('items')
+                        ->where('id', $id)
+                        ->update(['Number_Transactions' => $numTransactions]);
+    }
+
+
 
     /**
      * Show the form for editing the specified resource.

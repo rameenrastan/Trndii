@@ -10,6 +10,7 @@
                     <div class="panel-body">
                         @if(count($items) > 0)
                         @foreach($items as $item)
+                                @if($item->Status == 'expired' || $item->Status == 'threshold reached')
                                 <div class="display-group">
                                     <h4><b>Name</b></h4>
                                     <div>{{$item->Name}}</div>
@@ -41,6 +42,9 @@
                             <br/>
                             <br/>
                             <br/>
+                            @else                            
+                            <p>You have yet to purchase an item!</p>
+                            @endif
                         @endforeach
                         @else
                         <p>You have yet to purchase an item!</p>
@@ -50,8 +54,6 @@
             </div>
         </div>
     </div>
-
-
 
 
 @endsection

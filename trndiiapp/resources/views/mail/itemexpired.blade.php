@@ -4,12 +4,13 @@
         <meta charset="utf-8">
     </head>
     <body>
-        <h2>Your Order Has Been Placed!</h2>
+        <h2>An item you ordered has expired.</h2>
 
         <div>
             Hi {{ $userName }},<br><br>
-            Thank you for placing an order for this item! If it reaches the required number of orders
-            you will get another email confirming that the item will be shipped.
+            Thank you for your commitment in this item. Unfortunately it has expired and did not
+            reach the number of required orders, and therefore will not be shipped. 
+            Please note that you will not be charged for any items that don't successfully complete. 
             <br><br>
             Item info:<br><br>
             Name: {{ $itemName }}<br>

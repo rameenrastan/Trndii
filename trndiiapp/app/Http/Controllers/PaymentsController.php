@@ -8,6 +8,10 @@ use Stripe\{Stripe, Charge, Customer};
 use App\Transaction;
 use Carbon\Carbon;
 use App\item;
+use App\User;
+use App\Mail\ItemExpired;
+use App\Mail\PurchaseCompleted;
+use Illuminate\Support\Facades\Mail;
 
 class PaymentsController extends Controller
 {
@@ -73,6 +77,8 @@ class PaymentsController extends Controller
     /**
      * Runs daily by Task Scheduler in Kernel.php
      * Checks if any item expires today, and charges all users if threshold is reached.
+     * @param null
+     * @return void
      */
     public function chargeCustomers(){
         
@@ -81,16 +87,39 @@ class PaymentsController extends Controller
         if(!empty($expiredItems)){
 
             foreach($expiredItems as $expiredItem){
+
+                $item = item::find($expiredItem->id);    
                 
-                $transactions = DB::table('transactions')->where('item_id', $expiredItem->id)->get();
+                DB::table('items')->where('id', $expiredItem->id)
+                                  ->update(['status' => 'threshold reached']);
+       
+                
+                $transactions = DB::table('transactions')->where('item_fk', $expiredItem->id)->get();
 
-                foreach($transactions as $transaction){
+                if($expiredItem->Number_Transactions == $expiredItem->Threshold ){
 
-                    $user = DB::table('users')->where('id', $transaction->customer_id)->first();
-        
-                    app('App\Http\Controllers\PaymentsController')->charge($expiredItem->Price, $user->stripe_id);
+                    foreach($transactions as $transaction){
 
-                }
+                        $user = DB::table('users')->where('email', $transaction->email)->first();
+            
+                        app('App\Http\Controllers\PaymentsController')->charge($expiredItem->Price, $user->stripe_id);
+
+                        app('App\Http\Controllers\TransactionsController')->updatePurchaseHistory($user->email, $expiredItem->id);
+
+                        $user = User::where('email', $transaction->email)->first();
+                        Mail::to($transaction->email)->send(new PurchaseCompleted($item, $user));
+
+                 }
+
+                 }else{
+
+                    foreach($transactions as $transaction){
+                        
+                        $user = User::where('email', $transaction->email)->first();
+                        Mail::to($transaction->email)->send(new ItemExpired($item, $user));
+                    }    
+
+                  }
 
             }
 
@@ -98,16 +127,5 @@ class PaymentsController extends Controller
 
     }
 
-
-    /**
-     *  Sends an order confirmation to the email specified
-     * 
-     * @param $customerEmail
-     */
-    public function notifyCustomer($customerEmail){
-
-
-
-    }
 
 }

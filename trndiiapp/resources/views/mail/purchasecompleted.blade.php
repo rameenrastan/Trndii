@@ -4,12 +4,12 @@
         <meta charset="utf-8">
     </head>
     <body>
-        <h2>Your Order Has Been Placed!</h2>
+        <h2>Your purchase has been completed!</h2>
 
         <div>
             Hi {{ $userName }},<br><br>
-            Thank you for placing an order for this item! If it reaches the required number of orders
-            you will get another email confirming that the item will be shipped.
+            Thank you for your interest in this item! This message is to inform you that it has reached the desired number of orders, and will therefore be shipped shortly.
+            You will be notified in another email for the shipping confirmation. 
             <br><br>
             Item info:<br><br>
             Name: {{ $itemName }}<br>

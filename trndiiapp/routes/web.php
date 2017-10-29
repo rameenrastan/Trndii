@@ -21,8 +21,6 @@ Route::post('/payment', 'PaymentsController@updateCard');
 
 Route::get('/editDetails', 'UsersController@edit')->middleware('authenticated');
 
-Route::get('/editAccount', 'EditAccountController@index')->middleware('authenticated');
-
 Route::resource('users', 'UsersController');
 
 Route::get('/preregistration', 'ViewsController@preregistration');

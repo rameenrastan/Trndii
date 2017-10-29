@@ -8,6 +8,9 @@ use Auth;
 use Log;
 use App\User;
 use Illuminate\Support\Facades\DB;
+use App\Mail\PurchaseConfirmation;
+use Illuminate\Support\Facades\Mail;
+use App\item; 
 
 class TransactionsController extends Controller
 {
@@ -26,7 +29,7 @@ class TransactionsController extends Controller
 
         $transactions = DB::table('items')
                         ->join('transactions', 'items.id', '=', 'transactions.item_fk')
-                        ->select('items.Name', 'items.Price', 'items.Bulk_Price', 'items.Short_Description', 'items.Start_Date', 'items.End_Date', 'items.Status')
+                        ->select('items.Name', 'items.Price', 'items.Bulk_Price', 'items.Short_Description', 'items.Start_Date', 'items.End_Date', 'items.Status', 'items.Threshold', 'items.Number_Transactions', 'items.Status')
                         ->get();
 
         //return $transactions;
@@ -51,8 +54,9 @@ class TransactionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    { 
+       
+        
     }
 
     /**
@@ -86,7 +90,41 @@ class TransactionsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $stripeId = Auth::user()->stripe_id;
+
+        if($stripeId != ''){
+
+                DB::table('transactions')->insert([
+                
+                   ['email' => Auth::user()->email, 'item_fk' => $id]
+                
+                ]);
+
+            app('App\Http\Controllers\ItemsController')->numTransactions($id);    
+            
+            $item = item::find($id);    
+            Mail::to(Auth::user()->email)->send(new PurchaseConfirmation($item, Auth::user() ));
+
+            return redirect('/')->with('success', 'You have successfully commited to this purchase. You will be notified if the item reaches its threshold. Thanks!');
+            
+        }
+        
+        else{
+
+            return back()->with('error', 'You do not have a Credit Card registered with this account. Please go to the Edit Account page and register a payment option.');
+
+        }           
+    }
+
+    public function updatePurchaseHistory($email, $itemId){
+
+
+        DB::table('purchased_items')->insert([
+
+            ['email' => $email, 'item_fk' => $itemId] 
+
+        ]);
     }
 
     /**

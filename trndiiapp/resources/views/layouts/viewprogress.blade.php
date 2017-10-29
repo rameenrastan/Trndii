@@ -9,6 +9,7 @@
                     <div class="panel-body">
                         @if(count($transactions) > 0)
                         @foreach($transactions as $transaction)
+                            @if($transaction->Status == "pending")
                                 <div class="display-group">
                                     <h4><b>Name</b></h4>
                                     <div>{{$transaction->Name}}</div>
@@ -39,15 +40,28 @@
                                     <div>{{$transaction->Status}}</div>
                                     <br/>
                                 </div>
+                                   <div class="display-group">
+                                    <h4><b>Current Number of Customers Commited</b></h4>
+                                    <div>{{$transaction->Number_Transactions}}</div>
+                                    <br/>
+                                </div>
+                                <div class="display-group">
+                                    <h4><b>Threshold</b></h4>
+                                    <div>{{$transaction->Threshold}}</div>
+                                    <br/>
+                                </div>
                             <br/>
                             <br/>
                             <br/>
                             <br/>
                             <br/>
                             <br/>
+                            @else
+                            <p>You have no ongoing transactions!</p>
+                            @endif
                         @endforeach
                         @else
-                        <p>You have no current transactions!</p>
+                        <p>You have no ongoing transactions!</p>
                         @endif
                     </div>
                 </div>

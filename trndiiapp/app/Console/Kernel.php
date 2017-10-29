@@ -9,6 +9,7 @@ use App\Transaction;
 use Carbon\Carbon;
 use DB;
 use Stripe\{Stripe, Charge, Customer};
+use Illuminate\Mail\Mailable;
 
 class Kernel extends ConsoleKernel
 {
