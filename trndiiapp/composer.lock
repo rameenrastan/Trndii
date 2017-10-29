@@ -1322,7 +1322,6 @@
         },
         {
             "name": "psy/psysh",
-
             "version": "v0.8.13",
             "source": {
                 "type": "git",
@@ -1333,7 +1332,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/bobthecow/psysh/zipball/cdb5593c3684bab74e10fcfffe4a0c8d1c39695d",
                 "reference": "cdb5593c3684bab74e10fcfffe4a0c8d1c39695d",
-
                 "shasum": ""
             },
             "require": {
@@ -1393,9 +1391,7 @@
                 "interactive",
                 "shell"
             ],
-
-            "time": "2017-10-14T17:14:13+00:00"
-
+            "time": "2017-10-19T06:13:20+00:00"
         },
         {
             "name": "ramsey/uuid",
@@ -1525,7 +1521,6 @@
         },
         {
             "name": "stripe/stripe-php",
-
             "version": "v5.5.0",
             "source": {
                 "type": "git",
@@ -1536,7 +1531,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/stripe/stripe-php/zipball/a523748f2db82beacfac7b22e0642e326aa3be64",
                 "reference": "a523748f2db82beacfac7b22e0642e326aa3be64",
-
                 "shasum": ""
             },
             "require": {
@@ -1578,9 +1572,7 @@
                 "payment processing",
                 "stripe"
             ],
-
-            "time": "2017-10-11T16:41:44+00:00"
-
+            "time": "2017-10-27T16:27:13+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

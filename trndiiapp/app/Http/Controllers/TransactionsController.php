@@ -8,6 +8,9 @@ use Auth;
 use Log;
 use App\User;
 use Illuminate\Support\Facades\DB;
+use App\Mail\PurchaseConfirmation;
+use Illuminate\Support\Facades\Mail;
+use App\item; 
 
 class TransactionsController extends Controller
 {
@@ -92,13 +95,15 @@ class TransactionsController extends Controller
 
         if($stripeId != ''){
 
-            DB::table('transactions')->insert([
+                DB::table('transactions')->insert([
                 
-                    ['email' => Auth::user()->email, 'item_fk' => $id]
+                   ['email' => Auth::user()->email, 'item_fk' => $id]
                 
                 ]);
 
             app('App\Http\Controllers\ItemsController')->numTransactions($id);    
+            $item = item::find($id);    
+            Mail::to(Auth::user()->email)->send(new PurchaseConfirmation($item, Auth::user() ));
 
             return redirect('/')->with('success', 'You have successfully commited to this purchase. You will be notified if the item reaches its threshold. Thanks!');
             
