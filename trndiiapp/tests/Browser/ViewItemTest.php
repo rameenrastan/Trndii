@@ -9,11 +9,11 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 class ViewItemTest extends DuskTestCase
 {
     /**
-     * A Dusk test example.
+     * Tests viewing items.
      *
      * @return void
      */
-    public function testExample()
+    public function testViewItems()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
