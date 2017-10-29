@@ -22,8 +22,8 @@ class AdminAddItemCompleteTest extends DuskTestCase
                     ->press('Login')
                     ->visit('/item/create')
                     ->type('Name', 'test')
-                    ->type('Price', '12.00')
-                    ->type('Bulk Price', '12.00')
+                    ->type('Price', '12')
+                    ->type('Bulk Price', '20')
                     ->type('Tokens Given', '3')
                     ->type('Threshold', '1')
                     ->type('Short Description', 'this is a test')
@@ -31,7 +31,7 @@ class AdminAddItemCompleteTest extends DuskTestCase
                     ->keys('#start-date', '2017', '{tab}', '09', '15')
                     ->keys('#end-date', '2018', '{tab}', '02', '20')
                     ->press('Create Item')
-                    ->assertSee('Success:Item has been successfully created');
+                    ->assertSee('Item has been successfully created');
         });
     }
 }

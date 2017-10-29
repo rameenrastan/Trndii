@@ -15,6 +15,7 @@ class RegisterNewUserTest extends DuskTestCase
      */
     public function testNewRegistration()
     {
+        
         $this->browse(function (Browser $browser) {
             $string = str_random(40);
             $browser->visit('/register')
