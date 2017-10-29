@@ -1,9 +1,15 @@
 <?php
 
 namespace App\Console;
-
+use App\item;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\User;
+use App\Transaction;
+use Carbon\Carbon;
+use DB;
+use Stripe\{Stripe, Charge, Customer};
+use Illuminate\Mail\Mailable;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,9 +30,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule-> call('App\Http\Controllers\PaymentsController@chargeCustomers');
     }
+
 
     /**
      * Register the Closure based commands for the application.

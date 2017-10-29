@@ -21,13 +21,15 @@ Route::post('/payment', 'PaymentsController@updateCard');
 
 Route::get('/editDetails', 'UsersController@edit')->middleware('authenticated');
 
-Route::get('/editAccount', 'EditAccountController@index')->middleware('authenticated');
-
 Route::resource('users', 'UsersController');
 
 Route::get('/preregistration', 'ViewsController@preregistration');
 
 Route::get('/successpreregistration', 'ViewsController@successpreregistration');
+
+Route::get('/purchaseHistory', 'PurchasedItemsController@index');
+
+Route::get('/viewProgress', 'TransactionsController@index');
 
 Route::resource('preregisteredusers', 'PreregisteredUsersController');
     Route::prefix('admin')->group(function() {
@@ -35,9 +37,16 @@ Route::resource('preregisteredusers', 'PreregisteredUsersController');
         Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
         Route::get('/', 'AdminController@index')->name('admin.home');
    });
-
-//Route::get('/admin/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
-//Route::post('/admin/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
-//Route::get('/admin', 'AdminController@index')->name('admin.home');
     
 Route::resource('item', 'ItemsController');
+
+Route::resource('purchaseditems', 'PurchasedItemsController');
+
+Route::resource('transactions', 'TransactionsController');
+
+Route::post('/send', 'EmailController@send');
+
+
+Route::get('contact', 'PagesController@getContact');
+Route::post('contact', 'PagesController@postContact');
+

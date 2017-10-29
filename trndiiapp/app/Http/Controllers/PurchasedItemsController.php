@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\PurchasedItem;
 use Illuminate\Http\Request;
 use Auth;
 use App\User;
-use Illuminate\Support\Facades\Hash;
+use Log;
+use Illuminate\Support\Facades\DB;
 
-class UsersController extends Controller
+class PurchasedItemsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +19,18 @@ class UsersController extends Controller
     public function index()
     {
 
+        $itemsfk = DB::table('purchased_items')->where('email', Auth::user()->email)->pluck('item_fk');
+
+      //   echo $itemsfk;
 
 
+        $items = DB::table('items')->whereIn('id',$itemsfk)->select('*')->get();
+
+     //   echo $items;
+
+      //  return view('user.index', ['users' => $users]);
+       // return view('layouts.purchasehistory')->with('items',json_decode($items, true));
+        return view('layouts.purchasehistory')->with('items',$items);
     }
 
     /**
@@ -50,7 +62,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
@@ -59,10 +71,9 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit()
+    public function edit($id)
     {
-        $user = Auth::user();
-        return view('layouts.editAccount')->with('user', $user);
+        //
     }
 
     /**
@@ -74,46 +85,7 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required'
-        ]);
-
-        $user = Auth::user();
-
-        $curPassword =$request->input('password');
-        $newPassword = $request->input('newpassword');
-
-        if (Hash::check($curPassword, $user->password)) {
-
-            $user->password = Hash::make($newPassword);
-
-        }
-
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->country = $request->input('country');
-        $user->postalcode = $request->input('postalcode');
-        $user->phone = $request->input('phone');
-        $user->address = $request->input('address');
-        $user->save();
-        return redirect('/editDetails')->with('success', 'Account Details Updated!');
-//        return view('auth.login');
-
-
-
-
-
-    }
-
-
-
-    ///// User Acount functions
-
-    public function editAccountView()
-    {
-        return view('layouts.editAccount');
+        //
     }
 
     /**

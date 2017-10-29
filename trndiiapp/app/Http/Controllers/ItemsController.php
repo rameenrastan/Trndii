@@ -5,10 +5,15 @@ namespace App\Http\Controllers;
 use App\item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use DB;
+use Auth;
 
 class ItemsController extends Controller
 {
     public function index(){
+
+        $items=item::orderby('Name','asc')->paginate(10);
+        return view('item.index')->with('items',$items);
 
     }
 
@@ -57,6 +62,7 @@ class ItemsController extends Controller
         $item->Short_Description=$request->Short_Description;
         $item->Long_Description=$request->Long_Description;
         $item->Start_Date=$request->Start_Date;
+        $item->Status = 'pending';
         $item->End_Date=$request->End_Date;
 
         $item->save();
@@ -75,9 +81,31 @@ class ItemsController extends Controller
      */
     public function show($id)
     {
+        $checkCommit = DB::table('transactions')->where('email', Auth::user()->email)->count();
+
         $item=item::find($id);
-        return view('item.show')->withitem($item);
+        return view('item.show')->withitem($item)
+                                ->with('checkCommit', $checkCommit);
     }
+
+    
+    /**
+     * Displays the current number of users who are commmited to an item.
+     *
+     * @param  $id
+     * @return $numTransactions
+     */
+    public function numTransactions($id)
+    {
+
+        $numTransactions = DB::table('transactions')->where('item_fk', $id)->count();
+
+        DB::table('items')
+                        ->where('id', $id)
+                        ->update(['Number_Transactions' => $numTransactions]);
+    }
+
+
 
     /**
      * Show the form for editing the specified resource.

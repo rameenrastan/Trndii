@@ -19,6 +19,10 @@
                     @endif
                         
                     You are logged in!
+
+                        <br>
+                        <a href="item">BROWSE ITEMS</a>
+
                 </div>
             </div>
         </div>
