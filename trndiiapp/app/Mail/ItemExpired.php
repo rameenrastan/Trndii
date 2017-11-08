@@ -28,7 +28,7 @@ class ItemExpired extends Mailable
         }
     
         /**
-         * Build Purchase Confirmation message
+         * Build Item Expired message
          *
          * @return $this
          */
