@@ -24,6 +24,7 @@ class PurchaseConfirmationTest extends TestCase
         $user = factory(\App\User::class)->create([
             
             'name' => "Rameen",
+            'email' => "rameenrastanv@hotmail.com"
 
         ]);
 

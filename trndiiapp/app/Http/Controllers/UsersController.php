@@ -18,7 +18,6 @@ class UsersController extends Controller
     {
 
 
-
     }
 
     /**
@@ -99,17 +98,10 @@ class UsersController extends Controller
         $user->address = $request->input('address');
         $user->save();
         return redirect('/editDetails')->with('success', 'Account Details Updated!');
-//        return view('auth.login');
-
-
-
-
 
     }
 
-
-
-    ///// User Acount functions
+    // User Acount functions
 
     public function editAccountView()
     {
