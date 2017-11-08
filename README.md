@@ -22,7 +22,8 @@
 
 ## Vue.js:
 
-1. Run `npm run watch`  in trndiiapp folder
-2. Create new vue components in /resources/assets/js/components
-3. Register components in app.js (i.e. Vue.component('example', require('./components/Example.vue'));)
-4. Import components into appropriate blade file. 
+1. Install Node.js
+2. Run `npm run watch`  in trndiiapp folder
+3. Create new vue components in /resources/assets/js/components
+4. Register components in app.js (i.e. Vue.component('example', require('./components/Example.vue'));)
+5. Import components into appropriate blade file. 
