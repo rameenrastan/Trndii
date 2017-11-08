@@ -81,9 +81,11 @@ class ItemsController extends Controller
      */
     public function show($id)
     {
-       $checkCommit = DB::table('transactions')->where('email', Auth::user()->email)->count();
 
         $item=item::find($id);
+
+        $checkCommit = DB::table('transactions')->where([['email', Auth::user()->email],['item_fk', $item->id]])->count();
+
         return view('item.show')->withitem($item)
                                 ->with('checkCommit', $checkCommit);
     }
