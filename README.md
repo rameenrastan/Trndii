@@ -19,3 +19,10 @@
 1. Run `docker-compose exec workspace bash`  in laradock folder
 2. Run `php artisan migrate:refresh`
 3. Run `php artisan db:seed` to populate database with test data
+
+## Vue.js:
+
+1. Run `npm run watch`  in trndiiapp folder
+2. Create new vue components in /resources/assets/js/components
+3. Register components in app.js (i.e. Vue.component('example', require('./components/Example.vue'));)
+4. Import components into appropriate blade file. 
