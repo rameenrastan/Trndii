@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+
 class PagesController extends Controller
 {
     public function getContact(){
@@ -28,5 +31,17 @@ class PagesController extends Controller
                 $message->to('asdasd-a126ef@inbox.mailtrap.io');
                     $message->subject($data['subject']);
         });
+
+        session()->flash('success','Email has been sent successfully!');
+
+        if (Auth::check()) {
+            return redirect()->route('home');
+        }
+        else{
+            return redirect()->route('login');
+        }
+
+
+
     }
 }

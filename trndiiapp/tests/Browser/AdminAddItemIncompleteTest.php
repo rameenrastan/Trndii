@@ -24,7 +24,6 @@ class AdminAddItemIncompleteTest extends DuskTestCase
             ->keys('#start-date', '2017', '{tab}', '09', '15')
             ->keys('#end-date', '2018', '{tab}', '02', '20')
             ->press('Create Item')
-            ->assertSee('Errors')
             ->assertSee('The name field is required.')
             ->assertSee('The tokens given field is required.')
             ->assertSee('The threshold field is required.')
