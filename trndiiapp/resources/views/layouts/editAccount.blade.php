@@ -15,22 +15,25 @@
                             {{Form::label('name', 'Name')}}
                             {{Form::text('name', $user->name, ['class' => 'form-control'])}}
                         </div>
-
-                        <div class="form-group">
-                            {{Form::label('email', 'E-Mail')}}
-                            {{Form::email('email', Auth::user()->email, ['class' => 'form-control'])}}
-                        </div>
                         <div class="form-group">
                             {{Form::label('phone', 'Phone Number')}}
                             {{Form::text('phone',Auth::user()->phone , ['class' => 'form-control'])}}
                         </div>
                         <div class="form-group">
-                            {{Form::label('address', 'Address')}}
-                            {{Form::text('address', Auth::user()->address, ['class' => 'form-control'])}}
+                            {{Form::label('addressline1', 'Address Line 1')}}
+                            {{Form::text('addressline1', Auth::user()->addressline1, ['class' => 'form-control'])}}
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('address', 'Address Line 2')}}
+                            {{Form::text('addressline2', Auth::user()->addressline2, ['class' => 'form-control'])}}
                         </div>
                         <div class="form-group">
                             {{Form::label('postalcode', 'Postal Code')}}
                             {{Form::text('postalcode', Auth::user()->postalcode, ['class' => 'form-control'])}}
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('city', 'City')}}
+                            {{Form::text('city', Auth::user()->city, ['class' => 'form-control'])}}
                         </div>
                         <div class="form-group">
                             {{Form::label('current password', 'Current password')}}
@@ -39,6 +42,10 @@
                         <div class="form-group">
                             {{Form::label('new password', 'New password')}}
                             {{Form::password('newpassword',  ['class' => 'form-control'])}}
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('confirm new password', 'Confirm New password')}}
+                            {{Form::password('confirmnewpassword',  ['class' => 'form-control'])}}
                         </div>
                         <div class="form-group">
                             {{Form::label('country', 'Country')}}
