@@ -20,10 +20,16 @@
 2. Run `php artisan migrate:refresh`
 3. Run `php artisan db:seed` to populate database with test data
 
-## Vue.js:
+## Vue.js and SASS:
 
+For Both: 
 1. Install Node.js
 2. Run `npm run watch`  in trndiiapp folder
-3. Create new vue components in /resources/assets/js/components
-4. Register components in app.js (i.e. Vue.component('example', require('./components/Example.vue'));)
-5. Import components into appropriate blade file. 
+
+### For SASS:
+- Add new SASS/CSS properties in resources/sass/app.scss
+
+### For Vue.js:
+- Create new vue components in /resources/assets/js/components
+- Register components in app.js (i.e. Vue.component('example', require('./components/Example.vue'));)
+- Import components into appropriate blade file. 
