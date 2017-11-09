@@ -50,7 +50,7 @@
                         <div class="form-group">
                             {{Form::label('country', 'Country')}}
                             {!! Form::select('country', array(
-                    'Select a Country' => 'Select a Country',
+                    '' => '',
                     'Ascension Island' => 'Ascension Island',
                     'Andorra' => 'Andorra',
                     'United Arab Emirates' => 'United Arab Emirates',
