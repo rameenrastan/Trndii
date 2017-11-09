@@ -8356,3 +8356,28 @@ button.close {
   width: 350px;
 }
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 213px;
+}
+
+.footer {
+  background-color: #333333 !important;
+  position: absolute;
+  bottom: 0;
+  height: 213px;
+  width: 100%;
+}
+
+.footer-text {
+  color: #eeeeee;
+}
+
+h2 {
+  color: #ffffff;
+}
+
