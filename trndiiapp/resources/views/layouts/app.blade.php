@@ -10,6 +10,8 @@
 
     <title>{{ config('app.name', 'Trndii') }}</title>
 
+
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
@@ -48,7 +50,7 @@
                             <li><a href="{{ route('register') }}">Register</a></li>
                             <li><a href="/contact">Contact Us</a></li>
                         @else
-                            <li><a href="item">Browse Items</a></li>
+                            <li><a href="/item">Browse Items</a></li>
                             <li><a href="/viewProgress">View Item Progress</a></li>
                             <li><a href="/purchaseHistory">Purchase History</a></li>
                             <li><a href="/contact">Contact Us</a></li>
