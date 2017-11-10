@@ -18,7 +18,7 @@ body {
   }
 
 .footer {
-    background-color: #333333 !important;
+    background-color: #14A989 !important;
     position: relative;
     bottom: 0;
     width: 100%;
@@ -30,15 +30,24 @@ body {
 
 }  
 
-h2 {
+.footer h2 {
 
     color: #ffffff;
 
 }
 
-.top-nav .span4{
-    width:auto;
+.panel-body {
+    text-align: center;
 }
-.top-nav .span4 .navbar-search{
-    margin:20px 0;
+
+.nav-item {
+    color: white;
+}
+
+a {
+    color: #14A989;
+}
+
+.thumbnail {
+    border: 2px solid darken($body-bg, 5%);
 }
