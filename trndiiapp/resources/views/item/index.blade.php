@@ -24,7 +24,9 @@ row on the right is composed of 3 rows, each row containing part of the item inf
             @foreach($items as $item)
             <div class="row">
             <div class="col-md-2">
-                <img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/" class="img-thumbnail" />
+                <a href="item/{{$item->id}}">
+                    <img alt="{{$item->Name}}" src="{{$item->Picture_URL}}" class="img-thumbnail" />
+                </a>            
             </div>
             <div class="col-md-10">
                 <div class="row">

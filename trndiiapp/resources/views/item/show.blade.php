@@ -61,7 +61,7 @@
 
         <hr>
 
-    <img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/" class="img-responsive center-block" />
+    <img alt="{{$item->Name}}" src= "{{$item->Picture_URL}}" class="img-responsive center-block" />
 
              <hr>
 

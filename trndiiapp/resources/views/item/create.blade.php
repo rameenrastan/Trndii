@@ -42,6 +42,9 @@
     {{Form::label('End Date')}}
     {{Form::date('End Date', null, array('class' => 'form-control', 'id' => 'end-date'))}}
 
+    {{Form::label('Picture URL')}}
+    {{Form::text('Picture', null, array('class' => 'form-control'))}}
+
     {{Form::submit('Create Item', array('class' => 'btn', 'id' => 'create-item'))}}
 
     {!! Form::close() !!}
