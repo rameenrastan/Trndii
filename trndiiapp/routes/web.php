@@ -27,7 +27,7 @@ Route::get('/preregistration', 'ViewsController@preregistration');
 
 Route::get('/successpreregistration', 'ViewsController@successpreregistration');
 
-Route::get('/purchaseHistory', 'PurchasedItemsController@index');
+Route::get('/purchaseHistory', 'TransactionsController@index');
 
 Route::get('/viewProgress', 'TransactionsController@index');
 
