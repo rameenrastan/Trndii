@@ -30,41 +30,33 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        <img src="images/logo_small.png" alt="Trndii" height="24">
                     </a>
                 </div>
               
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
-                    </ul>
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="nav navbar-nav navbar-left">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
-                            <li><a href="/contact">Contact Us</a></li>
                         @else
-                            <li><a href="item">Browse Items</a></li>
-                            <li><a href="/viewProgress">View Item Progress</a></li>
-                            <li><a href="/purchaseHistory">Purchase History</a></li>
-                            <li><a href="/contact">Contact Us</a></li>
-
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
-
                                 <ul class="dropdown-menu" role="menu">
-                                       <li>
+                                    <li>
                                         <a href="/editDetails">
                                             Edit Account
                                         </a>
-
+                                    </li>
+                                    <li>
+                                        <a href="/purchaseHistory">
+                                            View My Orders
+                                        </a>
                                     </li>
                                     <li>
                                         <a href="{{ route('logout') }}"
@@ -79,8 +71,21 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li><a href="#" style="font-size: 18px; color: goldenrod;"><img src="images/token.png" alt="Tokens" height="22">&nbsp; 100</a></li>
                         @endif
                     </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">Browse Categories</a></li>
+                    </ul>
+                    <!-- Right Side Of Navbar -->
+                    <form class="navbar-form navbar-right">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search">
+                            </div>
+                        </div>
+                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                    </form>
                 </div>
             </div>
         </nav>

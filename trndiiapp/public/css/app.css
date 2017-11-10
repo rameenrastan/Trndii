@@ -8350,6 +8350,10 @@ button.close {
   }
 }
 
+#app {
+  min-height: 736px;
+}
+
 .form {
   position: relative;
   display: table;
@@ -8380,7 +8384,11 @@ h2 {
   color: #ffffff;
 }
 
-#app {
-  min-height: 736px;
+.top-nav .span4 {
+  width: auto;
+}
+
+.top-nav .span4 .navbar-search {
+  margin: 20px 0;
 }
 
