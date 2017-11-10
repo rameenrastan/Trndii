@@ -28,7 +28,7 @@ class PurchaseCompleted extends Mailable
         }
     
         /**
-         * Build Purchase Completed messageSSS
+         * Build Purchase Completed message
          *
          * @return $this
          */

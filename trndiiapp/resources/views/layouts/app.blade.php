@@ -30,40 +30,33 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        <img src="images/logo_small.png" alt="Trndii" height="24">
                     </a>
                 </div>
-
+              
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
-                    </ul>
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="nav navbar-nav navbar-left">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
-                            <li><a href="/contact">Contact Us</a></li>
                         @else
-                            <li><a href="item">Browse Items</a></li>
-                            <li><a href="/viewProgress">View Item Progress</a></li>
-                            <li><a href="/purchaseHistory">Purchase History</a></li>
-                            <li><a href="/contact">Contact Us</a></li>
-
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
-
                                 <ul class="dropdown-menu" role="menu">
-                                       <li>
+                                    <li>
                                         <a href="/editDetails">
                                             Edit Account
                                         </a>
-
+                                    </li>
+                                    <li>
+                                        <a href="/purchaseHistory">
+                                            View My Orders
+                                        </a>
                                     </li>
                                     <li>
                                         <a href="{{ route('logout') }}"
@@ -78,17 +71,75 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li><a href="#" style="font-size: 18px; color: goldenrod;"><img src="images/token.png" alt="Tokens" height="22">&nbsp; 100</a></li>
                         @endif
                     </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">Browse Categories</a></li>
+                    </ul>
+                    <!-- Right Side Of Navbar -->
+                    <form class="navbar-form navbar-right">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search">
+                            </div>
+                        </div>
+                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                    </form>
                 </div>
             </div>
         </nav>
         @include('inc.messages')
         @yield('content')
-        
     </div>
-
-    <!-- Scripts -->
+    
+<!-- Start of FOOTER -->
+    <div class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="p-4 col-md-3">
+          <h2 class="mb-4 text-secondary">Trndii</h2>
+          <p class="footer-text">A group buying service focused on making shopping fun.</p>
+        </div>
+        <div style="background-color:#333333" class="p-4 col-md-3">
+          <h2 class="mb-4 text-secondary">Need help?</h2>
+          <ul class="list-unstyled">
+            <a href="/contact" class="footer-text">Send us a message</a>
+            <br>
+            <a href="#" class="footer-text">About us</a>
+            <br>
+            <a href="#" class="footer-text">FAQ</a>
+          </ul>
+        </div>
+        <div style="background-color:#333333" class="p-4 col-md-3">
+          <h2 class="mb-4">Contact</h2>
+          <p>
+            <a href="tel:+xxx - xxx xxx xxxx" class="footer-text"><i class="fa d-inline mr-3 text-secondary fa-phone"></i>(XXX) XXX-XXXX</a>
+          </p>
+          <p>
+            <a href="mailto:support@trndii.com" class="footer-text"><i class="fa d-inline mr-3 text-secondary fa-envelope-o"></i>support@trndii.com</a>
+          </p>
+          <p>
+            <a href="#" class="footer-text" target="_blank"><i class="fa d-inline mr-3 fa-map-marker text-secondary"></i>[Address Placeholder], QC</a>
+          </p>
+        </div>
+        <div style="" class="p-4 col-md-3">
+          <h2 class="mb-4 text-light">Subscribe</h2>
+          <form>
+            <fieldset class="form-group footer-text"> <label for="exampleInputEmail1">Get our newsletter</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email"> </fieldset>
+            <button type="submit" class="btn btn-outline-secondary">Submit</button>
+          </form>
+        </div>
+      </div>
+      <div style="background-color:#333333" class="row">
+        <div class="col-md-12 mt-3">
+          <p class="text-center footer-text">© Copyright 2017 Trndii - All rights reserved. </p>
+        </div>
+      </div>
+    </div>
+  </div> 
+  <!-- Scripts -->
     @yield('scripts')
    <!-- <script src="{{ asset('js/app.js') }}"></script>-->
 </body>

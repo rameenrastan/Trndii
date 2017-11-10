@@ -23,16 +23,10 @@ class TransactionsController extends Controller
     {
         $itemsfk = DB::table('transactions')->where('email', Auth::user()->email)->pluck('item_fk');
 
-        //return $itemsfk;
-
-        //$transactions = DB::table('items')->wherein('id',$itemsfk)->select('*')->get();
-
         $transactions = DB::table('items')
                         ->join('transactions', 'items.id', '=', 'transactions.item_fk')
                         ->select('items.Name', 'items.Price', 'items.Bulk_Price', 'items.Short_Description', 'items.Start_Date', 'items.End_Date', 'items.Status', 'items.Threshold', 'items.Number_Transactions', 'items.Status')
                         ->get();
-
-        //return $transactions;
 
         return view('layouts.viewprogress')->with('transactions', $transactions);
     }

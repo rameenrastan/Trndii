@@ -18,7 +18,6 @@ class UsersController extends Controller
     {
 
 
-
     }
 
     /**
@@ -82,7 +81,7 @@ class UsersController extends Controller
             'postalcode' => 'required|regex:/[A-Za-z][0-9][A-Za-z] ?[0-9][A-Za-z][0-9]/',
             'city' => 'required',
             'country' => 'required'
-            
+
         ]);
 
         $user = Auth::user();
@@ -95,6 +94,7 @@ class UsersController extends Controller
         $confirmPasswordLenght = strlen($confirmPassword);
 
         if (Hash::check($curPassword, $user->password) && $confirmPassword == $newPassword && $confirmPassword != "" && $newPassword != "" && $curPasswordLenght > 0) {
+
 
             $user->password = Hash::make($newPassword);
             $user->name = $request->input('name');
@@ -135,7 +135,7 @@ class UsersController extends Controller
 
 
 
-    // User Acount functions
+    ///// User Acount functions
 
     public function editAccountView()
     {
