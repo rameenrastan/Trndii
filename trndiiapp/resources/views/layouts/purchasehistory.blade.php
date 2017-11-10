@@ -16,54 +16,43 @@
                     <div class="col-md-8 col-md-offset-2">
                         <div class="panel panel-default">
                             <div class="panel-heading">All Transactions</div>
-                            <div class="panel-body">
+                            <div class="panel-body" >
                                 @if(count($items) > 0)
                                     @foreach($items as $item)
+                                        <div style="border: 3px solid #ccfff0;">
                                         <div class="display-group">
                                             <h4><b>Name</b></h4>
                                             <div>{{$item->Name}}</div>
-                                            <br/>
                                         </div>
                                         <div class="display-group">
                                             <h4><b>Bulk Price</b></h4>
                                             <div>{{$item->Bulk_Price}}</div>
-                                            <br/>
                                         </div>
                                         <div class="display-group">
                                             <h4><b>Short Description</b></h4>
                                             <div>{{$item->Short_Description}}</div>
-                                            <br/>
                                         </div>
                                         <div class="display-group">
                                             <h4><b>Start Date</b></h4>
                                             <div>{{$item->Start_Date}}</div>
-                                            <br/>
                                         </div>
                                         <div class="display-group">
                                             <h4><b>EndDate</b></h4>
                                             <div>{{$item->End_Date}}</div>
-                                            <br/>
                                         </div>
                                         <div class="display-group">
                                             <h4><b>Progress</b></h4>
                                             <div>{{$item->Status}}</div>
-                                            <br/>
                                         </div>
                                         <div class="display-group">
                                             <h4><b>Current Number of Customers Commited</b></h4>
                                             <div>{{$item->Number_Transactions}}</div>
-                                            <br/>
                                         </div>
                                         <div class="display-group">
                                             <h4><b>Threshold</b></h4>
                                             <div>{{$item->Threshold}}</div>
-                                            <br/>
                                         </div>
-                                            <br/>
-                                            <br/>
-                                            <br/>
-                                            <br/>
-                                            <br/>
+                                        </div>
                                             <br/>
                                     @endforeach
                                 @else
@@ -84,51 +73,40 @@
                                 @if(count($items) > 0)
                                     @foreach($items as $item)
                                         @if($item->Status == 'pending')
+                                            <div style="border: 3px solid #ccfff0;">
                                             <div class="display-group">
                                                 <h4><b>Name</b></h4>
                                                 <div>{{$item->Name}}</div>
-                                                <br/>
                                             </div>
                                             <div class="display-group">
                                                 <h4><b>Bulk Price</b></h4>
                                                 <div>{{$item->Bulk_Price}}</div>
-                                                <br/>
                                             </div>
                                             <div class="display-group">
                                                 <h4><b>Short Description</b></h4>
                                                 <div>{{$item->Short_Description}}</div>
-                                                <br/>
                                             </div>
                                             <div class="display-group">
                                                 <h4><b>Start Date</b></h4>
                                                 <div>{{$item->Start_Date}}</div>
-                                                <br/>
                                             </div>
                                             <div class="display-group">
                                                 <h4><b>EndDate</b></h4>
                                                 <div>{{$item->End_Date}}</div>
-                                                <br/>
                                             </div>
                                             <div class="display-group">
                                                 <h4><b>Progress</b></h4>
                                                 <div>{{$item->Status}}</div>
-                                                <br/>
                                             </div>
                                             <div class="display-group">
                                                 <h4><b>Current Number of Customers Commited</b></h4>
                                                 <div>{{$item->Number_Transactions}}</div>
-                                                <br/>
                                             </div>
                                             <div class="display-group">
                                                 <h4><b>Threshold</b></h4>
                                                 <div>{{$item->Threshold}}</div>
-                                                <br/>
                                             </div>
-                                            <br/>
-                                            <br/>
-                                            <br/>
-                                            <br/>
-                                            <br/>
+                                            </div>
                                             <br/>
                                         @endif
                                     @endforeach
@@ -151,51 +129,40 @@
                                 @if(count($items) > 0)
                                     @foreach($items as $item)
                                         @if($item->Status == 'expired' || $item->Status == 'threshold reached')
+                                            <div style="border: 3px solid #ccfff0;">
                                             <div class="display-group">
                                                 <h4><b>Name</b></h4>
                                                 <div>{{$item->Name}}</div>
-                                                <br/>
                                             </div>
                                             <div class="display-group">
                                                 <h4><b>Bulk Price</b></h4>
                                                 <div>{{$item->Bulk_Price}}</div>
-                                                <br/>
                                             </div>
                                             <div class="display-group">
                                                 <h4><b>Short Description</b></h4>
                                                 <div>{{$item->Short_Description}}</div>
-                                                <br/>
                                             </div>
                                             <div class="display-group">
                                                 <h4><b>Start Date</b></h4>
                                                 <div>{{$item->Start_Date}}</div>
-                                                <br/>
                                             </div>
                                             <div class="display-group">
                                                 <h4><b>EndDate</b></h4>
                                                 <div>{{$item->End_Date}}</div>
-                                                <br/>
                                             </div>
                                             <div class="display-group">
                                                 <h4><b>Progress</b></h4>
                                                 <div>{{$item->Status}}</div>
-                                                <br/>
                                             </div>
                                             <div class="display-group">
                                                 <h4><b>Current Number of Customers Commited</b></h4>
                                                 <div>{{$item->Number_Transactions}}</div>
-                                                <br/>
                                             </div>
                                             <div class="display-group">
                                                 <h4><b>Threshold</b></h4>
                                                 <div>{{$item->Threshold}}</div>
-                                                <br/>
                                             </div>
-                                            <br/>
-                                            <br/>
-                                            <br/>
-                                            <br/>
-                                            <br/>
+                                            </div>
                                             <br/>
                                         @endif
                                     @endforeach
