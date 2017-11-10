@@ -34,7 +34,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        <img src="images/logo_small.png" alt="Trndii" height="24">
+                        <img src="images/logo_small_white.png" alt="Trndii" height="100%">
                     </a>
                 </div>
               
@@ -48,7 +48,7 @@
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <a style="color: white;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
@@ -75,11 +75,11 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li><a href="#" style="font-size: 18px; color: goldenrod;"><img src="images/token.png" alt="Tokens" height="22">&nbsp; 100</a></li>
+                            <li><a href="#" style="font-size: 18px; color: #FDE706;"><img src="images/token.png" alt="Tokens" height="22">&nbsp; 100</a></li>
                         @endif
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Browse Categories</a></li>
+                        <li><a style="color: white;" href="#">Browse Categories</a></li>
                     </ul>
                     <!-- Right Side Of Navbar -->
                     <form class="navbar-form navbar-right">
@@ -105,7 +105,7 @@
           <h2 class="mb-4 text-secondary">Trndii</h2>
           <p class="footer-text">A group buying service focused on making shopping fun.</p>
         </div>
-        <div style="background-color:#333333" class="p-4 col-md-3">
+        <div class="p-4 col-md-3">
           <h2 class="mb-4 text-secondary">Need help?</h2>
           <ul class="list-unstyled">
             <a href="/contact" class="footer-text">Send us a message</a>
@@ -115,7 +115,7 @@
             <a href="#" class="footer-text">FAQ</a>
           </ul>
         </div>
-        <div style="background-color:#333333" class="p-4 col-md-3">
+        <div class="p-4 col-md-3">
           <h2 class="mb-4">Contact</h2>
           <p>
             <a href="tel:+xxx - xxx xxx xxxx" class="footer-text"><i class="fa d-inline mr-3 text-secondary fa-phone"></i>(XXX) XXX-XXXX</a>
@@ -136,7 +136,7 @@
           </form>
         </div>
       </div>
-      <div style="background-color:#333333" class="row">
+      <div class="row">
         <div class="col-md-12 mt-3">
           <p class="text-center footer-text">© Copyright 2017 Trndii - All rights reserved. </p>
         </div>
