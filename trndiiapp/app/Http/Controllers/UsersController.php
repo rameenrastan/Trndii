@@ -77,8 +77,9 @@ class UsersController extends Controller
 
         $this->validate($request, [
             'name' => 'required',
-            'phone' => 'required',
+            'phone' => 'required|regex:/^\(?\d{3}\)?[- ]?\d{3}[- ]?\d{4}$/',
             'addressline1' => 'required',
+            'postalcode' => 'required|regex:/[A-Za-z][0-9][A-Za-z] ?[0-9][A-Za-z][0-9]/',
             'city' => 'required',
             'country' => 'required'
             
