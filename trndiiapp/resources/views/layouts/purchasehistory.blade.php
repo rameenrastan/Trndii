@@ -130,8 +130,6 @@
                                             <br/>
                                             <br/>
                                             <br/>
-                                        @else
-                                            <p>You have yet to purchase an item!</p>
                                         @endif
                                     @endforeach
                                 @else
@@ -199,8 +197,6 @@
                                             <br/>
                                             <br/>
                                             <br/>
-                                        @else
-                                            <p>You have yet to purchase an item!</p>
                                         @endif
                                     @endforeach
                                 @else
