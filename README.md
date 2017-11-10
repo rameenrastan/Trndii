@@ -22,9 +22,9 @@
 
 ## Vue.js and SASS:
 
-For Both: 
-1. Install Node.js
-2. Run `npm run watch`  in trndiiapp folder
+- install Node.js
+- run `npm install`
+- run `npm run watch`  in trndiiapp folder
 
 ### For SASS:
 - Add new SASS/CSS properties in resources/sass/app.scss
