@@ -14,7 +14,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app wrapper">
+    <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
          
@@ -88,7 +88,7 @@
         @yield('content')
     </div>
     
-
+<!-- Start of FOOTER -->
     <div class="footer">
     <div class="container">
       <div class="row">
@@ -118,7 +118,7 @@
             <a href="#" class="footer-text" target="_blank"><i class="fa d-inline mr-3 fa-map-marker text-secondary"></i>[Address Placeholder], QC</a>
           </p>
         </div>
-        <div style="background-color:#333333" class="p-4 col-md-3">
+        <div style="" class="p-4 col-md-3">
           <h2 class="mb-4 text-light">Subscribe</h2>
           <form>
             <fieldset class="form-group footer-text"> <label for="exampleInputEmail1">Get our newsletter</label>

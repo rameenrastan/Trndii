@@ -11,14 +11,13 @@ html {
   }
 
 body {
-    margin-bottom: 213px; 
+    height:100%
   }
 
 .footer {
     background-color: #333333 !important;
-    position: absolute;
+    position: relative;
     bottom: 0;
-    height: 213px;
     width: 100%;
   }
 
@@ -32,4 +31,8 @@ h2 {
 
     color: #ffffff;
 
+}
+
+#app {
+    min-height: 736px;
 }
