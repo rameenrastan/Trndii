@@ -91,6 +91,8 @@ class UsersController extends Controller
         $newPassword = $request->input('newpassword');
         $confirmPassword = $request->input("confirmnewpassword");
         $curPasswordLenght = strlen($curPassword);
+        $newPasswordLenght = strlen($newPassword);
+        $confirmPasswordLenght = strlen($confirmPassword);
 
         if (Hash::check($curPassword, $user->password) && $confirmPassword == $newPassword && $confirmPassword != "" && $newPassword != "" && $curPasswordLenght > 0) {
 
@@ -105,6 +107,9 @@ class UsersController extends Controller
             $user->save();
             return redirect('/editDetails')->with('success', 'Account Details Updated!');
 
+        }
+        else if(($newPasswordLenght > 0 || $confirmPasswordLenght > 0) && $curPassword == ""){
+            return redirect('/editDetails')->with('error', "You must fill in all 3 password fields in order to change your password.");
         }
         else if(($newPassword == "" || $confirmPassword == "") && $curPasswordLenght > 0){
             return redirect('/editDetails')->with('error', "New Password and Confirm Password fields can't be empty.");
