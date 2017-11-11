@@ -21,9 +21,9 @@ class PurchasedItemsController extends Controller
 
         $itemsfk = DB::table('purchased_items')->where('email', Auth::user()->email)->pluck('item_fk');
 
-        $items = DB::table('items')->whereIn('id',$itemsfk)->select('*')->get();
+        $items = DB::table('items')->whereIn('id', $itemsfk)->select('*')->get();
 
-        return view('layouts.purchasehistory')->with('items',$items);
+        return view('layouts.purchasehistory')->with('items', $items);
     }
 
     /**
