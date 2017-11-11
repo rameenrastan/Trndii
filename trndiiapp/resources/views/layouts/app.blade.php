@@ -40,11 +40,11 @@
                     <ul class="nav navbar-nav navbar-left">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
+                            <li><a style="color: #ffffff;" href="{{ route('login') }}">Login</a></li>
+                            <li><a style="color: #ffffff;" href="{{ route('register') }}">Register</a></li>
                         @else
                             <li class="dropdown">
-                                <a style="color: white;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <a style="color: #ffffff;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
@@ -75,7 +75,7 @@
                         @endif
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a style="color: white;" href="#">Browse Categories</a></li>
+                        <li><a style="color: #ffffff;" href="#">Browse Categories</a></li>
                     </ul>
                     <!-- Right Side Of Navbar -->
                     <form class="navbar-form navbar-right">

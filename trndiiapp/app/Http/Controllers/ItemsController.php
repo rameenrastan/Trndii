@@ -69,10 +69,8 @@ class ItemsController extends Controller
 
         $item->save();
 
-        session()->flash('success','Item has been successfully created');
-
         //Redirect
-        return redirect()->route('item.show', $item->id);
+        return redirect('/admin')->with('success', 'Item successfully created.');
     }
 
     /**
