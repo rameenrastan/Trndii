@@ -59,13 +59,18 @@
                 @endif
             </div>
 
+
             <div class="progress" style="margin: 20px;">
                 <div class="progress-bar" role="progressbar" aria-valuenow="70"
                     aria-valuemin="0" aria-valuemax="100" style="width:{{$item->Number_Transactions/$item->Threshold*100}}%; background-color: #14A989;">
-                    {{$item->Number_Transactions}} / {{$item->Threshold}} Orders Placed
                 </div>
             </div>
 
+            <div class="row" style="font-size: 20px;">
+                <div class="col-md-12 text-center">
+                    {{$item->Number_Transactions}} / {{$item->Threshold}} Orders Placed 
+                </div>
+            </div>    
             <p>
                 {{$item->Long_Description}}
             </p>
