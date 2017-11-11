@@ -31,9 +31,10 @@ row on the right is composed of 3 rows, each row containing part of the item inf
                     <div class="col-md-10">
                         <div class="row">
                             <div class="col-md-12">
-                                <h2>
+                                <h2 style="margin-top: 5px;">
                                 <a href="item/{{$item->id}}"> {{$item->Name}}</a>
                                 </h2>
+                                    {{$item->Short_Description}}
                                 <h3>
                                     ${{$item->Price}}
                                 </h3>
@@ -48,6 +49,7 @@ row on the right is composed of 3 rows, each row containing part of the item inf
                         </div>
                     </div>
                 </div>
+                <br>
             @endforeach
 
             {{$items->links()}}
