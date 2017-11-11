@@ -18,6 +18,7 @@ class PaymentsController extends Controller
 
     /**
      * Updates a user's credit card info
+     * @param null
      * @return \Illuminate\Http\Response
      */
     public function updateCard(){
@@ -47,6 +48,7 @@ class PaymentsController extends Controller
      * Creates a transaction and adds it to the database
      * 
      * @param $customerId, $itemId
+     * @return void
      */
     public function commitPurchase($customerId, $itemId){
 
@@ -59,6 +61,7 @@ class PaymentsController extends Controller
      * Charges a user's credit card
      *
      * @param  $amount, $customer
+     * @return void
      */
     public function charge($amount, $customerId){
 
@@ -88,20 +91,18 @@ class PaymentsController extends Controller
 
             foreach($expiredItems as $expiredItem){
 
-                $item = item::find($expiredItem->id);    
-                
-                DB::table('items')->where('id', $expiredItem->id)
-                                  ->update(['status' => 'threshold reached']);
-       
+                $item = item::find($expiredItem->id);   
                 
                 $transactions = DB::table('transactions')->where('item_fk', $expiredItem->id)->get();
 
                 if($expiredItem->Number_Transactions == $expiredItem->Threshold ){
 
+                    DB::table('items')->where('id', $expiredItem->id)->update(['status' => 'threshold reached']);
+
                     foreach($transactions as $transaction){
 
                         $user = DB::table('users')->where('email', $transaction->email)->first();
-            
+
                         app('App\Http\Controllers\PaymentsController')->charge($expiredItem->Price, $user->stripe_id);
 
                         app('App\Http\Controllers\TransactionsController')->updatePurchaseHistory($user->email, $expiredItem->id);
@@ -112,6 +113,8 @@ class PaymentsController extends Controller
                  }
 
                  }else{
+
+                    DB::table('items')->where('id', $expiredItem->id)->update(['status' => 'expired']);
 
                     foreach($transactions as $transaction){
                         
