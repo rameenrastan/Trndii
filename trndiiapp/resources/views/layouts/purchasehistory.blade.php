@@ -13,27 +13,35 @@
         <div class="tab-content">
             <div id="home" class="tab-pane fade in active">
                 <div class="row">
-                    <div class="col-md-5 col-md-offset-2">
+                    <div class="col-md-7 col-md-offset-3">
                         <div class="panel panel-default">
                             <div class="panel-heading">All Transactions</div>
                             <div class="panel-body" >
                                 @if(count($items) > 0)
                                     @foreach($items as $item)
-                                        <div style="border: 3px solid #ccfff0;">
-                                         <div>
-                                            <a href="item/{{$item->id}}">
-                                                 <img alt="{{$item->Name}}" src="{{$item->Picture_URL}}" class="img-thumbnail" style="max-width:300px" />
-                                             </a>            
+                                    <div style="border: 3px solid #ccfff0;">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <a href="item/{{$item->id}}">
+                                                    <img alt="{{$item->Name}}" src="{{$item->Picture_URL}}" class="img-thumbnail" />
+                                                </a>            
+                                            </div>
+                                            <div class="col-md-7" align="left">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <h2 style="margin-top: 5px;">
+                                                        <a href="item/{{$item->id}}"> {{$item->Name}}</a>
+                                                        </h2>
+                                                            {{$item->Short_Description}}
+                                                        <h3>
+                                                            ${{$item->Price}}
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            
+                                            </div>
                                         </div>
-                                        <div class="display-group">
-                                            <div><h2 align="left" style="padding-left:10px; text-decoration:bold"><a href="item/{{$item->id}}">{{$item->Name}}</a></h2></div>
-                                        </div>
-                                        <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px">${{$item->Price}}</p></div>
-                                        </div>
-                                        <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px">{{$item->Short_Description}}</p></div>
-                                        </div>
+                                        <br>
                                         <div class="display-group">
                                             <div><p align="left" style="padding-left:10px">Status: <b>{{$item->Status}}</b></p></div>
                                         </div>
@@ -67,7 +75,7 @@
             </div>
             <div id="menu1" class="tab-pane fade">
                 <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
+                    <div class="col-md-7 col-md-offset-3">
                         <div class="panel panel-default">
                             <div class="panel-heading">Active Transactions</div>
                             <div class="panel-body">
@@ -75,20 +83,28 @@
                                     @foreach($items as $item)
                                         @if($item->Status == 'pending')
                                         <div style="border: 3px solid #ccfff0;">
-                                         <div>
-                                            <a href="item/{{$item->id}}">
-                                                 <img alt="{{$item->Name}}" src="{{$item->Picture_URL}}" class="img-thumbnail" style="max-width:300px" />
-                                             </a>            
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <a href="item/{{$item->id}}">
+                                                    <img alt="{{$item->Name}}" src="{{$item->Picture_URL}}" class="img-thumbnail" />
+                                                </a>            
+                                            </div>
+                                            <div class="col-md-7" align="left">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <h2 style="margin-top: 5px;">
+                                                        <a href="item/{{$item->id}}"> {{$item->Name}}</a>
+                                                        </h2>
+                                                            {{$item->Short_Description}}
+                                                        <h3>
+                                                            ${{$item->Price}}
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            
+                                            </div>
                                         </div>
-                                        <div class="display-group">
-                                            <div><h2 align="left" style="padding-left:10px; text-decoration:bold"><a href="item/{{$item->id}}">{{$item->Name}}</a></h2></div>
-                                        </div>
-                                        <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px">${{$item->Price}}</p></div>
-                                        </div>
-                                        <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px">{{$item->Short_Description}}</p></div>
-                                        </div>
+                                        <br>
                                         <div class="display-group">
                                             <div><p align="left" style="padding-left:10px">Status: <b>{{$item->Status}}</b></p></div>
                                         </div>
@@ -124,7 +140,7 @@
 
             <div id="menu2" class="tab-pane fade">
                 <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
+                    <div class="col-md-7 col-md-offset-3">
                         <div class="panel panel-default">
                             <div class="panel-heading">Past Transactions</div>
                             <div class="panel-body">
@@ -132,20 +148,28 @@
                                     @foreach($items as $item)
                                         @if($item->Status == 'expired' || $item->Status == 'threshold reached')
                                         <div style="border: 3px solid #ccfff0;">
-                                         <div>
-                                            <a href="item/{{$item->id}}">
-                                                 <img alt="{{$item->Name}}" src="{{$item->Picture_URL}}" class="img-thumbnail" style="max-width:300px" />
-                                             </a>            
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <a href="item/{{$item->id}}">
+                                                    <img alt="{{$item->Name}}" src="{{$item->Picture_URL}}" class="img-thumbnail" />
+                                                </a>            
+                                            </div>
+                                            <div class="col-md-7" align="left">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <h2 style="margin-top: 5px;">
+                                                        <a href="item/{{$item->id}}"> {{$item->Name}}</a>
+                                                        </h2>
+                                                            {{$item->Short_Description}}
+                                                        <h3>
+                                                            ${{$item->Price}}
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            
+                                            </div>
                                         </div>
-                                        <div class="display-group">
-                                            <div><h2 align="left" style="padding-left:10px; text-decoration:bold"><a href="item/{{$item->id}}">{{$item->Name}}</a></h2></div>
-                                        </div>
-                                        <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px">${{$item->Price}}</p></div>
-                                        </div>
-                                        <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px">{{$item->Short_Description}}</p></div>
-                                        </div>
+                                        <br>
                                         <div class="display-group">
                                             <div><p align="left" style="padding-left:10px">Status: <b>{{$item->Status}}</b></p></div>
                                         </div>
