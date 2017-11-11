@@ -19,8 +19,8 @@ class RegisterExistingUserTest extends DuskTestCase
             $browser->visit('/register')
                     ->type('name', 'Sam Moosavi')
                     ->type('email', 'sammoosavi94@gmail.com')
-                    ->type('password', 'test123')
-                    ->type('password_confirmation', 'test123')
+                    ->type('password', 'test1234')
+                    ->type('password_confirmation', 'test1234')
                     ->press('Register')
                     ->assertSee('The email has already been taken.');
         });

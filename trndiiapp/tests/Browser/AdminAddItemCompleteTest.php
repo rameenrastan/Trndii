@@ -30,8 +30,9 @@ class AdminAddItemCompleteTest extends DuskTestCase
                     ->type('Long Description', 'this is another test')
                     ->keys('#start-date', '2017', '{tab}', '09', '15')
                     ->keys('#end-date', '2018', '{tab}', '02', '20')
+                    ->type('Picture URL', 'test.jpg')
                     ->press('Create Item')
-                    ->assertSee('Item has been successfully created');
+                    ->assertSee('Item successfully created.');
         });
     }
 }
