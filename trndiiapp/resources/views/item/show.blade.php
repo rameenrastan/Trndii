@@ -65,7 +65,7 @@
 
              <hr>
 
-     <div class="row">
+    <div class="row">
                 <div class="col-md-4 text-center">
 
                         <strong>{{$item->Name}}</strong>
@@ -81,7 +81,7 @@
                         Tokens gained: {{$item->Tokens_Given}}
 
                 </div>
-     </div>
+    </div>
              <hr>
              <h4 class="text-center">
                  Time remaining for sale
@@ -89,12 +89,29 @@
 
              <hr>
 
+            {{--Calculates the percentage of commitment to the item--}} 
+             <?php
+                    $tempThresh = $item->Threshold;
+                    $tempUsers = $item->Number_Transactions;
+                    $ratio = round($tempUsers / $tempThresh * 100);
+             ?>
              <div class="progress">
                  <div class="progress-bar" role="progressbar" aria-valuenow="70"
-                      aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                     70%
+                      aria-valuemin="0" aria-valuemax="100" style="width:{{$ratio}}%">
+
+                    {{$ratio}}%
                  </div>
              </div>
+
+    <div class= "row">
+
+                <div class="col-md-12 text-center">
+
+                        <strong>{{$item->Number_Transactions}} / {{$item->Threshold}} people have committed to buying {{$item->Name}}</strong>
+
+                </div>
+
+    </div>
 
              <hr>
 

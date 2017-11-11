@@ -32,7 +32,7 @@ $factory->define(App\item::class, function (Faker\Generator $faker) {
         'Name' => $faker->name,
         'Price'=>$faker->randomNumber()/100,
         'Bulk_Price'=>$faker->randomNumber()/100,
-        'Threshold'=>$faker->randomNumber(),
+        'Threshold'=>$faker->numberBetween($min = 1, $max = 100),
         'Tokens_Given'=>$faker->randomNumber(),
         'Short_Description'=>$faker->sentence,
         'Long_Description'=>$faker->sentence,
