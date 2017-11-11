@@ -15,7 +15,7 @@ class PreregisteredUsersController extends Controller
      */
     public function index()
     {
-        //
+        return view('preregistration');
     }
 
     /**
@@ -25,7 +25,7 @@ class PreregisteredUsersController extends Controller
      */
     public function create()
     {
-        return view('preregistration');
+        
     }
 
     /**
