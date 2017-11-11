@@ -18,12 +18,12 @@ class PurchaseHistoryTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
             ->type('email', 'sammoosavi94@gmail.com')
-            ->type('password', 'test123')
+            ->type('password', 'test1234')
             ->press('Login')
-            ->click('a[href="/purchaseHistory"]')
-            ->assertSee('test')
-            ->assertSee('12')
-            ->assertSee('this is a test');
+            ->visit('/purchaseHistory')
+            ->click('a[href="#home"]')
+            ->click('a[href="#menu1"]')
+            ->click('a[href="#menu2"]');
         });
     }
 }
