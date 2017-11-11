@@ -75,32 +75,38 @@
                                     @foreach($items as $item)
                                         @if($item->Status == 'pending')
                                         <div style="border: 3px solid #ccfff0;">
-                                        <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px"><b>Name: </b>{{$item->Name}}</p></div>
+                                         <div>
+                                            <a href="item/{{$item->id}}">
+                                                 <img alt="{{$item->Name}}" src="{{$item->Picture_URL}}" class="img-thumbnail" style="max-width:300px" />
+                                             </a>            
                                         </div>
                                         <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px"><b>Bulk Price: </b>{{$item->Bulk_Price}}</p></div>
+                                            <div><h2 align="left" style="padding-left:10px; text-decoration:bold"><a href="item/{{$item->id}}">{{$item->Name}}</a></h2></div>
                                         </div>
                                         <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px"><b>Short Description: </b>{{$item->Short_Description}}</p></div>
+                                            <div><p align="left" style="padding-left:10px">${{$item->Price}}</p></div>
                                         </div>
                                         <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px"><b>Start Date: </b>{{$item->Start_Date}}</p></div>
+                                            <div><p align="left" style="padding-left:10px">{{$item->Short_Description}}</p></div>
                                         </div>
                                         <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px"><b>End Date: </b>{{$item->End_Date}}</p></div>
+                                            <div><p align="left" style="padding-left:10px">Status: <b>{{$item->Status}}</b></p></div>
                                         </div>
                                         <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px"><b>Status: </b>{{$item->Status}}</p></div>
+                                            <div><p align="left" style="padding-left:10px">Sale ends <b>{{\Carbon\Carbon::parse($item->End_Date)->format('d/m/Y')}}</b></p></div>
                                         </div>
-                                        <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px"><b>Current Number of Customers Commited: </b>{{$item->Number_Transactions}}</p></div>
+                                        <div class="progress" style="margin: 20px;">
+                                         <div class="progress-bar" role="progressbar" aria-valuenow="70"
+                                            aria-valuemin="0" aria-valuemax="100" style="width:{{$item->Number_Transactions/$item->Threshold*100}}%; background-color: #14A989;">
+                                         </div>
                                         </div>
+                                        <div class="row" style="font-size: 16px;">
+                                            <div class="col-md-12 text-center">
+                                              {{$item->Number_Transactions}} / {{$item->Threshold}} Orders Placed <br><br>
+                                            </div>
+                                        </div>   
                                         <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px"><b>Threshold: </b>{{$item->Threshold}}</p></div>
-                                        </div>
-                                        <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px"><b>Order Placed Date: </b>{{$item->created_at}}</p></div>
+                                            <div><p align="left" style="padding-left:10px">Order placed on <b>{{\Carbon\Carbon::parse($item->created_at)->format('d/m/Y')}}</b></p></div>
                                         </div>
                                         </div>
                                             <br/>
@@ -126,32 +132,38 @@
                                     @foreach($items as $item)
                                         @if($item->Status == 'expired' || $item->Status == 'threshold reached')
                                         <div style="border: 3px solid #ccfff0;">
-                                        <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px"><b>Name: </b>{{$item->Name}}</p></div>
+                                         <div>
+                                            <a href="item/{{$item->id}}">
+                                                 <img alt="{{$item->Name}}" src="{{$item->Picture_URL}}" class="img-thumbnail" style="max-width:300px" />
+                                             </a>            
                                         </div>
                                         <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px"><b>Bulk Price: </b>{{$item->Bulk_Price}}</p></div>
+                                            <div><h2 align="left" style="padding-left:10px; text-decoration:bold"><a href="item/{{$item->id}}">{{$item->Name}}</a></h2></div>
                                         </div>
                                         <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px"><b>Short Description: </b>{{$item->Short_Description}}</p></div>
+                                            <div><p align="left" style="padding-left:10px">${{$item->Price}}</p></div>
                                         </div>
                                         <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px"><b>Start Date: </b>{{$item->Start_Date}}</p></div>
+                                            <div><p align="left" style="padding-left:10px">{{$item->Short_Description}}</p></div>
                                         </div>
                                         <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px"><b>End Date: </b>{{$item->End_Date}}</p></div>
+                                            <div><p align="left" style="padding-left:10px">Status: <b>{{$item->Status}}</b></p></div>
                                         </div>
                                         <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px"><b>Status: </b>{{$item->Status}}</p></div>
+                                            <div><p align="left" style="padding-left:10px">Sale ends <b>{{\Carbon\Carbon::parse($item->End_Date)->format('d/m/Y')}}</b></p></div>
                                         </div>
-                                        <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px"><b>Current Number of Customers Commited: </b>{{$item->Number_Transactions}}</p></div>
+                                        <div class="progress" style="margin: 20px;">
+                                         <div class="progress-bar" role="progressbar" aria-valuenow="70"
+                                            aria-valuemin="0" aria-valuemax="100" style="width:{{$item->Number_Transactions/$item->Threshold*100}}%; background-color: #14A989;">
+                                         </div>
                                         </div>
+                                        <div class="row" style="font-size: 16px;">
+                                            <div class="col-md-12 text-center">
+                                              {{$item->Number_Transactions}} / {{$item->Threshold}} Orders Placed <br><br>
+                                            </div>
+                                        </div>   
                                         <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px"><b>Threshold: </b>{{$item->Threshold}}</p></div>
-                                        </div>
-                                        <div class="display-group">
-                                            <div><p align="left" style="padding-left:10px"><b>Order Placed Date: </b>{{$item->created_at}}</p></div>
+                                            <div><p align="left" style="padding-left:10px">Order placed on <b>{{\Carbon\Carbon::parse($item->created_at)->format('d/m/Y')}}</b></p></div>
                                         </div>
                                         </div>
                                             <br/>
