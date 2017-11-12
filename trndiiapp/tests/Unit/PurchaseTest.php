@@ -2,41 +2,48 @@
 
 namespace Tests\Unit;
 
+use Illuminate\Http\Request;
 use Tests\TestCase;
 use App;
 use DB;
+use App\Http\Controllers;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Database\Eloquent\Model;
 
 class PurchaseTest extends TestCase
 {
+
+    public function setUp() {
+        parent::setUp();
+
+      //  Artisan::call('migrate'); //run migrations
+       // Eloquent::unguard(); // disable eloquent guard
+        Model::unguard();
+
+    }
     /**
      * A basic test example.
      *
      * @return void
      */
-    public function testExample()
+    public function testPurchase()
     {
-        $user = factory(App\User::class)->create();
+//        $user = factory(App\User::class)->create();
+        $user = factory(App\User::class)->create([
+            'stripe_id' => 'tok_visa'
+        ]);;
         $item = factory(App\item::class)->create();
 
+        $response = $this->actingAs($user)
+            ->withSession(['email' => $user->id ,'password'=>$user->password])
+            ->get('/login');
 
+        $request = new Request();
+        $controller = new App\Http\Controllers\TransactionsController();
+        $controller->update($request ,$item->id);
 
-
-            DB::table('transactions')->insert([
-
-                ['email' =>$user->email, 'item_fk' => $item->id]
-
-            ]);
-
-
-
-
-
-
-        //assert now that 50 users are indeed bound to an item in the transaction table
-        /// this test checks for duplicate tests for duplicate values or undercreated values
-        ///
+        
 
         $this->assertDatabaseHas('transactions', [
             'email' => $user->email,
