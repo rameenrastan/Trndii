@@ -11,14 +11,14 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\Model;
 
-class PurchaseTest extends TestCase
+class PurchaseHistoryTest extends TestCase
 {
     /**
-     * tests a user creating a new transaction
+     * tests viewing purchase history
      *
      * @return void
      */
-     public function testPurchase()
+     public function testPurchaseHistory()
      {
 
          $user = factory(App\User::class)->create([
@@ -29,16 +29,9 @@ class PurchaseTest extends TestCase
  
          $response = $this->actingAs($user)
              ->withSession(['email' => $user->id ,'password'=>$user->password])
-             ->get('/login');
- 
-         $request = new Request();
-         $controller = new App\Http\Controllers\TransactionsController();
-         $controller->update($request ,$item->id);
-
-            $this->assertDatabaseHas('transactions', [
-            'email' => $user->email,
-            'item_fk'=>$item->id
-        ]);
+             ->get('/purchaseHistory');
+             
+         $response->assertViewIs('layouts.purchasehistory');   
 
      }
     
