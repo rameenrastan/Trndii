@@ -13,7 +13,7 @@ class EditAccountIncompleteTest extends DuskTestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testEditAccountIncomplete()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
