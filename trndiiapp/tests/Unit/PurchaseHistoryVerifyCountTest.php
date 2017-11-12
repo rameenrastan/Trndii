@@ -1,13 +1,14 @@
 <?php
 
 namespace Tests\Unit;
-use App\User;
-use App\item;
+
 use App;
+use DB;
 use Tests\TestCase;
-//use Tests\Unit\Artisan;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Http\Controllers;
+use Illuminate\Database\Eloquent\Model;
 
 class PurchaseHistoryVerifyCountTest extends TestCase
 {
@@ -16,8 +17,8 @@ class PurchaseHistoryVerifyCountTest extends TestCase
     public function setUp() {
         parent::setUp();
 
-        Artisan::call('migrate'); //run migrations
-        Eloquent::unguard(); // disable eloquent guard
+
+        Model::unguard();
     }
     /**
      * A basic test example.
@@ -28,7 +29,9 @@ class PurchaseHistoryVerifyCountTest extends TestCase
     {
 
 
-        $users = factory(App\User::class, 1000)->create();
+        $users = factory(App\User::class,1000)->create([
+            'stripe_id' => 'tok_visa'
+        ]);;
         $items = factory(App\item::class, 100)->create();
 
 
@@ -37,11 +40,14 @@ class PurchaseHistoryVerifyCountTest extends TestCase
         // for 50 different users we add a random item to them
         for ($i = 0; $i < 50; $i++ ){
 
-            DB::table('transactions')->insert([
+            $response = $this->actingAs($users[$i])
+                ->withSession(['email' => $users[$i]->id ,'password'=>$users[$i]->password])
+                ->get('/login');
 
-                ['email' => $users[$i]->email(), 'item_fk' => $items[mt_rand(1, 100)]->id()]
+            $request = new Request();
+            $controller = new App\Http\Controllers\TransactionsController();
+            $controller->update($request ,$items[mt_rand(1, 99)]->id);
 
-            ]);
 
         }
 
