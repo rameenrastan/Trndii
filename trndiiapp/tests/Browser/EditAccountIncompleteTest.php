@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 class EditAccountIncompleteTest extends DuskTestCase
 {
     /**
-     * A Dusk test example.
+     * Tests editing a user's account with incomplete information.
      *
      * @return void
      */
