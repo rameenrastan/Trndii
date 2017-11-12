@@ -40,8 +40,6 @@ Route::resource('preregisteredusers', 'PreregisteredUsersController');
     
 Route::resource('item', 'ItemsController');
 
-Route::resource('purchaseditems', 'PurchasedItemsController');
-
 Route::resource('transactions', 'TransactionsController');
 
 Route::post('/send', 'EmailController@send');
