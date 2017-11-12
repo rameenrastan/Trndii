@@ -23,11 +23,11 @@ Route::get('/editDetails', 'UsersController@edit')->middleware('authenticated');
 
 Route::resource('users', 'UsersController');
 
-Route::get('/preregistration', 'ViewsController@preregistration');
+Route::get('/preregistration', 'PreregisteredUsersController@index');
 
 Route::get('/successpreregistration', 'ViewsController@successpreregistration');
 
-Route::get('/purchaseHistory', 'PurchasedItemsController@index');
+Route::get('/purchaseHistory', 'TransactionsController@index');
 
 Route::get('/viewProgress', 'TransactionsController@index');
 

@@ -24,7 +24,7 @@ class RegisterNewUserTest extends DuskTestCase
                 ->type('password', 'test123')
                 ->type('password_confirmation', 'test123')
                 ->press('Register')
-                ->assertSee('You are logged in!');
+                ->assertSee("Welcome to Trndii! If you're not sure where to start, click ");
         });
     }
 }

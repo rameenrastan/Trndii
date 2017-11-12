@@ -26,6 +26,7 @@ class CreateItemsTable extends Migration
             $table->integer('Number_Transactions')->default(0);
             $table->datetime('Start_Date');
             $table->datetime('End_Date');
+            $table->string('Picture_URL');
             $table->timestamps();
         });
     }

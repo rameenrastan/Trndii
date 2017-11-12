@@ -18,7 +18,6 @@ class UsersController extends Controller
     {
 
 
-
     }
 
     /**
@@ -77,34 +76,61 @@ class UsersController extends Controller
 
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required'
+            'phone' => 'required|regex:/^\(?\d{3}\)?[- ]?\d{3}[- ]?\d{4}$/',
+            'addressline1' => 'required',
+            'postalcode' => 'required|regex:/[A-Za-z][0-9][A-Za-z] ?[0-9][A-Za-z][0-9]/',
+            'city' => 'required',
+            'country' => 'required'
+
         ]);
 
         $user = Auth::user();
 
         $curPassword =$request->input('password');
         $newPassword = $request->input('newpassword');
+        $confirmPassword = $request->input("confirmnewpassword");
+        $curPasswordLenght = strlen($curPassword);
+        $newPasswordLenght = strlen($newPassword);
+        $confirmPasswordLenght = strlen($confirmPassword);
 
-        if (Hash::check($curPassword, $user->password)) {
+        if (Hash::check($curPassword, $user->password) && $confirmPassword == $newPassword && $confirmPassword != "" && $newPassword != "" && $curPasswordLenght > 0) {
+
 
             $user->password = Hash::make($newPassword);
+            $user->name = $request->input('name');
+            $user->country = $request->input('country');
+            $user->postalcode = $request->input('postalcode');
+            $user->phone = $request->input('phone');
+            $user->addressline1 = $request->input("addressline1");
+            $user->addressline2 = $request->input("addressline2");
+            $user->city = $request->input("city");
+            $user->save();
+            return redirect('/editDetails')->with('success', 'Account Details Updated!');
 
         }
-
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->country = $request->input('country');
-        $user->postalcode = $request->input('postalcode');
-        $user->phone = $request->input('phone');
-        $user->address = $request->input('address');
-        $user->save();
-        return redirect('/editDetails')->with('success', 'Account Details Updated!');
-//        return view('auth.login');
-
-
-
-
-
+        else if(($newPasswordLenght > 0 || $confirmPasswordLenght > 0) && $curPassword == ""){
+            return redirect('/editDetails')->with('error', "You must fill in all 3 password fields in order to change your password.");
+        }
+        else if(($newPassword == "" || $confirmPassword == "") && $curPasswordLenght > 0){
+            return redirect('/editDetails')->with('error', "New Password and Confirm Password fields can't be empty.");
+        }
+        else if(!Hash::check($curPassword, $user->password) && $curPasswordLenght > 0){
+            return redirect('/editDetails')->with('error', 'Wrong Current Password Entered.');
+        }
+        else if($confirmPassword != $newPassword && $curPasswordLenght > 0){
+            return redirect('/editDetails')->with('error', "New Password and Confirm Password don't match.");
+        }
+        else{
+            $user->name = $request->input('name');
+            $user->country = $request->input('country');
+            $user->postalcode = $request->input('postalcode');
+            $user->phone = $request->input('phone');
+            $user->addressline1 = $request->input("addressline1");
+            $user->addressline2 = $request->input("addressline2");
+            $user->city = $request->input("city");
+            $user->save();
+            return redirect('/editDetails')->with('success', 'Account Details Updated!');
+        }
     }
 
 

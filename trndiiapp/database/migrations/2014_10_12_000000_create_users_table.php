@@ -17,8 +17,10 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('phone')->default("Enter a phone number");
-            $table->string('address')->default("Enter an address");
-            $table->string('postalcode')->default("Enter a postal code ");
+            $table->string('addressline1')->default("Enter an address line");
+            $table->string('addressline2')->nullable();
+            $table->string('postalcode')->default("Enter a postal code");
+            $table->string("city")->default("Enter a city");
             $table->string('country')->default("Enter a country");
             $table->string('email')->unique();
             $table->string('password');

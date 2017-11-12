@@ -1,6 +1,58 @@
-// Forms
+#app {
+    min-height: 736px;
+}
+
 .form {
     position: relative;
     display: table;
     width: 350px;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+  }
+  
+
+body {
+    height:100%
+  }
+
+.footer {
+    background-color: #14A989 !important;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+  }
+
+.footer-text {
+
+    color: #eeeeee;
+
+}  
+
+.footer h2 {
+
+    color: #ffffff;
+
+}
+
+.panel-body {
+    text-align: center;
+}
+
+.nav-item {
+    color: white;
+}
+
+a {
+    color: #14A989;
+}
+
+.thumbnail {
+    border: 2px solid darken($body-bg, 5%);
+}
+
+.progress-bar {
+    
 }

@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule-> call('App\Http\Controllers\PaymentsController@chargeCustomers');
+        $schedule->call('App\Http\Controllers\PaymentsController@chargeCustomers');
     }
 
 

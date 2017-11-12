@@ -11,12 +11,10 @@
             <h1>Create item</h1>
             <hr>
 
-
     {!! Form::open(['route' => 'item.store']) !!}
 
     {{Form::label('Name', 'Item Name')}}
     {{Form::text('Name', '', array('class' => 'form-control'))}}
-
 
     {{Form::label('Price')}}
     {{Form::number('Price','0.00', array('step'=>'0.01','class' => 'form-control'))}}
@@ -42,12 +40,14 @@
     {{Form::label('End Date')}}
     {{Form::date('End Date', null, array('class' => 'form-control', 'id' => 'end-date'))}}
 
+    {{Form::label('Picture URL')}}
+    {{Form::text('Picture URL', null, array('class' => 'form-control'))}}
+
     {{Form::submit('Create Item', array('class' => 'btn', 'id' => 'create-item'))}}
 
     {!! Form::close() !!}
 
         </div>
     </div>
-
 
 @endsection

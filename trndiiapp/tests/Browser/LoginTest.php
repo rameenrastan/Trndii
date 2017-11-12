@@ -21,9 +21,9 @@ class LoginTest extends DuskTestCase
         $this->browse(function ($browser) {
             $browser->visit('/')
                     ->type('email', 'sammoosavi94@gmail.com')
-                    ->type('password', 'test123')
+                    ->type('password', 'test1234')
                     ->press('Login')
-                    ->assertSee('You are logged in!');
+                    ->assertSee("Welcome to Trndii! If you're not sure where to start, click ");
         });
     }
 }

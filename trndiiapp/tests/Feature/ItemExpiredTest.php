@@ -4,19 +4,19 @@ namespace Tests\Feature;
 
 
 use Tests\TestCase;
-use App\Mail\PurchaseConfirmation;
+use App\Mail\ItemExpired;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 
-class PurchaseConfirmationTest extends TestCase
+class ItemExpiredTest extends TestCase
 {
     /**
-     * Tests Purchase Confirmation mailable class.
+     * Tests Item Expired mailable class.
      *
      * @return void
      */
-    public function testPurchaseConfirmation()
+    public function testItemExpired()
     {
 
         Mail::fake();
@@ -37,7 +37,7 @@ class PurchaseConfirmationTest extends TestCase
 
         ]);
 
-        Mail::assertSent(PurchaseConfirmation::class, function ($mail) use ($item, $user) {
+        Mail::assertSent(ItemExpired::class, function ($mail) use ($item, $user) {
 
             return $mail->$item->id === $item->id;
 

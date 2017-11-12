@@ -18,18 +18,15 @@ class ViewItemTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
                     ->type('email', 'sammoosavi94@gmail.com')
-                    ->type('password', 'test123')
+                    ->type('password', 'test1234')
                     ->press('Login')
-                    ->click('a[href="item"]')
-                    ->assertSee('test')
+                    ->visit('/item')
+                    ->assertSee('Browsing Items')
                     ->click('a[href="item/1"]')
-                    ->assertSee('test')
-                    ->assertSee('12')
-                    ->assertSee('12')
-                    ->assertSee('3')
-                    ->assertSee('1')
-                    ->assertSee('this is a test')
-                    ->assertSee('this is another test');
+                    ->assertSee('Price: ')
+                    ->assertSee('Tokens gained: ')
+                    ->assertSee('Days Remaining: ')
+                    ->assertSee('Orders Placed');
         });
     }
 }
