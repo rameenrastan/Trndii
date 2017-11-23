@@ -47,6 +47,19 @@
                             </h4>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>
+                                Status: <strong>{{$item->Status}}</strong>
+                            </h4>
+                        </div>
+                    </div>
+                    @if($item->Status != 'cancelled')
+                        {!! Form::open(['action' => ['ItemsController@update', $item->id], 'method' => 'POST']) !!}
+                            {{Form::hidden('_method','PUT')}}
+                            {{Form::submit('Delete', ['class'=>'btn btn-primary'])}}
+                        {!! Form::close() !!}
+                    @endif
                 </div>
             </div>
             <br>
