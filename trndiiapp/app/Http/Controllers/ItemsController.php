@@ -12,7 +12,7 @@ class ItemsController extends Controller
 {
     public function index(){
 
-        $items=item::orderby('Name','asc')->paginate(10);
+        $items=item::orderby('Name','asc')->where('Status', '!=', 'cancelled')->paginate(10);
         return view('item.index')->with('items',$items);
 
     }
@@ -145,7 +145,7 @@ class ItemsController extends Controller
      */
     public function destroy($id)
     {
-        
+
     }
 
     public function viewAllItems()

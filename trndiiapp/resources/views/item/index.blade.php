@@ -23,7 +23,6 @@ row on the right is composed of 3 rows, each row containing part of the item inf
 
             @foreach($items as $item)
                 
-                @if($item->Status != 'cancelled')
                 <div class="row">
                     <div class="col-md-2">
                         <a href="item/{{$item->id}}">
@@ -52,7 +51,6 @@ row on the right is composed of 3 rows, each row containing part of the item inf
                     </div>
                 </div>
                 <br>
-                @endif
             @endforeach
 
             {{$items->links()}}
