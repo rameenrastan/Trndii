@@ -10,7 +10,10 @@
 
         <div class="panel-body">
             You are logged in as ADMIN
+            <br>
             <a href="/item/create">Click here to add item</a>
+            <br>
+            <a href="/viewAllItems">Click here to view all items</a>
         </div>
     </div>
 @endsection

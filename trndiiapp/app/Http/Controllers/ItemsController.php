@@ -142,4 +142,10 @@ class ItemsController extends Controller
     {
         //
     }
+
+    public function viewAllItems()
+    {
+        $items=item::orderby('Name','asc')->paginate(10);
+        return view('item.viewAllItems')->with('items',$items);
+    }
 }
