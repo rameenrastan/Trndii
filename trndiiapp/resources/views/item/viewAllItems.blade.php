@@ -8,6 +8,7 @@
 @section('content')
 
 @section('content')
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -54,11 +55,12 @@
                             </h4>
                         </div>
                     </div>
-                    @if($item->Status == 'pending')
-                        {!! Form::open(['action' => ['ItemsController@update', $item->id], 'method' => 'POST']) !!}
+                    @if($item->Status == 'pending' || $item->Status == 'threshold reached')
+                        {!! Form::open(['action' => ['ItemsController@update', $item->id], 'method' => 'POST', 'onsubmit' => "return confirm('Are you sure you want to delete this item?')"]) !!}
                             {{Form::hidden('_method','PUT')}}
                             {{Form::submit('Delete', ['class'=>'btn btn-primary'])}}
                         {!! Form::close() !!}
+                    </div>
                     @endif
                 </div>
             </div>
