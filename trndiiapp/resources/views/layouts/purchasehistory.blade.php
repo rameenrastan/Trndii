@@ -146,7 +146,7 @@
                             <div class="panel-body">
                                 @if(count($items) > 0)
                                     @foreach($items as $item)
-                                        @if($item->Status == 'expired' || $item->Status == 'threshold reached')
+                                        @if($item->Status == 'expired' || $item->Status == 'threshold reached' || $item->Status == 'cancelled')
                                         <div style="border: 3px solid #ccfff0;">
                                         <div class="row">
                                             <div class="col-md-5">
