@@ -36,9 +36,13 @@
                             <h4>Price: <strong>${{$item->Price}}</strong></h4>
                             <h4>Bulk Price: <strong>${{$item->Bulk_Price}}</strong></h4>
                             <h4>Received tokens upon purchase: <strong>{{$item->Tokens_Given}}</strong></h4>
-                            <h4>Number of commited users: <strong>{{$item->Number_Transactions}}</strong></h4>
+                            <h4>Number of committed users: <strong>{{$item->Number_Transactions}}</strong></h4>
                             <h4>Threshold: <strong>{{$item->Threshold}}</strong></h4>
-                            <h4>Status: <strong>{{$item->Status}}</strong></h4>
+                            @if($item->Status == 'cancelled')
+                                <h4>Status: <strong><span style="color: #e60000">{{$item->Status}}</span></strong></h4>
+                            @else
+                                <h4>Status: <strong>{{$item->Status}}</strong></h4>
+                            @endif
                             @if($item->Status == 'pending' || $item->Status == 'threshold reached')
                                 {!! Form::open(['action' => ['ItemsController@update', $item->id], 'method' => 'POST', 'onsubmit' => "return confirm('Are you sure you want to delete this item?')"]) !!}
                                     {{Form::hidden('_method','PUT')}}
