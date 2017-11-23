@@ -54,7 +54,7 @@
                             </h4>
                         </div>
                     </div>
-                    @if($item->Status != 'cancelled')
+                    @if($item->Status == 'pending')
                         {!! Form::open(['action' => ['ItemsController@update', $item->id], 'method' => 'POST']) !!}
                             {{Form::hidden('_method','PUT')}}
                             {{Form::submit('Delete', ['class'=>'btn btn-primary'])}}

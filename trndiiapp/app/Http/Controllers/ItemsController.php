@@ -127,9 +127,14 @@ class ItemsController extends Controller
      * @param  \App\item  $item
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, item $item)
+    public function update(Request $request, $id)
     {
-        //
+        $item = item::find($id);
+        
+        $item->Status = 'cancelled';
+        $item->save();
+
+        return redirect('/admin')->with('success', 'Item removed!');
     }
 
     /**
@@ -138,9 +143,9 @@ class ItemsController extends Controller
      * @param  \App\item  $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy(item $item)
+    public function destroy($id)
     {
-        //
+        
     }
 
     public function viewAllItems()
