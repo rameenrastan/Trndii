@@ -134,7 +134,7 @@ class ItemsController extends Controller
         $item->Status = 'cancelled';
         $item->save();
 
-        return redirect('/admin')->with('success', 'Item removed!');
+        return redirect('/viewAllItems')->with('success', 'Item removed!');
     }
 
     /**

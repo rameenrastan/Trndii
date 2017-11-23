@@ -25,43 +25,32 @@
         @foreach($items as $item)
             <div class="row">
                 <div class="col-md-2">
-                    <a href="item/{{$item->id}}">
-                        <img alt="{{$item->Name}}" src="{{$item->Picture_URL}}" class="img-thumbnail" />
-                    </a>            
+                    <img alt="{{$item->Name}}" src="{{$item->Picture_URL}}" class="img-thumbnail" />           
                 </div>
                 <div class="col-md-10">
                     <div class="row">
                         <div class="col-md-12">
-                            <h2 style="margin-top: 5px;">
-                            <a href="item/{{$item->id}}"> {{$item->Name}}</a>
-                            </h2>
-                                {{$item->Short_Description}}
-                            <h3>
-                                ${{$item->Price}}
-                            </h3>
+                            <h2 style="margin-top: 5px;">{{$item->Name}}</h2>
+                            <h4>Short Description: {{$item->Short_Description}}</h4>
+                            <h4>Long Description: {{$item->Long_Description}}</h4>
+                            <h4>Price: <strong>${{$item->Price}}</strong></h4>
+                            <h4>Bulk Price: <strong>${{$item->Bulk_Price}}</strong></h4>
+                            <h4>Received tokens upon purchase: <strong>{{$item->Tokens_Given}}</strong></h4>
+                            <h4>Number of commited users: <strong>{{$item->Number_Transactions}}</strong></h4>
+                            <h4>Threshold: <strong>{{$item->Threshold}}</strong></h4>
+                            <h4>Status: <strong>{{$item->Status}}</strong></h4>
+                            @if($item->Status == 'pending' || $item->Status == 'threshold reached')
+                                {!! Form::open(['action' => ['ItemsController@update', $item->id], 'method' => 'POST', 'onsubmit' => "return confirm('Are you sure you want to delete this item?')"]) !!}
+                                    {{Form::hidden('_method','PUT')}}
+                                    {{Form::submit('Delete', ['class'=>'btn btn-primary'])}}
+                                {!! Form::close() !!}
+                            @endif
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <h4>
-                                Receive <strong>{{$item->Tokens_Given}}</strong> tokens upon purchase
-                            </h4>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>
-                                Status: <strong>{{$item->Status}}</strong>
-                            </h4>
-                        </div>
-                    </div>
-                    @if($item->Status == 'pending' || $item->Status == 'threshold reached')
-                        {!! Form::open(['action' => ['ItemsController@update', $item->id], 'method' => 'POST', 'onsubmit' => "return confirm('Are you sure you want to delete this item?')"]) !!}
-                            {{Form::hidden('_method','PUT')}}
-                            {{Form::submit('Delete', ['class'=>'btn btn-primary'])}}
-                        {!! Form::close() !!}
-                    </div>
-                    @endif
                 </div>
             </div>
             <br>
