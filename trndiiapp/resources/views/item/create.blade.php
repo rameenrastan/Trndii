@@ -43,7 +43,19 @@
     {{Form::label('Picture URL')}}
     {{Form::text('Picture URL', null, array('class' => 'form-control'))}}
 
+    <!-- Still work in progress, this is just a very basic implementation-->
+    {{Form::label('Country Selection')}}
+    {{ Form::select('Country Selection', [
+        'Worldwide',
+        'North America' => ['Canada', 'United States', 'Mexico'],
+        'Europe' => ['Germany', 'France', 'Italy'],
+    ], null, array('class' => 'form-control'))}}
+
+    <p></p>
+
     {{Form::submit('Create Item', array('class' => 'btn', 'id' => 'create-item'))}}
+
+    <p></p>
 
     {!! Form::close() !!}
 
