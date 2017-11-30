@@ -44,14 +44,12 @@
     {{Form::text('Picture URL', null, array('class' => 'form-control'))}}
 
     <!-- Still work in progress, this is just a very basic implementation-->
-    {{Form::label('Country Selection')}}
-    {{ Form::select('Country Selection', [
-        'Worldwide',
-        'North America' => ['Canada', 'United States', 'Mexico'],
-        'Europe' => ['Germany', 'France', 'Italy'],
+    {{Form::label('Shipping To')}}
+    {{ Form::select('Shipping_To', [
+        'Canada and United States'=>'Canada, United States', 'Canada'=>'Canada', 'United States'=>'United States'
     ], null, array('class' => 'form-control'))}}
 
-    <p></p>
+            <p></p>
 
     {{Form::submit('Create Item', array('class' => 'btn', 'id' => 'create-item'))}}
 

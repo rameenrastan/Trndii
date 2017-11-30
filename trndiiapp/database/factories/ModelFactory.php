@@ -39,7 +39,8 @@ $factory->define(App\item::class, function (Faker\Generator $faker) {
         'Status'=>$faker->sentence,
         'Start_Date'=>$faker->date,
         'End_Date'=>$faker->date,
-        'Picture_URL'=>$faker->imageUrl($width = 800, $height = 600, 'cats'), 
+        'Picture_URL'=>$faker->imageUrl($width = 800, $height = 600, 'cats'),
+        'Shipping_To'=>"Canada",
         'created_at'=>$faker->date,
         'updated_at'=>$faker->date
     ];
