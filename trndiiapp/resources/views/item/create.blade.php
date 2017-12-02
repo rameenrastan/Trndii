@@ -26,14 +26,14 @@
                             <div class="form-group">
                                 {{Form::label('Price','Price',array('class'=>'col-md-4 control-label'))}}
                                 <div class="col-md-6">
-                                    {{Form::number('Price','0.00', array('step'=>'0.01','class' => 'form-control'))}}
+                                    {{Form::number('Price',null, array('placeholder'=>'0.00','step'=>'0.01','class' => 'form-control'))}}
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 {{Form::label('Bulk Price','Bulk Price',array('class'=>'col-md-4 control-label'))}}
                                 <div class="col-md-6">
-                                    {{Form::number('Bulk Price','0.00', array('step'=>'0.01','class' => 'form-control'))}}
+                                    {{Form::number('Bulk Price',null, array('placeholder'=>'0.00','step'=>'0.01','class' => 'form-control'))}}
                                 </div>
                             </div>
 
