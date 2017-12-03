@@ -48,3 +48,5 @@ Route::post('/send', 'EmailController@send');
 Route::get('contact', 'PagesController@getContact');
 Route::post('contact', 'PagesController@postContact');
 
+Route::get('/viewAllItems', 'ItemsController@viewAllItems');
+

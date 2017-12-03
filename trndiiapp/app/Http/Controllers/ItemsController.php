@@ -12,7 +12,7 @@ class ItemsController extends Controller
 {
     public function index(){
 
-        $items=item::orderby('Name','asc')->paginate(10);
+        $items=item::orderby('Name','asc')->where('Status', '!=', 'cancelled')->paginate(10);
         return view('item.index')->with('items',$items);
 
     }
@@ -127,9 +127,14 @@ class ItemsController extends Controller
      * @param  \App\item  $item
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, item $item)
+    public function update(Request $request, $id)
     {
-        //
+        $item = item::find($id);
+        
+        $item->Status = 'cancelled';
+        $item->save();
+
+        return redirect('/viewAllItems')->with('success', 'Item removed!');
     }
 
     /**
@@ -138,8 +143,14 @@ class ItemsController extends Controller
      * @param  \App\item  $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy(item $item)
+    public function destroy($id)
     {
-        //
+
+    }
+
+    public function viewAllItems()
+    {
+        $items=item::orderby('Name','asc')->paginate(10);
+        return view('item.viewAllItems')->with('items',$items);
     }
 }
