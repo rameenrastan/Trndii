@@ -62,7 +62,7 @@
 
             <div class="row" style="font-size: 20px;">
                 <div class="col-md-12 text-center">
-                    @if(Auth::user()->country != $item->Shipping_To)
+                    @if(Auth::user()->country != $item->Shipping_To && $item->Shipping_To != "Canada and United States")
                         <p style="background-color:#ffb049; color:black">
                             <strong> Warning! This item does not ship to your country! </strong>
                         </p>    
@@ -87,7 +87,7 @@
                 <h3 class="modal-title">Are you sure you want to commit to this purchase?</h3>
             </div>
             <div class="modal-body">
-            @if(Auth::user()->country != $item->Shipping_To)
+            @if(Auth::user()->country != $item->Shipping_To && $item->Shipping_To != "Canada and United States")
                 <p>
                     <strong> This item does not ship to {{Auth::user()->country}}! </strong> <!-- Remove this if/when we implement choosing shipping address-->
                 </p>    
@@ -106,7 +106,7 @@
             @endif       
             </div>
             <div class="modal-footer">
-            @if(Auth::user()->country != $item->Shipping_To)
+            @if(Auth::user()->country != $item->Shipping_To && $item->Shipping_To != "Canada and United States")
                 <button type="button" class="btn btn-default" data-dismiss="modal">Return</button>
             @else
                 @if($checkCommit == 0 && $item->Threshold > $item->Number_Transaction)
