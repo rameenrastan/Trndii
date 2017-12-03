@@ -49,7 +49,8 @@ class ItemsController extends Controller
             'Long_Description' => 'required| string',
             'Start_Date' => 'required| date',
             'End_Date' => 'required| date',
-            'Picture_URL' => 'required| string'
+            'Picture_URL' => 'required| string',
+            'Shipping_To' => 'required'
         ));
 
         //Store in database
@@ -66,6 +67,7 @@ class ItemsController extends Controller
         $item->Status = 'pending';
         $item->End_Date=$request->End_Date;
         $item->Picture_URL=$request->Picture_URL;
+        $item->Shipping_To=$request->Shipping_To;
 
         $item->save();
 

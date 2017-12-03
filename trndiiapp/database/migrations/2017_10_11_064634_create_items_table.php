@@ -27,6 +27,8 @@ class CreateItemsTable extends Migration
             $table->datetime('Start_Date');
             $table->datetime('End_Date');
             $table->string('Picture_URL');
+            $table->string('Shipping_To');
+
             $table->timestamps();
         });
     }

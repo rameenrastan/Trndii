@@ -45,6 +45,7 @@ class CreateItemTest extends TestCase
         $request->Start_Date = $today;
         $request->End_Date = $tomorrow;
         $request->Picture_URL = 'https://lorempixel.com/800/600/cats/?96914';
+        $request->Shipping_To = 'Canada';
  
         $controller = new App\Http\Controllers\ItemsController();
 
@@ -60,7 +61,8 @@ class CreateItemTest extends TestCase
             'Long_Description' => 'this is a test',
             'Start_Date' => $today,
             'End_Date' => $tomorrow,
-            'Picture_URL' => 'https://lorempixel.com/800/600/cats/?96914'
+            'Picture_URL' => 'https://lorempixel.com/800/600/cats/?96914',
+            'Shipping_To' => 'Canada'
         ]);
 
      }
