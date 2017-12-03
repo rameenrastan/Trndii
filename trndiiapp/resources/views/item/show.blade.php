@@ -49,9 +49,27 @@
                     {{$item->Number_Transactions}} / {{$item->Threshold}} Orders Placed 
                 </div>
             </div>    
+
+            <div class="row" style="font-size: 18px;">
+                <div class="col-md-12 text-center">
+                    Item ships to {{$item->Shipping_To}} 
+                </div>
+            </div>   
+
             <p>
                 {{$item->Long_Description}}
             </p>
+
+            <div class="row" style="font-size: 20px;">
+                <div class="col-md-12 text-center">
+                    @if(Auth::user()->country != $item->Shipping_To)
+                        <p style="background-color:#ffb049; color:black">
+                            <strong> Warning! This item does not ship to your country! </strong>
+                        </p>    
+                    @endif    
+                </div>
+            </div>  
+
         </div>
     </div>
     <div class="row">
@@ -62,19 +80,35 @@
  </div>
 
 <!--Purchase button. When it is pressed it pops up a modal where user confirms their purchase.-->
-<div id="BuyModal" class="modal fade" aria-labelledby="basicModal" aria-hidden="true">
+<div id="BuyModal" class="modal fade" aria-labelledby="basicModal" aria-hidden="true"> 
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">Are you sure you want to commit to this purchase?</h3>
             </div>
             <div class="modal-body">
+            @if(Auth::user()->country != $item->Shipping_To)
+                <p>
+                    <strong> This item does not ship to {{Auth::user()->country}}! </strong> <!-- Remove this if/when we implement choosing shipping address-->
+                </p>    
+            @else
                 <p> <strong>Item details: </strong></p>
-                <p>{{$item->Name}} 
-                <br> Price: {{$item->Price}}$ 
-                <br> Tokens Gained: {{$item->Tokens_Given}} </p>
+                <p>
+                    {{$item->Name}} 
+                    <br> Price: {{$item->Price}}$ 
+                    <br> Tokens Gained: {{$item->Tokens_Given}} 
+                    <!--
+                    @if(Auth::user()->country != $item->Shipping_To)
+                        <br> <strong> Warning! This item does not ship to {{Auth::user()->country}} </strong>
+                    @endif   
+                    --> 
+                </p>
+            @endif       
             </div>
             <div class="modal-footer">
+            @if(Auth::user()->country != $item->Shipping_To)
+                <button type="button" class="btn btn-default" data-dismiss="modal">Return</button>
+            @else
                 @if($checkCommit == 0 && $item->Threshold > $item->Number_Transaction)
                     {!! Form::open(['action' => ['TransactionsController@update', $item->id], 'method' => 'POST']) !!}
                     {{Form::hidden('_method', 'PUT')}}
@@ -86,6 +120,7 @@
                 @else
                     <p>You have already commited to this item. Stay tuned!</p>
                 @endif
+            @endif    
             </div>
         </div>
     </div>

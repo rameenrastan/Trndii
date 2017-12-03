@@ -71,7 +71,9 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li><a href="#" style="font-size: 18px; color: #FDE706;"><img src="images/token.png" alt="Tokens" height="22">&nbsp; 100</a></li>
+                            <!-- Currently not implementing tokens
+                                <li><a href="#" style="font-size: 18px; color: #FDE706;"><img src="images/token.png" alt="Tokens" height="22">&nbsp; 100</a></li>
+                            -->  
                         @endif
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
