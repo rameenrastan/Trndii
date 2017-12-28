@@ -6,9 +6,18 @@ use Illuminate\Http\Request;
 use Auth;
 use App\User;
 use Illuminate\Support\Facades\Hash;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 
 class UsersController extends Controller
 {
+
+    protected $user;
+
+    public function _construct(UserRepositoryInterface $user){
+
+        $this->user = $user;
+    }
+
     /**
      * Display a listing of the resource.
      *
