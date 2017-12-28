@@ -21,7 +21,7 @@ class ItemsController extends Controller
 
     public function index(){
 
-        $items=item::orderby('Name','asc')->where('Status', '!=', 'cancelled')->paginate(10);
+        $items=$this->itemRepo->index();
         return view('item.index')->with('items',$items);
 
     }
@@ -146,7 +146,7 @@ class ItemsController extends Controller
 
     public function viewAllItems()
     {
-        $items=item::orderby('Name','asc')->paginate(10);
+        $items=$this->itemRepo->viewAllItems();
         return view('item.viewAllItems')->with('items',$items);
     }
 }

@@ -30,4 +30,15 @@ class ItemRepository implements ItemRepositoryInterface{
         $item->save();
 
     }
+
+    public function index()
+    {
+        return item::orderby('Name','asc')->where('Status', '!=', 'cancelled')->paginate(10);
+    }
+
+    public function viewAllItems()
+    {
+        return item::orderby('Name','asc')->paginate(10);
+    }
+
 }
