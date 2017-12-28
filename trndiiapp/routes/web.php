@@ -50,5 +50,5 @@ Route::post('contact', 'PagesController@postContact');
 
 Route::get('/viewAllItems', 'ItemsController@viewAllItems');
 
-Route::ressource('pdfcontroller', 'PDFController');
+Route::get('/addresses', 'PDFController@makePDF');
 
