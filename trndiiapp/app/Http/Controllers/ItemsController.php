@@ -7,9 +7,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use DB;
 use Auth;
+use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterface;
 
 class ItemsController extends Controller
 {
+
+    protected $itemRepo;
+
+    public function __construct(ItemRepositoryInterface $itemRepo)
+    {
+        $this->itemRepo=$itemRepo;
+    }
+
     public function index(){
 
         $items=item::orderby('Name','asc')->where('Status', '!=', 'cancelled')->paginate(10);
@@ -54,22 +63,7 @@ class ItemsController extends Controller
         ));
 
         //Store in database
-        $item= new item;
-
-        $item->Name=$request->Name;
-        $item->Price=$request->Price;
-        $item->Bulk_Price=$request->Bulk_Price;
-        $item->Tokens_Given=$request->Tokens_Given;
-        $item->Threshold=$request->Threshold;
-        $item->Short_Description=$request->Short_Description;
-        $item->Long_Description=$request->Long_Description;
-        $item->Start_Date=$request->Start_Date;
-        $item->Status = 'pending';
-        $item->End_Date=$request->End_Date;
-        $item->Picture_URL=$request->Picture_URL;
-        $item->Shipping_To=$request->Shipping_To;
-
-        $item->save();
+        $this->itemRepo->store($request);
 
         //Redirect
         return redirect('/admin')->with('success', 'Item successfully created.');
