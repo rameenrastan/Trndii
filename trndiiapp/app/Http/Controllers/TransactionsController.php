@@ -11,9 +11,20 @@ use Illuminate\Support\Facades\DB;
 use App\Mail\PurchaseConfirmation;
 use Illuminate\Support\Facades\Mail;
 use App\item; 
+use App\Repositories\Interfaces\TransactionRepositoryInterface;
 
 class TransactionsController extends Controller
 {
+
+    protected $transactionRepo;
+    
+    public function __construct(TransactionRepositoryInterface $transactionRepo){
+    
+        $this->transactionRepo = $transactionRepo;
+        
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -21,15 +32,7 @@ class TransactionsController extends Controller
      */
     public function index()
     {
-        $itemsfk = DB::table('transactions')->where('email', Auth::user()->email)->pluck('item_fk');
-
-        $items = DB::table('items')
-                        ->join('transactions', 'items.id', '=', 'transactions.item_fk')
-                        ->select('items.id', 'items.Name', 'items.Price', 'items.Bulk_Price', 'items.Short_Description', 'items.Start_Date', 'items.End_Date', 'items.Status', 'items.Threshold', 'items.Number_Transactions', 'items.Status', 'items.Picture_URL', 'transactions.created_at')
-                        ->where('transactions.email', Auth::user()->email)
-                        ->orderBy('transactions.created_at', 'DESC')
-                        ->get();
-
+        $items = $this->transactionRepo->index();
         return view('layouts.purchasehistory')->with('items', $items);
     }
 
