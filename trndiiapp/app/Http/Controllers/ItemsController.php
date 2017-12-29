@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use DB;
-use Auth;
 use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterface;
 
 class ItemsController extends Controller
@@ -78,9 +76,9 @@ class ItemsController extends Controller
     public function show($id)
     {
 
-        $item=item::find($id);
+        $item=$this->itemRepo->find($id);
 
-        $checkCommit = DB::table('transactions')->where([['email', Auth::user()->email],['item_fk', $item->id]])->count();
+        $checkCommit = $this->itemRepo->checkCommit($item);
 
         return view('item.show')->withitem($item)
                                 ->with('checkCommit', $checkCommit);
@@ -96,11 +94,7 @@ class ItemsController extends Controller
     public function numTransactions($id)
     {
 
-        $numTransactions = DB::table('transactions')->where('item_fk', $id)->count();
-
-        DB::table('items')
-                        ->where('id', $id)
-                        ->update(['Number_Transactions' => $numTransactions]);
+        $this->itemRepo->numTransactions($id);
     }
 
 
@@ -125,10 +119,7 @@ class ItemsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $item = item::find($id);
-        
-        $item->Status = 'cancelled';
-        $item->save();
+        $this->itemRepo->update($id);
 
         return redirect('/viewAllItems')->with('success', 'Item removed!');
     }

@@ -5,6 +5,8 @@ namespace App\Repositories;
 use App\item;
 use App\Repositories\Interfaces\ItemRepositoryInterface;
 use Illuminate\Http\Request;
+use DB;
+use Auth;
 
 class ItemRepository implements ItemRepositoryInterface{
 
@@ -41,4 +43,30 @@ class ItemRepository implements ItemRepositoryInterface{
         return item::orderby('Name','asc')->paginate(10);
     }
 
+    public function update($id)
+    {
+        $item = item::find($id);
+
+        $item->Status = 'cancelled';
+        $item->save();
+    }
+
+    public function numTransactions($id)
+    {
+        $numTransactions = DB::table('transactions')->where('item_fk', $id)->count();
+
+        DB::table('items')
+            ->where('id', $id)
+            ->update(['Number_Transactions' => $numTransactions]);
+    }
+
+    public function find($id)
+    {
+        return item::find($id);
+    }
+
+    public function checkCommit($item)
+    {
+        return DB::table('transactions')->where([['email', Auth::user()->email],['item_fk', $item->id]])->count();
+    }
 }
