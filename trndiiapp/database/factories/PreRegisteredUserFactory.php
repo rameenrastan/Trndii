@@ -15,8 +15,8 @@ use Faker\Generator as Faker;
 
 $factory->define(App\PreregisteredUser::class, function (Faker $faker) {
     return [
-        'firstName' => $faker->name,
-        'lastName'=> $faker->regexify('514[1-9]{7}'),
+        'firstName' => $faker->firstName,
+        'lastName'=> $faker->lastName,
         'email'=> $faker->unique()->email,
     ];
 });
