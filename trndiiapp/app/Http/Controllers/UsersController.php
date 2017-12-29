@@ -11,11 +11,11 @@ use App\Repositories\Interfaces\UserRepositoryInterface;
 class UsersController extends Controller
 {
 
-    protected $user;
+    protected $userRepo;
 
-    public function _construct(UserRepositoryInterface $user){
+    public function __construct(UserRepositoryInterface $userRepo){
 
-        $this->user = $user;
+        $this->userRepo = $userRepo;
     }
 
     /**
@@ -104,16 +104,7 @@ class UsersController extends Controller
 
         if (Hash::check($curPassword, $user->password) && $confirmPassword == $newPassword && $confirmPassword != "" && $newPassword != "" && $curPasswordLenght > 0) {
 
-
-            $user->password = Hash::make($newPassword);
-            $user->name = $request->input('name');
-            $user->country = $request->input('country');
-            $user->postalcode = $request->input('postalcode');
-            $user->phone = $request->input('phone');
-            $user->addressline1 = $request->input("addressline1");
-            $user->addressline2 = $request->input("addressline2");
-            $user->city = $request->input("city");
-            $user->save();
+            $this->userRepo->update($request, $id);
             return redirect('/editDetails')->with('success', 'Account Details Updated!');
 
         }
@@ -130,14 +121,7 @@ class UsersController extends Controller
             return redirect('/editDetails')->with('error', "New Password and Confirm Password don't match.");
         }
         else{
-            $user->name = $request->input('name');
-            $user->country = $request->input('country');
-            $user->postalcode = $request->input('postalcode');
-            $user->phone = $request->input('phone');
-            $user->addressline1 = $request->input("addressline1");
-            $user->addressline2 = $request->input("addressline2");
-            $user->city = $request->input("city");
-            $user->save();
+            $this->userRepo->update($request, $id);
             return redirect('/editDetails')->with('success', 'Account Details Updated!');
         }
     }
