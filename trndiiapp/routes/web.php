@@ -31,6 +31,8 @@ Route::get('/purchaseHistory', 'TransactionsController@index');
 
 Route::get('/viewProgress', 'TransactionsController@index');
 
+Route::get('/supplier', 'SupplierController@index');
+
 Route::resource('preregisteredusers', 'PreregisteredUsersController');
     Route::prefix('admin')->group(function() {
         Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
