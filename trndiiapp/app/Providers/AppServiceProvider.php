@@ -32,11 +32,11 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(DuskServiceProvider::class);
         }
         
-//        $this->app->bind('App\Repositories\Interfaces\UserRepositoryInterface', 'App\Repositories\UserRepository');
-//        $this->app->bind('App\Repositories\Interfaces\ItemRepositoryInterface', 'App\Repositories\ItemRepository');
-//        $this->app->bind('App\Repositories\Interfaces\PdfRepositoryInterface', 'App\Repositories\PdfRepository');
-        $this->app->bind( INTERFACE_REPOSITORY_DIRECTORY+'\UserRepositoryInterface', REPOSITORY_DIRECTORY+'\UserRepository');
-        $this->app->bind(INTERFACE_REPOSITORY_DIRECTORY+'\ItemRepositoryInterface', REPOSITORY_DIRECTORY+'\ItemRepository');
-        $this->app->bind(INTERFACE_REPOSITORY_DIRECTORY+'\PdfRepositoryInterface', REPOSITORY_DIRECTORY+'\PdfRepository');
+        $this->app->bind('App\Repositories\Interfaces\UserRepositoryInterface', 'App\Repositories\UserRepository');
+        $this->app->bind('App\Repositories\Interfaces\ItemRepositoryInterface', 'App\Repositories\ItemRepository');
+        $this->app->bind('App\Repositories\Interfaces\PdfRepositoryInterface', 'App\Repositories\PdfRepository');
+//        $this->app->bind( INTERFACE_REPOSITORY_DIRECTORY+'\UserRepositoryInterface', REPOSITORY_DIRECTORY+'\UserRepository');
+//        $this->app->bind(INTERFACE_REPOSITORY_DIRECTORY+'\ItemRepositoryInterface', REPOSITORY_DIRECTORY+'\ItemRepository');
+//        $this->app->bind(INTERFACE_REPOSITORY_DIRECTORY+'\PdfRepositoryInterface', REPOSITORY_DIRECTORY+'\PdfRepository');
     }
 }

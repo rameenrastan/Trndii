@@ -5,6 +5,7 @@ use App\Repositories\Interfaces\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface {
 
+
     protected $user;
     
     public function __construct(User $user){

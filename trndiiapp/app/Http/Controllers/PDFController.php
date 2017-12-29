@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use PDF;
-use App\Repositories\Interfaces\PdfRepositoryInterface;
+
+use Illuminate\Support\Facades\DB;
+use App\Repositories\Interfaces\PdfRepositoryInterface as PdfRepositoryInterface;
 
 class PDFController extends Controller
 {
@@ -27,11 +29,28 @@ class PDFController extends Controller
         return $pdf->download('addresses.pdf');
     }
 
-    public function getPdfByItem(item $item)
+
+    public function getPdfByItem($itemId)
     {
 
 
-        $data = ['data' => $this->pdfRepo->findAddressByItem($item)];
+        $data = ['data' => $this->pdfRepo->findAddressByItemId($itemId)];
+
+        $pdf = PDF::loadView('pdf.addresses', $data);
+
+        return $pdf->download('addresses.pdf');
+
+
+    }
+    public function getPdfByItemTest(PdfRepositoryInterface $pdfRepo)
+    {
+
+
+
+        $itemId = 1;
+
+
+        $data = ['data' => $pdfRepo->findAddressByItemId($itemId)];
 
         $pdf = PDF::loadView('pdf.addresses', $data);
 
