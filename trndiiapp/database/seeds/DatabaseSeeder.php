@@ -23,5 +23,8 @@ class DatabaseSeeder extends Seeder
 
         // admins
         $this->call(AdminsTableSeeder::class);
+
+        // purchased items
+        $this->call(PurchasedItemsTableSeeder::class);
     }
 }
