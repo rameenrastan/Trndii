@@ -22,7 +22,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'addressline1'=> $faker->address,
         'postalcode'=>$faker->regexify('H[0-9]{1}[A-Z]{1} [0-9]{1}[A-Z]{1}[0-9]{1}'),
         'city'=>$faker->city,
-        'country'=>$faker->country,
+        'country'=>'Canada',
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
