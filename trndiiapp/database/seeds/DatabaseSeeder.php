@@ -21,11 +21,7 @@ class DatabaseSeeder extends Seeder
         // pre-registered users
         $this->call(PreRegisteredUserTableSeeder::class);
 
-        $admin = new admin;
-        $admin->name = "testAdmin";
-        $admin->email = "admin@admin.com";
-        $admin->password = Hash::make('password');
-        $admin->save();
-
+        // admins
+        $this->call(AdminsTableSeeder::class);
     }
 }
