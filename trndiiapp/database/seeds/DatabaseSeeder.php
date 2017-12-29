@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
         // users
         $this->call(UsersTableSeeder::class);
 
-        factory(App\item::class, 50)->create();
-
+        // items
+        $this->call(ItemsTableSeeder::class);
 
         $admin = new admin;
         $admin->name = "testAdmin";
