@@ -21,6 +21,7 @@ class ItemsController extends Controller
     public function index(){
 
         $items=$this->itemRepo->index();
+        Log::info("User " . Auth::user()->email . " is viewing the item list");
         return view('item.index')->with('items',$items);
 
     }
@@ -32,7 +33,7 @@ class ItemsController extends Controller
      */
     public function create()
     {
-
+        Log::info("User " . Auth::user()->email . "is viewing the item creation page");
         return view('item.create');
     }
 
@@ -81,7 +82,7 @@ class ItemsController extends Controller
         $item=$this->itemRepo->find($id);
 
         $checkCommit = $this->itemRepo->checkCommit($item);
-
+        Log::info("User " . Auth::user()->email . " is viewing the page for " . $item->Name);
         return view('item.show')->withitem($item)
                                 ->with('checkCommit', $checkCommit);
     }
@@ -140,6 +141,7 @@ class ItemsController extends Controller
     public function viewAllItems()
     {
         $items=$this->itemRepo->viewAllItems();
+        Log::info("User " . Auth::user()->email . " is viewing all items.");
         return view('item.viewAllItems')->with('items',$items);
     }
 }

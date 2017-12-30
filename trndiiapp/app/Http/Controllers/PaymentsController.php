@@ -54,7 +54,7 @@ class PaymentsController extends Controller
 
    
         $this->userRepo->updateCreditCard($auth->email, $customer->id);
-        Log::info($user->email . " has updated their credit card.");
+        Log::info("User " . $user->email . " has updated their credit card.");
         return redirect('/editDetails')->with('success', 'Credit Card Updated');
 
     }
@@ -112,7 +112,7 @@ class PaymentsController extends Controller
 
                         app('App\Http\Controllers\TransactionsController')->updatePurchaseHistory($user->email, $expiredItem->id);
 
-                        Log::info($user->email . " has been sent a transaction confirmation email for " . $item->Name);
+                        Log::info("User " . $user->email . " has been sent a transaction confirmation email for " . $item->Name);
                         Mail::to($transaction->email)->send(new PurchaseCompleted($item, $user));
 
                  }
@@ -124,7 +124,7 @@ class PaymentsController extends Controller
                     foreach($transactions as $transaction){
                         
                         $user = $this->userRepo->findByEmail($transaction->email);
-                        Log::info($user->email . " has been sent an item expired email for " . $item->Name);
+                        Log::info("User " . $user->email . " has been sent an item expired email for " . $item->Name);
                         Mail::to($transaction->email)->send(new ItemExpired($item, $user));
                     }    
 
@@ -135,6 +135,4 @@ class PaymentsController extends Controller
         }
 
     }
-
-
 }

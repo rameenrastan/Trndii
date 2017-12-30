@@ -24,6 +24,7 @@ class AdminController extends Controller
      */
     public function index()
     {
+        Log::info("User " . Auth::user()->email . " is viewing the admin home page.");
         return view('admin.admin-home');
     }
 

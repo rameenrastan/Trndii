@@ -16,6 +16,7 @@ class PreregisteredUsersController extends Controller
      */
     public function index()
     {
+        Log::info("A user is viewing the preregistration page");
         return view('preregistration');
     }
 

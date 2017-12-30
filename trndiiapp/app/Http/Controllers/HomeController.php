@@ -23,6 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        Log::info("User " . Auth::user()->email . " is viewing the home page.");
         return view('home');
     }
 }

@@ -11,6 +11,7 @@ use Log;
 class PagesController extends Controller
 {
     public function getContact(){
+        Log::info("User " . Auth::user()->email . " is viewing the contact page.");
         return view('contact');
     }
 
@@ -42,8 +43,5 @@ class PagesController extends Controller
         else{
             return redirect()->route('login');
         }
-
-
-
     }
 }
