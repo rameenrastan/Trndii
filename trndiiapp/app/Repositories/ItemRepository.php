@@ -7,6 +7,7 @@ use App\Repositories\Interfaces\ItemRepositoryInterface;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
+use Carbon\Carbon;
 
 class ItemRepository implements ItemRepositoryInterface{
 
@@ -68,5 +69,20 @@ class ItemRepository implements ItemRepositoryInterface{
     public function checkCommit($item)
     {
         return DB::table('transactions')->where([['email', Auth::user()->email],['item_fk', $item->id]])->count();
+    }
+
+    public function setThresholdReached($id)
+    {
+        DB::table('items')->where('id', $id)->update(['status' => 'threshold reached']);
+    }
+
+    public function getExpiredItems()
+    {
+        return DB::table('items')->whereRaw('date(End_Date) = ?', [Carbon::today()])->get();
+    }
+
+    public function setExpired($id)
+    {
+        DB::table('items')->where('id', $id)->update(['status' => 'expired']);
     }
 }

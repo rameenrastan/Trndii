@@ -28,4 +28,19 @@ class TransactionRepository implements TransactionRepositoryInterface {
 
     }
 
+    public function insert($email, $itemId){
+
+        DB::table('transactions')->insert([
+
+               ['email' => $email, 'item_fk' => $itemId]
+            
+            ]);
+    }
+
+    public function getAllByItemId($id){
+
+        return DB::table('transactions')->where('item_fk', $id)->get();
+
+    }
+
 }

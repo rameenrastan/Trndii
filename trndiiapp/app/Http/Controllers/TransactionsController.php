@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Mail\PurchaseConfirmation;
 use Illuminate\Support\Facades\Mail;
 use App\item; 
-use App\Repositories\Interfaces\TransactionRepositoryInterface;
+use App\Repositories\Interfaces\TransactionRepositoryInterface as TransactionRepositoryInterface;
 
 class TransactionsController extends Controller
 {
@@ -94,11 +94,7 @@ class TransactionsController extends Controller
 
         if($stripeId != ''){
 
-                DB::table('transactions')->insert([
-                
-                   ['email' => Auth::user()->email, 'item_fk' => $id]
-                
-                ]);
+            $this->transactionRepo->insert(Auth::user()->email, $id);    
 
             app('App\Http\Controllers\ItemsController')->numTransactions($id);    
             
