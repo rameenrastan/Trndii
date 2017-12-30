@@ -8,6 +8,7 @@
 - Eric Payette (27008058) / [mosquitodawg](https://github.com/mosquitodawg)
 - Rameen Rastan-Vadiveloo (27191863) / [rameenrastan](https://github.com/rameenrastan)
 - Jason Tsalikis (25892120) / [jason10129](https://github.com/jason10129)
+- Peter Boulos (26671187) / [Peter0892](https://github.com/Peter0892)
 
 ## Installation:
 1. Run `git clone https://github.com/Laradock/laradock.git` in trndiiapp folder
