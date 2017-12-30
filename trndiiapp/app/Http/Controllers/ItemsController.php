@@ -6,6 +6,7 @@ use App\item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterface;
+use Log;
 
 class ItemsController extends Controller
 {
@@ -64,6 +65,7 @@ class ItemsController extends Controller
         $this->itemRepo->store($request);
 
         //Redirect
+        Log::info("User " . Auth::user()->email . "created item " . $request->Name . " has been created.");
         return redirect('/admin')->with('success', 'Item successfully created.');
     }
 

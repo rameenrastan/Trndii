@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Repositories\Interfaces\UserRepositoryInterface as UserRepositoryInterface;
 use App\Repositories\Interfaces\TransactionRepositoryInterface as TransactionRepositoryInterface;
 use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterface;
+use Log;
 
 class PaymentsController extends Controller
 {
@@ -53,7 +54,7 @@ class PaymentsController extends Controller
 
    
         $this->userRepo->updateCreditCard($auth->email, $customer->id);
-        
+        Log::info($user->email . " has updated their credit card.");
         return redirect('/editDetails')->with('success', 'Credit Card Updated');
 
     }
@@ -111,6 +112,7 @@ class PaymentsController extends Controller
 
                         app('App\Http\Controllers\TransactionsController')->updatePurchaseHistory($user->email, $expiredItem->id);
 
+                        Log::info($user->email . " has been sent a transaction confirmation email for " . $item->Name);
                         Mail::to($transaction->email)->send(new PurchaseCompleted($item, $user));
 
                  }
@@ -122,6 +124,7 @@ class PaymentsController extends Controller
                     foreach($transactions as $transaction){
                         
                         $user = $this->userRepo->findByEmail($transaction->email);
+                        Log::info($user->email . " has been sent an item expired email for " . $item->Name);
                         Mail::to($transaction->email)->send(new ItemExpired($item, $user));
                     }    
 
