@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\item;
+use App\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use DB;
@@ -10,6 +11,7 @@ use Auth;
 
 class ItemsController extends Controller
 {
+    
     public function index(){
 
         $items=item::orderby('Name','asc')->where('Status', '!=', 'cancelled')->paginate(10);
@@ -24,8 +26,9 @@ class ItemsController extends Controller
      */
     public function create()
     {
+        $supplierNames = Supplier::pluck('name');
 
-        return view('item.create');
+        return view('item.create', compact('supplierNames'));
     }
 
     /**
@@ -50,7 +53,8 @@ class ItemsController extends Controller
             'Start_Date' => 'required| date',
             'End_Date' => 'required| date',
             'Picture_URL' => 'required| string',
-            'Shipping_To' => 'required'
+            'Shipping_To' => 'required',
+            'Supplier' => 'required| string'
         ));
 
         //Store in database
@@ -68,6 +72,7 @@ class ItemsController extends Controller
         $item->End_Date=$request->End_Date;
         $item->Picture_URL=$request->Picture_URL;
         $item->Shipping_To=$request->Shipping_To;
+        $item->Supplier=$request->Supplier;
 
         $item->save();
 
