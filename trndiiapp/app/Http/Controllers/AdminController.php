@@ -52,8 +52,8 @@ class AdminController extends Controller
         //Validate data
         $this->validate($request, array(
 
-            'Name'=>'required|max:255',
-            'Phone'=>'required',
+            'name'=>'required|max:255',
+            'phone'=>'required',
             'addressline1'=>'required',
             'addressline2'=>'required',
             'postalcode' => 'required',
@@ -65,12 +65,12 @@ class AdminController extends Controller
         ));
 
         //Store in database
-        $supplier= new Supplier();
+        $supplier= new Supplier;
 
-        $supplier->Name=$request->Name;
-        $supplier->Phone=$request->Phone;
-        $supplier->Addressline1=$request->Addressline1;
-        $supplier->Addressline2=$request->Adressline2;
+        $supplier->name=$request->name;
+        $supplier->phone=$request->phone;
+        $supplier->addressline1=$request->addressline1;
+        $supplier->addressline2=$request->adressline2;
         $supplier->postalcode=$request->postalcode;
         $supplier->city=$request->city;
         $supplier->country=$request->country;

@@ -30,16 +30,16 @@
                         {!! Form::open(array('action' => 'AdminController@storeSupplier'))!!}
 
                         <div class="form-group">
-                            {{Form::label('Name', 'Supplier Name',array('class'=>'col-md-4 control-label'))}}
+                            {{Form::label('name', 'Supplier Name',array('class'=>'col-md-4 control-label'))}}
                             <div class="col-md-6">
-                                {{Form::text('Name', '', array('class' => 'form-control'))}}
+                                {{Form::text('name',null , array('class' => 'form-control'))}}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            {{Form::label('Phone','Phone number',array('class'=>'col-md-4 control-label'))}}
+                            {{Form::label('phone','Phone number',array('class'=>'col-md-4 control-label'))}}
                             <div class="col-md-6">
-                                {{Form::number('Phone',null, array('placeholder'=>'5143334444','class' => 'form-control'))}}
+                                {{Form::number('phone',null, array('placeholder'=>'5143334444','class' => 'form-control'))}}
                             </div>
                         </div>
 
@@ -86,7 +86,7 @@
                         </div>
 
                         <div class="form-group">
-                            {{Form::label('Password','Password',array('class'=>'col-md-4 control-label'))}}
+                            {{Form::label('password','Password',array('class'=>'col-md-4 control-label'))}}
                             <div class="col-md-6">
                                 {{ Form::password('password', array('class' => 'form-control'))}}
                             </div>
