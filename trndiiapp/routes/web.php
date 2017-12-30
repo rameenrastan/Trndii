@@ -32,6 +32,9 @@ Route::get('/purchaseHistory', 'TransactionsController@index');
 Route::get('/viewProgress', 'TransactionsController@index');
 
 Route::get('/supplier', 'SupplierController@index');
+Route::get('/supplier/create', 'AdminController@createSupplier');
+//Route::post('/supplier/store', 'AdminController@storeSupplier');
+
 
 Route::resource('preregisteredusers', 'PreregisteredUsersController');
     Route::prefix('admin')->group(function() {
