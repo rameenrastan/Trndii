@@ -90,7 +90,7 @@ class TransactionsController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        
         $stripeId = Auth::user()->stripe_id;
         $user = Auth::user();
         if($stripeId != ''){
@@ -102,14 +102,14 @@ class TransactionsController extends Controller
             $item = item::find($id);    
             Mail::to(Auth::user()->email)->send(new PurchaseConfirmation($item, Auth::user() ));
 
-            Log::info('User ' . $user->email . ' successfully commited to purchasing ' . $item->name);
+            Log::info('User ' . $user->email . ' successfully commited to purchasing ' . $item->Name);
             return redirect('/')->with('success', 'You have successfully commited to this purchase. You will be notified if the item reaches its threshold. Thanks!');
             
         }
         
         else{
 
-            Log::info('User ' . $user->email . ' was unable to commit to purchasing ' . $item->name);
+            Log::info('User ' . $user->email . ' attempted to purchase item ' . $id . ' without a registered credit card.');
             return back()->with('error', 'You do not have a Credit Card registered with this account. Please go to the Edit Account page and register a payment option.');
 
         }           
