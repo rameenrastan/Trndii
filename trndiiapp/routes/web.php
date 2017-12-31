@@ -31,7 +31,13 @@ Route::get('/purchaseHistory', 'TransactionsController@index');
 
 Route::get('/viewProgress', 'TransactionsController@index');
 
-Route::get('/supplier', 'SupplierController@index');
+Route::get('/supplier/items', 'SupplierController@viewItemsStatus');
+
+Route::prefix('supplier')->group(function(){
+    Route::get('/login', 'Auth\SupplierLoginController@showLoginForm')->name('supplier.login');
+    Route::post('/login', 'Auth\SupplierLoginController@login')->name('supplier.login.submit');
+    Route::get('/', 'SupplierController@index')->name('supplier.home');
+});
 
 Route::resource('preregisteredusers', 'PreregisteredUsersController');
     Route::prefix('admin')->group(function() {

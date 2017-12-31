@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\item;
+use Auth;
+use Illuminate\Support\Facades\DB;  
 use Illuminate\Http\Request;
 
 class SupplierController extends Controller
@@ -24,5 +27,12 @@ class SupplierController extends Controller
     public function index()
     {
         return view('supplier-home');
+    }
+
+    public function viewItemsStatus(Request $request)
+    {
+        $supplierItems = DB::table('items')->where('Supplier','=', Auth::user()->name /*'test'*/)->get();
+        
+        return view('supplier.viewItemsStatus', compact('supplierItems'));
     }
 }
