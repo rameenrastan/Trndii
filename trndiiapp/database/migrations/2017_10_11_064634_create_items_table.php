@@ -28,6 +28,7 @@ class CreateItemsTable extends Migration
             $table->datetime('End_Date');
             $table->string('Picture_URL');
             $table->string('Shipping_To');
+            $table->string('Supplier');
 
             $table->timestamps();
         });

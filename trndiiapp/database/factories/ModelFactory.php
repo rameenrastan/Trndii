@@ -41,6 +41,7 @@ $factory->define(App\item::class, function (Faker\Generator $faker) {
         'End_Date'=>$faker->date,
         'Picture_URL'=>$faker->imageUrl($width = 800, $height = 600, 'cats'),
         'Shipping_To'=>"Canada",
+        'Supplier'=>"Unreal Supplies",
         'created_at'=>$faker->date,
         'updated_at'=>$faker->date
     ];

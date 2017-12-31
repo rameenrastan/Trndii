@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\item;
+use App\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use DB;
@@ -33,8 +34,11 @@ class ItemsController extends Controller
      */
     public function create()
     {
+        $supplierNames = Supplier::pluck('name')->toArray();
 
-        return view('item.create');
+        $supplierNames=array_combine($supplierNames,$supplierNames);
+
+        return view('item.create', compact('supplierNames'));
     }
 
     /**
@@ -59,7 +63,8 @@ class ItemsController extends Controller
             'Start_Date' => 'required| date',
             'End_Date' => 'required| date',
             'Picture_URL' => 'required| string',
-            'Shipping_To' => 'required'
+            'Shipping_To' => 'required',
+            'Supplier' => 'required| string'
         ));
 
         //Store in database
