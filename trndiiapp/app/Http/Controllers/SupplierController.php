@@ -31,7 +31,7 @@ class SupplierController extends Controller
 
     public function viewItemsStatus(Request $request)
     {
-        $supplierItems = DB::table('items')->where('Supplier','=', Auth::user()->name /*'test'*/)->get();
+        $supplierItems = DB::table('items')->where('Supplier','=', Auth::user()->name)->get();
         
         return view('supplier.viewItemsStatus', compact('supplierItems'));
     }
