@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\item;
+use App\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterface;
@@ -34,8 +35,15 @@ class ItemsController extends Controller
      */
     public function create()
     {
+
+        $supplierNames = Supplier::pluck('name')->toArray();
+
+        $supplierNames=array_combine($supplierNames,$supplierNames);
+
+        return view('item.create', compact('supplierNames'));
+
         Log::info("User " . Auth::user()->email . "is viewing the item creation page");
-        return view('item.create');
+
     }
 
     /**
@@ -60,7 +68,8 @@ class ItemsController extends Controller
             'Start_Date' => 'required| date',
             'End_Date' => 'required| date',
             'Picture_URL' => 'required| string',
-            'Shipping_To' => 'required'
+            'Shipping_To' => 'required',
+            'Supplier' => 'required| string'
         ));
 
         //Store in database

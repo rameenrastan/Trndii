@@ -87,6 +87,13 @@
                             </div>
 
                             <div class="form-group">
+                                {{Form::label('Supplier','Supplier',array('class'=>'col-md-4 control-label'))}}
+                                <div class="col-md-6">
+                                    {{ Form::select('Supplier', $supplierNames, null, array('class' => 'form-control'))}}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 {{Form::label('Shipping To','Shipping To',array('class'=>'col-md-4 control-label'))}}
                                 <div class="col-md-6">
                                     {{ Form::select('Shipping_To', ['Canada and United States'=>'Canada, United States', 'Canada'=>'Canada', 'United States'=>'United States'], null, array('class' => 'form-control'))}}

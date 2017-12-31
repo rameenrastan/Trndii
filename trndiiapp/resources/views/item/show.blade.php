@@ -19,6 +19,11 @@
                 </div>
             </div>
             <div class="row" style="font-size: 20px;">
+                <div class="col-md-12 text-center">
+                    <strong>Supplied by {{$item->Supplier}}</strong>
+                </div>
+            </div>
+            <div class="row" style="font-size: 20px;">
                 <div class="col-md-4 text-center">
                     Price: ${{$item->Price}}
                 </div>

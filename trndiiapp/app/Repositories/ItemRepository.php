@@ -30,6 +30,7 @@ class ItemRepository implements ItemRepositoryInterface{
         $item->End_Date=$request->End_Date;
         $item->Picture_URL=$request->Picture_URL;
         $item->Shipping_To=$request->Shipping_To;
+        $item->Supplier=$request->Supplier;
 
         $item->save();
         Log::info('Database query: item ' . $item->id . ' created');

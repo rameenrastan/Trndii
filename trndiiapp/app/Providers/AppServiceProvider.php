@@ -8,6 +8,9 @@ use Laravel\Dusk\DuskServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+
+    const INTERFACE_REPOSITORY_DIRECTORY = "App\Repositories\Interfaces";
+    const REPOSITORY_DIRECTORY = "App\Repositories";
     /**
      * Bootstrap any application services.
      *
@@ -28,9 +31,9 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment('local', 'testing')) {
             $this->app->register(DuskServiceProvider::class);
         }
-        
         $this->app->bind('App\Repositories\Interfaces\UserRepositoryInterface', 'App\Repositories\UserRepository');
         $this->app->bind('App\Repositories\Interfaces\ItemRepositoryInterface', 'App\Repositories\ItemRepository');
+        $this->app->bind('App\Repositories\Interfaces\PdfRepositoryInterface', 'App\Repositories\PdfRepository');
         $this->app->bind('App\Repositories\Interfaces\TransactionRepositoryInterface', 'App\Repositories\TransactionRepository');
     }
 }

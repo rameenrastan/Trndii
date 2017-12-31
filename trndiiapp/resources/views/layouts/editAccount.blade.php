@@ -98,7 +98,7 @@
                     'Cook Islands' => 'Cook Islands',
                     'Chile' => 'Chile',
                     'Cameroon' => 'Cameroon',
-                    'PeopleÃ¢â‚¬â„¢s Republic of China' => 'PeopleÃ¢â‚¬â„¢s Republic of China',
+                    'Peoples_Republic of China' => 'Peoples Republic of China',
                     'Colombia' => 'Colombia',
                     'Costa Rica' => 'Costa Rica',
                     'Cuba' => 'Cuba',

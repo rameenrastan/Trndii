@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\admin;
+use App\supplier;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,6 +22,24 @@ class DatabaseSeeder extends Seeder
 
         // pre-registered users
         $this->call(PreRegisteredUserTableSeeder::class);
+
+        $supplier = new supplier;
+        $supplier->name = "FakeSupplier";
+        $supplier->email = "sup@sup.com";
+        $supplier->password = Hash::make('password');
+        $supplier->save();
+
+        $supplier = new supplier;
+        $supplier->name = "Suprimo";
+        $supplier->email = "sup1@sup.com";
+        $supplier->password = Hash::make('password');
+        $supplier->save();
+
+        $supplier = new supplier;
+        $supplier->name = "Quinn and Val";
+        $supplier->email = "sup2@sup.com";
+        $supplier->password = Hash::make('password');
+        $supplier->save();
 
         // admins
         $this->call(AdminsTableSeeder::class);
