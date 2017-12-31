@@ -6,9 +6,9 @@ use App\item;
 use App\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use DB;
-use Auth;
 use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterface;
+use Log;
+use Auth;
 
 class ItemsController extends Controller
 {
@@ -23,6 +23,7 @@ class ItemsController extends Controller
     public function index(){
 
         $items=$this->itemRepo->index();
+        Log::info("User " . Auth::user()->email . " is viewing the item list");
         return view('item.index')->with('items',$items);
 
     }
@@ -34,11 +35,15 @@ class ItemsController extends Controller
      */
     public function create()
     {
+
         $supplierNames = Supplier::pluck('name')->toArray();
 
         $supplierNames=array_combine($supplierNames,$supplierNames);
 
         return view('item.create', compact('supplierNames'));
+
+        Log::info("User " . Auth::user()->email . "is viewing the item creation page");
+
     }
 
     /**
@@ -71,6 +76,7 @@ class ItemsController extends Controller
         $this->itemRepo->store($request);
 
         //Redirect
+        Log::info("User " . Auth::user()->email . " created new item " . $request->Name );
         return redirect('/admin')->with('success', 'Item successfully created.');
     }
 
@@ -83,10 +89,10 @@ class ItemsController extends Controller
     public function show($id)
     {
 
-        $item=item::find($id);
+        $item=$this->itemRepo->find($id);
 
-        $checkCommit = DB::table('transactions')->where([['email', Auth::user()->email],['item_fk', $item->id]])->count();
-
+        $checkCommit = $this->itemRepo->checkCommit($item);
+        Log::info("User " . Auth::user()->email . " is viewing the page for " . $item->Name);
         return view('item.show')->withitem($item)
                                 ->with('checkCommit', $checkCommit);
     }
@@ -101,11 +107,7 @@ class ItemsController extends Controller
     public function numTransactions($id)
     {
 
-        $numTransactions = DB::table('transactions')->where('item_fk', $id)->count();
-
-        DB::table('items')
-                        ->where('id', $id)
-                        ->update(['Number_Transactions' => $numTransactions]);
+        $this->itemRepo->numTransactions($id);
     }
 
 
@@ -130,10 +132,7 @@ class ItemsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $item = item::find($id);
-        
-        $item->Status = 'cancelled';
-        $item->save();
+        $this->itemRepo->update($id);
 
         return redirect('/viewAllItems')->with('success', 'Item removed!');
     }
@@ -152,6 +151,7 @@ class ItemsController extends Controller
     public function viewAllItems()
     {
         $items=$this->itemRepo->viewAllItems();
+        Log::info("User " . Auth::user()->email . " is viewing all items.");
         return view('item.viewAllItems')->with('items',$items);
     }
 }

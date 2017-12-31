@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\PreregisteredUser;
 use Illuminate\Validation\Rule;
+use Log;
 
 class PreregisteredUsersController extends Controller
 {
@@ -15,6 +16,7 @@ class PreregisteredUsersController extends Controller
      */
     public function index()
     {
+        Log::info("A user is viewing the preregistration page");
         return view('preregistration');
     }
 
@@ -47,7 +49,8 @@ class PreregisteredUsersController extends Controller
         $preregisteredUser->lastName = $request->input('lastName');
         $preregisteredUser->email = $request->input('email');
         $preregisteredUser->save();
-
+        
+        Log::info($preregisteredUser->email . " has preregistered an account.");
         return redirect('/preregistration')->with('success', 'Thank you for your interest! You will be notified via email when the website goes live.');
     }
 

@@ -26,7 +26,6 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 
 $factory->define(App\item::class, function (Faker\Generator $faker) {
-
     return [
         'id' => $faker->unique()->randomNumber(),
         'Name' => $faker->name,

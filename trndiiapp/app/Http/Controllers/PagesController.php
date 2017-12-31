@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+use Log;
 
 class PagesController extends Controller
 {
     public function getContact(){
+        Log::info("User " . Auth::user()->email . " is viewing the contact page.");
         return view('contact');
     }
 
@@ -32,6 +34,7 @@ class PagesController extends Controller
                     $message->subject($data['subject']);
         });
 
+        Log::info($request->email . " has sent a contact email.");
         session()->flash('success','Email has been sent successfully!');
 
         if (Auth::check()) {
@@ -40,8 +43,5 @@ class PagesController extends Controller
         else{
             return redirect()->route('login');
         }
-
-
-
     }
 }
