@@ -14,6 +14,8 @@
             <a href="/item/create">Click here to add item</a>
             <br>
             <a href="/viewAllItems">Click here to view all items</a>
+            <br>
+            <a href="/supplier/create">Click here to add supplier</a>
         </div>
     </div>
 @endsection

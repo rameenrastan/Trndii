@@ -26,7 +26,9 @@ class ItemsController extends Controller
      */
     public function create()
     {
-        $supplierNames = Supplier::pluck('name');
+        $supplierNames = Supplier::pluck('name')->toArray();
+
+        $supplierNames=array_combine($supplierNames,$supplierNames);
 
         return view('item.create', compact('supplierNames'));
     }
