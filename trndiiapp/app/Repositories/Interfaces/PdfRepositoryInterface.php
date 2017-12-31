@@ -6,7 +6,7 @@ namespace App\Repositories\Interfaces;
 
 interface PdfRepositoryInterface {
 
-    public function findAddressByItem($item);
+    public function findAddressByItemId($itemId);
 
 
 }

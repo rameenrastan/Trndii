@@ -32,22 +32,24 @@ class PDFController extends Controller
     }
 
 
-    public function getPdfByItem(PdfRepositoryInterface $pdfRepo , $itemId)
+    public function getPdfByItem(PdfRepositoryInterface $pdfRepo , $itemId, $itemName)
     {
 
         $data = ['data' => $pdfRepo->findAddressByItemId($itemId)];
 
         $pdf = PDF::loadView('pdf.addresses', $data);
 
-        return $pdf->download('addresses.pdf');
+
+        $pdfName = $itemName . "_Addresses.pdf";
+
+        return $pdf->download($pdfName);
 
 
 
     }
+
     public function getPdfByItemTest(PdfRepositoryInterface $pdfRepo)
     {
-
-
 
         $itemId = 1;
 
@@ -57,9 +59,8 @@ class PDFController extends Controller
 
         $pdfName = $itemId . "Addresses.pdf";
 
-
         return $pdf->download($pdfName);
-
-
     }
+
+
 }

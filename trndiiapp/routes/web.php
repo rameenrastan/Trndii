@@ -37,8 +37,8 @@ Route::get('/supplier/create', 'AdminController@createSupplier');
 Route::post('/supplier/store', 'AdminController@storeSupplier');
 
 Route::prefix('supplier')->group(function(){
-    Route::get('/login', 'Auth\SupplierLoginController@showLoginForm')->name('supplier.login');
-    Route::post('/login', 'Auth\SupplierLoginController@login')->name('supplier.login.submit');
+    Route::get('login', 'Auth\SupplierLoginController@showLoginForm')->name('supplier.login');
+    Route::post('login', 'Auth\SupplierLoginController@login')->name('supplier.login.submit');
     Route::get('/', 'SupplierController@index')->name('supplier.home');
 });
 
@@ -64,5 +64,10 @@ Route::post('contact', 'PagesController@postContact');
 Route::get('/viewAllItems', 'ItemsController@viewAllItems');
 
 Route::get('/addresses', 'PDFController@makePDF');
+
 Route::get('/testPDF', 'PDFController@getPdfByItemTest');
 
+$router->get('/pdfInfo/{itemId}/{itemName}',[
+    'uses' => 'PDFController@getPdfByItem',
+    'as'   => 'PdfController'
+]);

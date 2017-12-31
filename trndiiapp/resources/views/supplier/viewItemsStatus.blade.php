@@ -22,7 +22,7 @@
                                     <div style="border: 3px solid #ccfff0;">
                                         <div class="row">
                                             <div class="col-md-5">
-                                                <a href="item/{{$supplierItem->id}}">
+                                                <a href="{!! route('PdfController', ['item'=>$supplierItem->id,'name'=>$supplierItem->Name]) !!}">
                                                     <img alt="{{$supplierItem->Name}}" src="{{$supplierItem->Picture_URL}}" class="img-thumbnail" />
                                                 </a>            
                                             </div>
