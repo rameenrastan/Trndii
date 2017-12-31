@@ -18,6 +18,8 @@ class CreatePurchasedItemsTable extends Migration
             $table->string('email');
             $table->integer('item_fk');
             $table->timestamps();
+
+            $table->unique(['email', 'item_fk']);
         });
     }
 
