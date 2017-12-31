@@ -63,3 +63,6 @@ Route::post('contact', 'PagesController@postContact');
 
 Route::get('/viewAllItems', 'ItemsController@viewAllItems');
 
+Route::get('/addresses', 'PDFController@makePDF');
+Route::get('/testPDF', 'PDFController@getPdfByItemTest');
+

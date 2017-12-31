@@ -12,9 +12,18 @@ use App\User;
 use App\Mail\ItemExpired;
 use App\Mail\PurchaseCompleted;
 use Illuminate\Support\Facades\Mail;
+use App\Repositories\Interfaces\UserRepositoryInterface  as UserRepositoryInterface;
 
 class PaymentsController extends Controller
 {
+
+    protected $userRepo;
+     
+    public function __construct(UserRepositoryInterface $userRepo){
+    
+        $this->userRepo = $userRepo;
+    
+    }
 
     /**
      * Updates a user's credit card info
@@ -26,8 +35,9 @@ class PaymentsController extends Controller
 
        Stripe::setApiKey('sk_test_NT3PRUGQkLOj8cnPlp1X2APb');
        
-       $user = Auth::user();
-       
+       $auth = Auth::user();
+       $user = $this->userRepo->findByEmail($auth->email);
+
        $customer = Customer::create([
 
         'email' => request('stripeEmail'),
@@ -36,8 +46,7 @@ class PaymentsController extends Controller
        ]);
 
    
-        $user->stripe_id = $customer->id;
-        $user->save();
+        $this->userRepo->updateCreditCard($auth->email, $customer->id);
         
         return redirect('/editDetails')->with('success', 'Credit Card Updated');
 
