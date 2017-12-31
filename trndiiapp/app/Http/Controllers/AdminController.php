@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Admin;
 use Illuminate\Http\Request;
+use Log;
+use Auth;
 
 class AdminController extends Controller
 {
@@ -24,6 +26,7 @@ class AdminController extends Controller
      */
     public function index()
     {
+        Log::info("User " . Auth::user()->email . " is viewing the admin home page.");
         return view('admin.admin-home');
     }
 

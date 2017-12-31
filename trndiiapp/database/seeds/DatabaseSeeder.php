@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\admin;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,14 +11,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\item::class, 50)->create();
+        // users
+        $this->call(UsersTableSeeder::class);
 
+        // items
+        $this->call(ItemsTableSeeder::class);
 
-        $admin = new admin;
-        $admin->name = "testAdmin";
-        $admin->email = "admin@admin.com";
-        $admin->password = Hash::make('password');
-        $admin->save();
+        // pre-registered users
+        $this->call(PreRegisteredUserTableSeeder::class);
 
+        // admins
+        $this->call(AdminsTableSeeder::class);
+
+        // transactions
+        $this->call(TransactionsTableSeeder::class);
     }
 }

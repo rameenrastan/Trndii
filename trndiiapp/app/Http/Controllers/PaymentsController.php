@@ -12,9 +12,25 @@ use App\User;
 use App\Mail\ItemExpired;
 use App\Mail\PurchaseCompleted;
 use Illuminate\Support\Facades\Mail;
+use App\Repositories\Interfaces\UserRepositoryInterface as UserRepositoryInterface;
+use App\Repositories\Interfaces\TransactionRepositoryInterface as TransactionRepositoryInterface;
+use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterface;
+use Log;
 
 class PaymentsController extends Controller
 {
+
+    protected $userRepo;
+    protected $transactionRepo;
+    protected $itemRepo;
+     
+    public function __construct(UserRepositoryInterface $userRepo, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo){
+    
+        $this->userRepo = $userRepo;
+        $this->transactionRepo = $transactionRepo;
+        $this->itemRepo = $itemRepo;
+    
+    }
 
     /**
      * Updates a user's credit card info
@@ -26,8 +42,9 @@ class PaymentsController extends Controller
 
        Stripe::setApiKey('sk_test_NT3PRUGQkLOj8cnPlp1X2APb');
        
-       $user = Auth::user();
-       
+       $auth = Auth::user();
+       $user = $this->userRepo->findByEmail($auth->email);
+
        $customer = Customer::create([
 
         'email' => request('stripeEmail'),
@@ -36,26 +53,12 @@ class PaymentsController extends Controller
        ]);
 
    
-        $user->stripe_id = $customer->id;
-        $user->save();
-        
+        $this->userRepo->updateCreditCard($auth->email, $customer->id);
+        Log::info("User " . $user->email . " has updated their credit card.");
         return redirect('/editDetails')->with('success', 'Credit Card Updated');
 
     }
 
-
-    /**
-     * Creates a transaction and adds it to the database
-     * 
-     * @param $customerId, $itemId
-     * @return void
-     */
-    public function commitPurchase($customerId, $itemId){
-
-        $transaction = new Transaction(['customer_id' => $customerId, 'item_id' => $itemId]);
-        $transaction -> save();
-
-    }
 
     /**
      * Charges a user's credit card
@@ -87,40 +90,41 @@ class PaymentsController extends Controller
      */
     public function chargeCustomers(){
         
-        $expiredItems = DB::table('items')->whereRaw('date(End_Date) = ?', [Carbon::today()])->get();
+        $expiredItems = $this->itemRepo->getExpiredItems();
 
         if(!empty($expiredItems)){
 
             foreach($expiredItems as $expiredItem){
 
-                $item = item::find($expiredItem->id);   
+                $item = $this->itemRepo->find($expiredItem->id);
                 
-                $transactions = DB::table('transactions')->where('item_fk', $expiredItem->id)->get();
+                $transactions = $this->transactionRepo->getAllByItemId($expiredItem->id);
 
-                if($expiredItem->Number_Transactions == $expiredItem->Threshold ){
+                if($expiredItem->Number_Transactions == $expiredItem->Threshold){
 
-                    DB::table('items')->where('id', $expiredItem->id)->update(['status' => 'threshold reached']);
+                    $this->itemRepo->setThresholdReached($expiredItem->id);
 
                     foreach($transactions as $transaction){
 
-                        $user = DB::table('users')->where('email', $transaction->email)->first();
+                        $user = $this->userRepo->findByEmail($transaction->email);
 
                         app('App\Http\Controllers\PaymentsController')->charge($expiredItem->Price, $user->stripe_id);
 
                         app('App\Http\Controllers\TransactionsController')->updatePurchaseHistory($user->email, $expiredItem->id);
 
-                        $user = User::where('email', $transaction->email)->first();
+                        Log::info("User " . $user->email . " has been sent a transaction confirmation email for " . $item->Name);
                         Mail::to($transaction->email)->send(new PurchaseCompleted($item, $user));
 
                  }
 
                  }else{
 
-                    DB::table('items')->where('id', $expiredItem->id)->update(['status' => 'expired']);
+                    $this->itemRepo->setExpired($expiredItem->id);
 
                     foreach($transactions as $transaction){
                         
-                        $user = User::where('email', $transaction->email)->first();
+                        $user = $this->userRepo->findByEmail($transaction->email);
+                        Log::info("User " . $user->email . " has been sent an item expired email for " . $item->Name);
                         Mail::to($transaction->email)->send(new ItemExpired($item, $user));
                     }    
 
@@ -131,6 +135,4 @@ class PaymentsController extends Controller
         }
 
     }
-
-
 }
