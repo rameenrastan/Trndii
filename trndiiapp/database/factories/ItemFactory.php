@@ -30,5 +30,6 @@ $factory->define(App\item::class, function (Faker $faker) {
         'End_Date' => $end,
         'Picture_URL' => $faker->imageUrl('250', '250'),
         'Shipping_To' => $faker->randomElement(['Canada', 'US', 'Canada/US']),
+        'Supplier' => $faker->randomElement(['FakeSupplier', 'Suprimo', 'Quinn and Val']),
     ];
 });

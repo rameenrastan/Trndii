@@ -17,12 +17,6 @@ class DatabaseSeeder extends Seeder
         // users
         $this->call(UsersTableSeeder::class);
 
-        // items
-        $this->call(ItemsTableSeeder::class);
-
-        // pre-registered users
-        $this->call(PreRegisteredUserTableSeeder::class);
-
         $supplier = new supplier;
         $supplier->name = "FakeSupplier";
         $supplier->email = "sup@sup.com";
@@ -40,6 +34,12 @@ class DatabaseSeeder extends Seeder
         $supplier->email = "sup2@sup.com";
         $supplier->password = Hash::make('password');
         $supplier->save();
+
+        // items
+        $this->call(ItemsTableSeeder::class);
+
+        // pre-registered users
+        $this->call(PreRegisteredUserTableSeeder::class);
 
         // admins
         $this->call(AdminsTableSeeder::class);
