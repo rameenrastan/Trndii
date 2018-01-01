@@ -29,6 +29,6 @@ $factory->define(App\item::class, function (Faker $faker) {
         'Start_Date' => $start,
         'End_Date' => $end,
         'Picture_URL' => $faker->imageUrl('250', '250'),
-        'Shipping_To' => $faker->regexify('H[0-9]{1}[A-Z]{1} [0-9]{1}[A-Z]{1}[0-9]{1}'),
+        'Shipping_To' => $faker->randomElement(['Canada', 'US', 'Canada/US']),
     ];
 });
