@@ -65,6 +65,7 @@ class ItemsController extends Controller
             'Threshold' => 'required| integer',
             'Short_Description' => 'required',
             'Long_Description' => 'required| string',
+            'Category' => 'required| string',
             'Start_Date' => 'required| date',
             'End_Date' => 'required| date',
             'Picture_URL' => 'required| string',
@@ -157,6 +158,7 @@ class ItemsController extends Controller
 
     public function getItemsByCategory(){
 
-        return view('item.viewItemsByCategory');
+        $items=$this->itemRepo->viewAllItems();
+        return view('item.viewItemsByCategory')->with('items', $items);
     }
 }
