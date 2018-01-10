@@ -154,4 +154,9 @@ class ItemsController extends Controller
         Log::info("User " . Auth::user()->email . " is viewing all items.");
         return view('item.viewAllItems')->with('items',$items);
     }
+
+    public function getItemsByCategory(){
+
+        return view('item.viewItemsByCategory');
+    }
 }

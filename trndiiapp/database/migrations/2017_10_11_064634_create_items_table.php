@@ -22,6 +22,7 @@ class CreateItemsTable extends Migration
             $table->integer('Tokens_Given');
             $table->string('Short_Description');
             $table->text('Long_Description');
+            $table->string('Category');
             $table->string('Status');
             $table->integer('Number_Transactions')->default(0);
             $table->datetime('Start_Date');
