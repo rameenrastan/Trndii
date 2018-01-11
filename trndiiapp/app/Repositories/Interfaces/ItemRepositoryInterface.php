@@ -15,6 +15,7 @@ interface ItemRepositoryInterface{
     public function setThresholdReached($id);
     public function setExpired($id);
     public function getExpiredItems();
+    public function getSupplierItems();
 
 
 }

@@ -96,4 +96,9 @@ class ItemRepository implements ItemRepositoryInterface{
         Log::info('Database query: changing status of item ' . $id . ' to expired.');
         DB::table('items')->where('id', $id)->update(['status' => 'expired']);
     }
+
+    public function getSupplierItems()
+    {
+        return DB::table('items')->where('Supplier','=', Auth::user()->name)->get();
+    }
 }
