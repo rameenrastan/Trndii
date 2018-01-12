@@ -106,6 +106,7 @@ class PaymentsController extends Controller
 
                     $transaction_log = new Logger('Transaction Logs');
                     $transaction_log->pushHandler(new StreamHandler('storage/logs/transactions/item_' . $item->id . '_transactions.log', Logger::INFO));
+                    $transaction_log->addInfo("Item " . $item->id . " transactions: listing all users charged for the purchase of this item...");
 
                     $this->itemRepo->setThresholdReached($expiredItem->id);
 
@@ -120,7 +121,6 @@ class PaymentsController extends Controller
 
                         Log::info("User " . $user->email . " has been sent a transaction confirmation email for " . $item->Name);
                         Mail::to($transaction->email)->send(new PurchaseCompleted($item, $user));
-
                  }
 
                  }else{
