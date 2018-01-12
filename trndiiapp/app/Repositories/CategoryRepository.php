@@ -13,6 +13,7 @@ use Log;
 class CategoryRepository implements CategoryRepositoryInterface{
 
     public function getCategories(){
-        return Category::all();
+        return Category::pluck('Name')->toArray();
+        //return Category::all();
     }
 }

@@ -8,6 +8,7 @@ use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterface;
+use App\Repositories\Interfaces\CategoryRepositoryInterface as CategoryRepositoryInterface;
 use Log;
 use Auth;
 
@@ -15,6 +16,7 @@ class ItemsController extends Controller
 {
 
     protected $itemRepo;
+
 
     public function __construct(ItemRepositoryInterface $itemRepo)
     {
@@ -161,10 +163,10 @@ class ItemsController extends Controller
         return view('item.viewAllItems')->with('items',$items);
     }
 
-    public function getItemsByCategory(){
+    public function getItemsByCategory(CategoryRepositoryInterface $categoriesRepo){
 
         $items=$this->itemRepo->viewAllItems();
-        $categories = Category::pluck('Name')->toArray();
+        $categories=$categoriesRepo->getCategories();
         return view('item.viewItemsByCategory')->with('items', $items)->with('categories', $categories);
     }
 }
