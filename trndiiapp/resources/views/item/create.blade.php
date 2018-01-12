@@ -68,7 +68,7 @@
                             <div class="form-group">
                                 {{Form::label('Category','Category',array('class'=>'col-md-4 control-label'))}}
                                 <div class="col-md-6">
-                                    {{ Form::select('Category', ['Desktops and Laptops'=>'Desktops and Laptops', 'Electronic Accessories'=>'Electronic Accessories'], null, array('class' => 'form-control'))}}
+                                    {{ Form::select('Category', $categories, null, array('class' => 'form-control'))}}
                                 </div>
                             </div>
 
