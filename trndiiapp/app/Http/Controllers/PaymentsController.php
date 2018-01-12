@@ -16,6 +16,8 @@ use App\Repositories\Interfaces\UserRepositoryInterface as UserRepositoryInterfa
 use App\Repositories\Interfaces\TransactionRepositoryInterface as TransactionRepositoryInterface;
 use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterface;
 use Log;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 class PaymentsController extends Controller
 {
@@ -102,6 +104,9 @@ class PaymentsController extends Controller
 
                 if($expiredItem->Number_Transactions == $expiredItem->Threshold){
 
+                    $transaction_log = new Logger('Transaction Logs');
+                    $transaction_log->pushHandler(new StreamHandler('storage/logs/transactions/item_' . $item->id . '_transactions.log', Logger::INFO));
+
                     $this->itemRepo->setThresholdReached($expiredItem->id);
 
                     foreach($transactions as $transaction){
@@ -109,6 +114,7 @@ class PaymentsController extends Controller
                         $user = $this->userRepo->findByEmail($transaction->email);
 
                         app('App\Http\Controllers\PaymentsController')->charge($expiredItem->Price, $user->stripe_id);
+                        $transaction_log->addInfo("User " . $user->email . " was charged $" . $expiredItem->Price);
 
                         app('App\Http\Controllers\TransactionsController')->updatePurchaseHistory($user->email, $expiredItem->id);
 
