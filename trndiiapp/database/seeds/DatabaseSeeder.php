@@ -38,6 +38,9 @@ class DatabaseSeeder extends Seeder
         // items
         $this->call(ItemsTableSeeder::class);
 
+        // Categories
+        $this->call(CategorySeeder::class);
+
         // pre-registered users
         $this->call(PreRegisteredUserTableSeeder::class);
 
