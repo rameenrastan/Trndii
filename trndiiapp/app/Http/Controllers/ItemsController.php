@@ -164,6 +164,7 @@ class ItemsController extends Controller
     public function getItemsByCategory(){
 
         $items=$this->itemRepo->viewAllItems();
-        return view('item.viewItemsByCategory')->with('items', $items);
+        $categories = Category::pluck('Name')->toArray();
+        return view('item.viewItemsByCategory')->with('items', $items)->with('categories', $categories);
     }
 }

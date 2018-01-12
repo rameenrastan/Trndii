@@ -7,8 +7,9 @@
 <h2>Browse Items By Category</h2>
 <ul class="nav nav-pills">
     <li class="active"><a data-toggle="pill" href="#home">All</a></li>
-    <li><a data-toggle="pill" href="#menu1">Desktops and Laptops</a></li>
-    <li><a data-toggle="pill" href="#menu2">Electronic Accessories</a></li>
+    @for($i = 0; $i < count($categories); $i++)
+        <li><a data-toggle="pill" href="#menu{{$i + 1}}">{{$categories[$i]}}</a></li>
+    @endfor
 </ul>
 
 <div class="tab-content">
@@ -77,15 +78,17 @@
         </div>
 
     </div>
-    <div id="menu1" class="tab-pane fade">
+
+    @for($i = 0; $i < count($categories); $i++)
+    <div id="menu{{$i + 1}}" class="tab-pane fade">
         <div class="row">
             <div class="col-md-7 col-md-offset-3">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Desktops and Laptops</div>
+                    <div class="panel-heading">{{$categories[$i]}}</div>
                     <div class="panel-body">
                         @if(count($items) > 0)
                             @foreach($items as $item)
-                                @if($item->Category == 'Desktops and Laptops')
+                                @if($item->Category == $categories[$i])
                                 <div style="border: 3px solid #ccfff0;">
                                 <div class="row">
                                     <div class="col-md-5">
@@ -144,75 +147,7 @@
         </div>
 
     </div>
-
-    <div id="menu2" class="tab-pane fade">
-        <div class="row">
-            <div class="col-md-7 col-md-offset-3">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Electronic Accessories</div>
-                    <div class="panel-body">
-                        @if(count($items) > 0)
-                            @foreach($items as $item)
-                                @if($item->Category == 'Electronic Accessories')
-                                <div style="border: 3px solid #ccfff0;">
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <a href="item/{{$item->id}}">
-                                            <img alt="{{$item->Name}}" src="{{$item->Picture_URL}}" class="img-thumbnail" />
-                                        </a>            
-                                    </div>
-                                    <div class="col-md-7" align="left">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <h2 style="margin-top: 5px;">
-                                                <a href="item/{{$item->id}}"> {{$item->Name}}</a>
-                                                </h2>
-                                                    {{$item->Short_Description}}
-                                                <h3>
-                                                    ${{$item->Price}}
-                                                </h3>
-                                            </div>
-                                        </div>
-                                    
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="display-group">
-                                    <div><p align="left" style="padding-left:10px">Status: <b>{{$item->Status}}</b></p></div>
-                                </div>
-                                <div class="display-group">
-                                    <div><p align="left" style="padding-left:10px">Sale ends <b>{{\Carbon\Carbon::parse($item->End_Date)->format('d/m/Y')}}</b></p></div>
-                                </div>
-                                <div class="display-group">
-                                    <div><p align="left" style="padding-left:10px">Category: <b>{{$item->Category}}</b></p></div>
-                                </div>
-                                <div class="progress" style="margin: 20px;">
-                                 <div class="progress-bar" role="progressbar" aria-valuenow="70"
-                                    aria-valuemin="0" aria-valuemax="100" style="width:{{$item->Number_Transactions/$item->Threshold*100}}%; background-color: #14A989;">
-                                 </div>
-                                </div>
-                                <div class="row" style="font-size: 16px;">
-                                    <div class="col-md-12 text-center">
-                                      {{$item->Number_Transactions}} / {{$item->Threshold}} Orders Placed <br><br>
-                                    </div>
-                                </div>   
-                                <div class="display-group">
-                                    <div><p align="left" style="padding-left:10px">Order placed on <b>{{\Carbon\Carbon::parse($item->created_at)->format('d/m/Y')}}</b></p></div>
-                                </div>
-                                </div>
-                                    <br/>
-                                @endif
-                            @endforeach
-                        @else
-                            <p>There are currently no items.</p>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
+    @endfor
 
 </div>
 </div>
