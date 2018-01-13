@@ -52,7 +52,10 @@ class TransactionRepository implements TransactionRepositoryInterface {
 
     public function destroy($itemId)
     {
-        DB::table('transactions')->where('item_fk', $itemId)->delete();
+        DB::table('transactions')
+            ->where('item_fk', $itemId)
+            ->where('email', Auth::user()->email)
+            ->delete();
         $this->itemRepo->numTransactions($itemId);
     }
 
