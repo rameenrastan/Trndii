@@ -20,6 +20,10 @@
 2. Run `php artisan migrate:refresh`
 3. Run `php artisan db:seed` to populate database with test data
 
+## dusk tests:
+
+1. Run `php artisan dusk` in trndiiapp folder
+
 ## Vue.js and SASS:
 
 - install Node.js
