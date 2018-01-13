@@ -12,15 +12,18 @@ use App\Mail\PurchaseConfirmation;
 use Illuminate\Support\Facades\Mail;
 use App\item; 
 use App\Repositories\Interfaces\TransactionRepositoryInterface as TransactionRepositoryInterface;
+use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterface;
 
 class TransactionsController extends Controller
 {
 
     protected $transactionRepo;
+    protected $itemRepo;
     
-    public function __construct(TransactionRepositoryInterface $transactionRepo){
+    public function __construct(TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo){
     
         $this->transactionRepo = $transactionRepo;
+        $this->itemRepo=$itemRepo;
         
     }
 
@@ -134,6 +137,9 @@ class TransactionsController extends Controller
     public function destroy($itemId)
     {
         $this->transactionRepo->destroy($itemId);
-        return redirect('/home');
+
+        $itemName=$this->itemRepo->find($itemId)->Name;
+
+        return redirect('/home')->with('success', 'You have successfully deleted '.$itemName.' from your pending transactions!');
     }
 }
