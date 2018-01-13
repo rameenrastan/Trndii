@@ -18,11 +18,13 @@ class TransactionsController extends Controller
 {
 
     protected $transactionRepo;
+    protected $itemRepo;
     
     public function __construct(TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo){
     
         $this->transactionRepo = $transactionRepo;
         $this->itemRepo = $itemRepo;
+
         
     }
 
@@ -35,8 +37,12 @@ class TransactionsController extends Controller
     public function index()
     {
         $items = $this->transactionRepo->index();
-        Log::info("User " . Auth::user()->email . " is viewing the purchase history page");
-        return view('layouts.purchasehistory')->with('items', $items);
+        $userEmail=Auth::user()->email;
+
+        Log::info("User " . $userEmail . " is viewing the purchase history page");
+
+        return view('layouts.purchasehistory')
+            ->with('items', $items);
     }
 
     /**
@@ -138,8 +144,12 @@ class TransactionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($itemId)
     {
-        //
+        $this->transactionRepo->destroy($itemId);
+
+        $itemName=$this->itemRepo->find($itemId)->Name;
+
+        return redirect('/purchaseHistory')->with('success', 'You have successfully deleted '.$itemName.' from your pending transactions!');
     }
 }
