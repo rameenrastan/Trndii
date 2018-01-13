@@ -25,6 +25,7 @@ class ItemRepository implements ItemRepositoryInterface{
         $item->Threshold=$request->Threshold;
         $item->Short_Description=$request->Short_Description;
         $item->Long_Description=$request->Long_Description;
+        $item->Category=$request->Category;
         $item->Start_Date=$request->Start_Date;
         $item->Status = 'pending';
         $item->End_Date=$request->End_Date;

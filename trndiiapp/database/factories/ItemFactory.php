@@ -17,6 +17,7 @@ $factory->define(App\item::class, function (Faker $faker) {
     $end = $faker->dateTime();
     $start = $faker->dateTime($end);
 
+
     return [
         'Name' => $faker->domainName,
         'Price'=> $price = $faker->randomFloat(2, 10, 250),
@@ -27,6 +28,7 @@ $factory->define(App\item::class, function (Faker $faker) {
         'Long_Description' => $faker->paragraphs('3', true),
         'Status' => $faker->randomElement(['pending']),
         'Start_Date' => $start,
+        'Category' => $faker->randomElement(['Appliances', 'Electronics', 'Misc']),
         'End_Date' => $end,
         'Picture_URL' => $faker->imageUrl('250', '250'),
         'Shipping_To' => $faker->randomElement(['Canada', 'US', 'Canada/US']),

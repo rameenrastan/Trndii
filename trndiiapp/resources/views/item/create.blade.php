@@ -66,6 +66,13 @@
                             </div>
 
                             <div class="form-group">
+                                {{Form::label('Category','Category',array('class'=>'col-md-4 control-label'))}}
+                                <div class="col-md-6">
+                                    {{ Form::select('Category', $categories, null, array('class' => 'form-control'))}}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 {{Form::label('Start Date','Start Date',array('class'=>'col-md-4 control-label'))}}
                                 <div class="col-md-6">
                                     {{Form::date('Start Date', null, array('class' => 'form-control', 'id' => 'start-date'))}}
