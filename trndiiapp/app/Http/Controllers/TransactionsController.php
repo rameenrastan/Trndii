@@ -131,8 +131,9 @@ class TransactionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($itemId)
     {
-        //
+        $this->transactionRepo->destroy($itemId);
+        return redirect('/home');
     }
 }

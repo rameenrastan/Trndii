@@ -231,7 +231,11 @@
                 </p>     
             </div>
             <div class="modal-footer">
+                {!! Form::open(['action' => ['TransactionsController@destroy', $item->id], 'method' => 'POST']) !!}
+                {{Form::hidden('_method', 'DELETE')}}
+                {{Form::submit('Cancel', ['class' => 'btn btn-primary'])}}
                 <button type="button" class="btn btn-default" data-dismiss="modal">Return</button>
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
