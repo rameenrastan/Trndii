@@ -9,7 +9,6 @@ use App\Transaction;
 use Carbon\Carbon;
 use App\item;
 use App\User;
-use App\Mail\ItemExpired;
 use App\Mail\PurchaseCompleted;
 use Illuminate\Support\Facades\Mail;
 use App\Repositories\Interfaces\UserRepositoryInterface as UserRepositoryInterface;
@@ -90,55 +89,85 @@ class PaymentsController extends Controller
      * @param null
      * @return void
      */
-    public function chargeCustomers(){
+    public function chargeCustomers($id){
         
-        $expiredItems = $this->itemRepo->getExpiredItems();
-
-        if(!empty($expiredItems)){
-
-            foreach($expiredItems as $expiredItem){
-
-                $item = $this->itemRepo->find($expiredItem->id);
+        $item = $this->itemRepo->find($id);
                 
-                $transactions = $this->transactionRepo->getAllByItemId($expiredItem->id);
+        $transactions = $this->transactionRepo->getAllByItemId($id);
 
-                if($expiredItem->Number_Transactions == $expiredItem->Threshold){
+        $transaction_log = new Logger('Transaction Logs');
+        $transaction_log->pushHandler(new StreamHandler('storage/logs/transactions/item_' . $item->id . '_transactions.log', Logger::INFO));
+        $transaction_log->addInfo("Item " . $item->id . " transactions: listing all users charged for the purchase of this item...");
 
-                    $transaction_log = new Logger('Transaction Logs');
-                    $transaction_log->pushHandler(new StreamHandler('storage/logs/transactions/item_' . $item->id . '_transactions.log', Logger::INFO));
-                    $transaction_log->addInfo("Item " . $item->id . " transactions: listing all users charged for the purchase of this item...");
+        foreach($transactions as $transaction){
 
-                    $this->itemRepo->setThresholdReached($expiredItem->id);
+            $user = $this->userRepo->findByEmail($transaction->email);
 
-                    foreach($transactions as $transaction){
+            app('App\Http\Controllers\PaymentsController')->charge($item->Price, $user->stripe_id);
+            $transaction_log->addInfo("User " . $user->email . " was charged $" . $item->Price);
 
-                        $user = $this->userRepo->findByEmail($transaction->email);
+            app('App\Http\Controllers\TransactionsController')->updatePurchaseHistory($user->email, $id);
 
-                        app('App\Http\Controllers\PaymentsController')->charge($expiredItem->Price, $user->stripe_id);
-                        $transaction_log->addInfo("User " . $user->email . " was charged $" . $expiredItem->Price);
-
-                        app('App\Http\Controllers\TransactionsController')->updatePurchaseHistory($user->email, $expiredItem->id);
-
-                        Log::info("User " . $user->email . " has been sent a transaction confirmation email for " . $item->Name);
-                        Mail::to($transaction->email)->send(new PurchaseCompleted($item, $user));
-                 }
-
-                 }else{
-
-                    $this->itemRepo->setExpired($expiredItem->id);
-
-                    foreach($transactions as $transaction){
-                        
-                        $user = $this->userRepo->findByEmail($transaction->email);
-                        Log::info("User " . $user->email . " has been sent an item expired email for " . $item->Name);
-                        Mail::to($transaction->email)->send(new ItemExpired($item, $user));
-                    }    
-
-                  }
-
-            }
-
+            Log::info("User " . $user->email . " has been sent a transaction confirmation email for " . $item->Name);
+            Mail::to($transaction->email)->send(new PurchaseCompleted($item, $user));
         }
-
     }
+
+    /**
+     * Runs daily by Task Scheduler in Kernel.php
+     * Checks if any item expires today, and charges all users if threshold is reached.
+     * @param null
+     * @return void
+     */
+    // public function chargeCustomers(){
+        
+    //     $expiredItems = $this->itemRepo->getExpiredItems();
+
+    //     if(!empty($expiredItems)){
+
+    //         foreach($expiredItems as $expiredItem){
+
+    //             $item = $this->itemRepo->find($id);
+                
+    //             $transactions = $this->transactionRepo->getAllByItemId($id);
+
+    //             if($expiredItem->Number_Transactions == $expiredItem->Threshold){
+
+    //                 $transaction_log = new Logger('Transaction Logs');
+    //                 $transaction_log->pushHandler(new StreamHandler('storage/logs/transactions/item_' . $item->id . '_transactions.log', Logger::INFO));
+    //                 $transaction_log->addInfo("Item " . $item->id . " transactions: listing all users charged for the purchase of this item...");
+
+    //                 $this->itemRepo->setThresholdReached($id);
+
+    //                 foreach($transactions as $transaction){
+
+    //                     $user = $this->userRepo->findByEmail($transaction->email);
+
+    //                     app('App\Http\Controllers\PaymentsController')->charge($expiredItem->Price, $user->stripe_id);
+    //                     $transaction_log->addInfo("User " . $user->email . " was charged $" . $expiredItem->Price);
+
+    //                     app('App\Http\Controllers\TransactionsController')->updatePurchaseHistory($user->email, $id);
+
+    //                     Log::info("User " . $user->email . " has been sent a transaction confirmation email for " . $item->Name);
+    //                     Mail::to($transaction->email)->send(new PurchaseCompleted($item, $user));
+    //              }
+
+    //              }else{
+
+    //                 $this->itemRepo->setExpired($id);
+
+    //                 foreach($transactions as $transaction){
+                        
+    //                     $user = $this->userRepo->findByEmail($transaction->email);
+    //                     Log::info("User " . $user->email . " has been sent an item expired email for " . $item->Name);
+    //                     Mail::to($transaction->email)->send(new ItemExpired($item, $user));
+    //                 }    
+
+    //               }
+
+    //         }
+
+    //     }
+
+    // }
 }
