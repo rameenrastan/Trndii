@@ -217,7 +217,9 @@
         </div>
     </div>
 
-<div id="CancelModal" class="modal fade" aria-labelledby="basicModal" aria-hidden="true"> 
+
+    @if(count($items) > 0)
+<div id="CancelModal" class="modal fade" aria-labelledby="basicModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -226,9 +228,9 @@
             <div class="modal-body">
                 <p> <strong>Item details: </strong></p>
                 <p>
-                    {{$item->Name}} 
-                    <br> Price: {{$item->Price}}$ 
-                </p>     
+                    {{$item->Name}}
+                    <br> Price: {{$item->Price}}$
+                </p>
             </div>
             <div class="modal-footer">
                 {!! Form::open(['action' => ['TransactionsController@destroy', $item->id], 'method' => 'POST']) !!}
@@ -240,6 +242,8 @@
         </div>
     </div>
 </div>
+
+@endif
 
 
 

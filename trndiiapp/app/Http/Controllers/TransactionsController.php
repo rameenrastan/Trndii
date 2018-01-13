@@ -140,6 +140,6 @@ class TransactionsController extends Controller
 
         $itemName=$this->itemRepo->find($itemId)->Name;
 
-        return redirect('/home')->with('success', 'You have successfully deleted '.$itemName.' from your pending transactions!');
+        return redirect('/purchaseHistory')->with('success', 'You have successfully deleted '.$itemName.' from your pending transactions!');
     }
 }
