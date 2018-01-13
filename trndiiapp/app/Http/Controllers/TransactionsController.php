@@ -23,7 +23,8 @@ class TransactionsController extends Controller
     public function __construct(TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo){
     
         $this->transactionRepo = $transactionRepo;
-        $this->itemRepo=$itemRepo;
+        $this->itemRepo = $itemRepo;
+
         
     }
 
@@ -107,7 +108,13 @@ class TransactionsController extends Controller
             app('App\Http\Controllers\ItemsController')->numTransactions($id);    
             
             $item = item::find($id);    
-            Mail::to(Auth::user()->email)->send(new PurchaseConfirmation($item, Auth::user() ));
+            Mail::to(Auth::user()->email)->send(new PurchaseConfirmation($item, Auth::user()));
+
+            if($item->Number_Transactions == $item->Threshold)
+            {
+                app('App\Http\Controllers\PaymentsController')->chargeCustomers($item->id);
+                $this->itemRepo->setThresholdReached($item->id);
+            }
 
             Log::info('User ' . $user->email . ' successfully commited to purchasing ' . $item->Name);
             return redirect('/')->with('success', 'You have successfully commited to this purchase. You will be notified if the item reaches its threshold. Thanks!');
@@ -123,7 +130,6 @@ class TransactionsController extends Controller
     }
 
     public function updatePurchaseHistory($email, $itemId){
-
 
         DB::table('purchased_items')->insert([
 

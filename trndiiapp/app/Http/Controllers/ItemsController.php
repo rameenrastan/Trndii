@@ -4,20 +4,31 @@ namespace App\Http\Controllers;
 
 use App\item;
 use App\Supplier;
+use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterface;
+use App\Repositories\Interfaces\CategoryRepositoryInterface as CategoryRepositoryInterface;
+use App\Repositories\Interfaces\TransactionRepositoryInterface as TransactionRepositoryInterface;
+use App\Repositories\Interfaces\UserRepositoryInterface as UserRepositoryInterface;
 use Log;
 use Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ItemExpired;
+
 
 class ItemsController extends Controller
 {
 
     protected $itemRepo;
-
-    public function __construct(ItemRepositoryInterface $itemRepo)
+    protected $transactionRepo;
+    protected $userRepo;
+    
+    public function __construct(ItemRepositoryInterface $itemRepo, TransactionRepositoryInterface $transactionRepo, UserRepositoryInterface $userRepo)
     {
         $this->itemRepo=$itemRepo;
+        $this->transactionRepo = $transactionRepo;
+        $this->userRepo = $userRepo;
     }
 
     public function index(){
@@ -40,7 +51,11 @@ class ItemsController extends Controller
 
         $supplierNames=array_combine($supplierNames,$supplierNames);
 
-        return view('item.create', compact('supplierNames'));
+        $categories = Category::pluck('Name')->toArray();
+
+        $categories = array_combine($categories,$categories);
+
+        return view('item.create', compact('supplierNames'), compact('categories'));
 
         Log::info("User " . Auth::user()->email . "is viewing the item creation page");
 
@@ -65,6 +80,7 @@ class ItemsController extends Controller
             'Threshold' => 'required| integer',
             'Short_Description' => 'required',
             'Long_Description' => 'required| string',
+            'Category' => 'required| string',
             'Start_Date' => 'required| date',
             'End_Date' => 'required| date',
             'Picture_URL' => 'required| string',
@@ -154,4 +170,45 @@ class ItemsController extends Controller
         Log::info("User " . Auth::user()->email . " is viewing all items.");
         return view('item.viewAllItems')->with('items',$items);
     }
+
+    public function getItemsByCategory(CategoryRepositoryInterface $categoriesRepo){
+
+        $items=$this->itemRepo->viewAllItems();
+        $categories=$categoriesRepo->getCategories();
+        return view('item.viewItemsByCategory')->with('items', $items)->with('categories', $categories);
+    }
+
+    /**
+     * Gets all items that expire today, and sets their status to expired. 
+     * This method is ran by the task scheduler located in /app/Console/Kernel.php
+     * @param  null
+     * @return void
+     */
+    public function setExpired()
+    {
+        $expiredItems = $this->itemRepo->getExpiredItems();
+        
+        if(!empty($expiredItems)){
+        
+            foreach($expiredItems as $expiredItem){
+        
+            $item = $this->itemRepo->find($expiredItem->id);
+                        
+            $transactions = $this->transactionRepo->getAllByItemId($expiredItem->id);
+        
+            $this->itemRepo->setExpired($expiredItem->id);
+        
+            foreach($transactions as $transaction){
+                                
+                $user = $this->userRepo->findByEmail($transaction->email);
+                Log::info("User " . $user->email . " has been sent an item expired email for " . $item->Name);
+                Mail::to($transaction->email)->send(new ItemExpired($item, $user));
+                        
+            }      
+        
+        }
+        
+        }
+    }
+
 }
