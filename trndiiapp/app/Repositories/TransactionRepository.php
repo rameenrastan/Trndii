@@ -2,6 +2,7 @@
 namespace App\Repositories;
 use App\Transaction; 
 use App\Repositories\Interfaces\TransactionRepositoryInterface;
+use App\Repositories\ItemRepository;
 use Auth;
 use DB;
 use Log;
@@ -9,10 +10,12 @@ use Log;
 class TransactionRepository implements TransactionRepositoryInterface {
 
     protected $transaction;
+    protected $itemRepo;
     
-    public function __construct(Transaction $transaction){
+    public function __construct(Transaction $transaction, ItemRepository $itemRepository){
 
         $this->transactionr = $transaction;
+        $this->itemRepo= $itemRepository;
 
     }
 
@@ -45,6 +48,12 @@ class TransactionRepository implements TransactionRepositoryInterface {
         Log::info('Database query: retrieving all transactions associated with item ' . $id);
         return DB::table('transactions')->where('item_fk', $id)->get();
 
+    }
+
+    public function destroy($itemId)
+    {
+        DB::table('transactions')->where('item_fk', $itemId)->delete();
+        $this->itemRepo->numTransactions($itemId);
     }
 
 }

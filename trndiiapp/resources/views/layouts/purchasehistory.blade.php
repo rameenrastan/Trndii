@@ -61,6 +61,12 @@
                                         <div class="display-group">
                                             <div><p align="left" style="padding-left:10px">Order placed on <b>{{\Carbon\Carbon::parse($item->created_at)->format('d/m/Y')}}</b></p></div>
                                         </div>
+                                        @if($item->Status == 'pending')
+                                            <div class="display-group">
+                                                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#CancelModal">Cancel</button>
+                                            </div>       
+                                            <p></p>    
+                                        @endif                                 
                                         </div>
                                             <br/>
                                     @endforeach
@@ -124,6 +130,10 @@
                                         <div class="display-group">
                                             <div><p align="left" style="padding-left:10px">Order placed on <b>{{\Carbon\Carbon::parse($item->created_at)->format('d/m/Y')}}</b></p></div>
                                         </div>
+                                        <div class="display-group">
+                                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#CancelModal">Cancel</button>
+                                        </div>       
+                                        <p></p>      
                                         </div>
                                             <br/>
                                         @endif
@@ -206,7 +216,39 @@
 
         </div>
     </div>
-    
+
+
+    @if(count($items) > 0)
+<div id="CancelModal" class="modal fade" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Are you sure you want to cancel this purchase?</h3>
+            </div>
+            <div class="modal-body">
+                <p> <strong>Item details: </strong></p>
+                <p>
+                    {{$item->Name}}
+                    <br> Price: {{$item->Price}}$
+                </p>
+            </div>
+            <div class="modal-footer">
+                {!! Form::open(['action' => ['TransactionsController@destroy', $item->id], 'method' => 'POST']) !!}
+                {{Form::hidden('_method', 'DELETE')}}
+                {{Form::submit('Confirm', ['class' => 'btn btn-primary'])}}
+                <button type="button" class="btn btn-default" data-dismiss="modal">Return</button>
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+</div>
+
+@endif
+
+
+
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
