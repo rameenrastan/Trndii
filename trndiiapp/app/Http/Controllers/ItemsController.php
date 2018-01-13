@@ -162,30 +162,37 @@ class ItemsController extends Controller
         return view('item.viewAllItems')->with('items',$items);
     }
 
+    /**
+     * Gets all items that expire today, and sets their status to expired. 
+     * This method is ran by the task scheduler located in /app/Console/Kernel.php
+     * @param  null
+     * @return void
+     */
     public function setExpired()
     {
         $expiredItems = $this->itemRepo->getExpiredItems();
         
-                if(!empty($expiredItems)){
+        if(!empty($expiredItems)){
         
-                    foreach($expiredItems as $expiredItem){
+            foreach($expiredItems as $expiredItem){
         
-                        $item = $this->itemRepo->find($expiredItem->id);
+            $item = $this->itemRepo->find($expiredItem->id);
                         
-                        $transactions = $this->transactionRepo->getAllByItemId($expiredItem->id);
+            $transactions = $this->transactionRepo->getAllByItemId($expiredItem->id);
         
-                        $this->itemRepo->setExpired($expiredItem->id);
+            $this->itemRepo->setExpired($expiredItem->id);
         
-                        foreach($transactions as $transaction){
+            foreach($transactions as $transaction){
                                 
-                            $user = $this->userRepo->findByEmail($transaction->email);
-                            Log::info("User " . $user->email . " has been sent an item expired email for " . $item->Name);
-                            Mail::to($transaction->email)->send(new ItemExpired($item, $user));
-                        }      
+                $user = $this->userRepo->findByEmail($transaction->email);
+                Log::info("User " . $user->email . " has been sent an item expired email for " . $item->Name);
+                Mail::to($transaction->email)->send(new ItemExpired($item, $user));
+                        
+            }      
         
-                    }
+        }
         
-                }
+        }
     }
 
 }
