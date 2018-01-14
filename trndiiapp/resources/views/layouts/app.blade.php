@@ -30,7 +30,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        <img src="images/logo_small_white.png" alt="Trndii" height="100%">
+                        <img src="{{ asset('images/logo_small_white.png') }}" alt="Trndii" height="100%">
                     </a>
                 </div>
               
