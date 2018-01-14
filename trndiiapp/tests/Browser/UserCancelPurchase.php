@@ -6,14 +6,14 @@ use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class AdminRemoveItemTest extends DuskTestCase
+class UserCancelPurchase extends DuskTestCase
 {
     /**
      * Tests removing an item as an admin.
      *
      * @return void
      */
-    public function testAdminRemoveItem()
+    public function testCancelPurchase()
     {
 
         //Need valid test credit card
