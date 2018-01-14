@@ -8400,3 +8400,33 @@ a {
   border: 2px solid #d9fff6;
 }
 
+.tab-content {
+  margin-top: 15px;
+}
+
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus {
+  background-color: #14A989;
+}
+
+.nav > li > a:hover,
+.nav > li > a:focus {
+  color: #14A989;
+}
+
+.pagination > li > a,
+.pagination > li > span {
+  color: #14A989;
+}
+
+.pagination > .active > a,
+.pagination > .active > a:focus,
+.pagination > .active > a:hover,
+.pagination > .active > span,
+.pagination > .active > span:focus,
+.pagination > .active > span:hover {
+  background-color: #14A989;
+  border-color: #14A989;
+}
+
