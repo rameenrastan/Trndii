@@ -22,7 +22,7 @@ class ItemsTableSeeder extends Seeder
             'Tokens_Given'=>0,
             'Short_Description' => "test short description",
             'Long_Description' => "test long description",
-            'Category'=>"testCategory",
+            'Category'=>"Electronics",
             'Status'=>"pending",
             'Number_Transactions'=>0,
             'Start_Date'=>"2018-01-14 00:20:09",
