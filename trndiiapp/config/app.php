@@ -182,6 +182,8 @@ return [
 
         Collective\Html\HtmlServiceProvider::class,
 
+        Laravel\Scout\ScoutServiceProvider::class,
+
     ],
 
     /*
