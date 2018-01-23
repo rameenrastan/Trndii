@@ -15,6 +15,6 @@ class item extends Model
 
     public function searchableAs()
     {
-        return 'Name';
+        return 'items';
     }
 }
