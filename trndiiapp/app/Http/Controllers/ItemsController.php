@@ -211,9 +211,11 @@ class ItemsController extends Controller
         }
     }
 
-    public function search()
+    public function search($name)
     {
-        return view('item.search');
+        $items = $this->itemRepo->getSearchResults($name);
+
+        return view('item.search')->with('items', $items);
     }
 
 }
