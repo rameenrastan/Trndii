@@ -87,7 +87,7 @@
                                 <input type="text" class="form-control" placeholder="Search" name="search">
                             </div>
                         </div>
-                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                            <button type="submit" class="btn btn-default" name="searchButton"><span class="glyphicon glyphicon-search"></span></button>
                     </form>
                 </div>
             </div>
