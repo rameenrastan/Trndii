@@ -211,4 +211,9 @@ class ItemsController extends Controller
         }
     }
 
+    public function search()
+    {
+        return view('item.search');
+    }
+
 }
