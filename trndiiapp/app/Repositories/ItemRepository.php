@@ -103,8 +103,10 @@ class ItemRepository implements ItemRepositoryInterface{
         return DB::table('items')->where('Supplier','=', Auth::user()->name)->get();
     }
 
-    public function getSearchResults($name)
+    public function getSearchResults(Request $request)
     {
+        $name = $request->search;
+
         return item::search($name)->get();
     }
 }

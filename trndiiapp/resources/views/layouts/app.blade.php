@@ -80,10 +80,11 @@
                         <li><a style="color: #ffffff;" href="/browseItemsByCategory">Browse Categories</a></li>
                     </ul>
                     <!-- Right Side Of Navbar -->
-                    <form class="navbar-form navbar-right">
+                    <form class="navbar-form navbar-right" action="{{ action ('ItemsController@search')}}", method="POST">
+                    {{ csrf_field() }}
                         <div class="form-group">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search">
+                                <input type="text" class="form-control" placeholder="Search" name="search">
                             </div>
                         </div>
                             <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>

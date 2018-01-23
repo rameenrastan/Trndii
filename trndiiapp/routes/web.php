@@ -69,7 +69,7 @@ Route::get('/testPDF', 'PDFController@getPdfByItemTest');
 
 Route::get('/browseItemsByCategory', 'ItemsController@getItemsByCategory');
 
-Route::get('/search/{name}', 'ItemsController@search');
+Route::post('/search', 'ItemsController@search');
 
 $router->get('/pdfInfo/{itemId}/{itemName}',[
     'uses' => 'PDFController@getPdfByItem',
