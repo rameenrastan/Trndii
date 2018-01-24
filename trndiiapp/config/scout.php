@@ -71,8 +71,8 @@ return [
     */
 
     'algolia' => [
-        'id' => env('ALGOLIA_APP_ID', 'W2WZ10E5BA'), //use the value in your algolia account dashboard.
-        'secret' => env('ALGOLIA_SECRET', '98fb498e769ab9fc303fcabc8311a9d9'), //use the value in your algolia account dashboard.
+        'id' => env('ALGOLIA_APP_ID', ''), //use the value in your algolia account dashboard.
+        'secret' => env('ALGOLIA_SECRET', ''), //use the value in your algolia account dashboard.
     ],
 
 ];
