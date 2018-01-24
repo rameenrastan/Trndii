@@ -55,6 +55,8 @@
                                 </div>
                                 <br>
                             @endforeach
+
+                                {{ $items->links() }}
                         @else
                             <p>There are no items that match your search.</p>
                         @endif

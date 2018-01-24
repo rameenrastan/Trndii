@@ -107,6 +107,6 @@ class ItemRepository implements ItemRepositoryInterface{
     {
         $name = $request->search;
 
-        return item::search($name)->get();
+        return item::search($name)->paginate(15);
     }
 }
