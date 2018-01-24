@@ -14,7 +14,6 @@ class ItemsTableSeeder extends Seeder
     {
 
         $test_item = new \App\item([
-            'id' => "100",
             'Name'=> "testItem",
             'Price'=> 1,
             'Bulk_Price'=>1,
