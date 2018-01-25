@@ -47,7 +47,7 @@ class ItemRepository implements ItemRepositoryInterface{
     public function viewAllItems()
     {
         Log::info('Database query: getting all items.');
-        return item::orderby('Name','asc')->paginate(10);
+        return item::orderby('Name','asc')->paginate(12);
     }
 
     public function update($id)
