@@ -58,7 +58,6 @@ class AdminController extends Controller
             'name'=>'required|max:255',
             'phone'=>'required',
             'addressline1'=>'required',
-            'addressline2'=>'required',
             'postalcode' => 'required',
             'city' => 'required|string',
             'country' => 'required| string',
@@ -67,6 +66,8 @@ class AdminController extends Controller
 
         ));
 
+        $request->password = bcrypt($request->password);
+        
         //Store in database
         $supplier= new Supplier;
 
@@ -79,7 +80,6 @@ class AdminController extends Controller
         $supplier->country=$request->country;
         $supplier->email=$request->email;
         $supplier->password=$request->password;
-
         $supplier->save();
 
         //Redirect
