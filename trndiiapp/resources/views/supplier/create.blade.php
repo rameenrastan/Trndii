@@ -74,7 +74,7 @@
                         <div class="form-group">
                             {{Form::label('country','Country',array('class'=>'col-md-4 control-label'))}}
                             <div class="col-md-6">
-                                {{ Form::select('country', ['Canada and United States'=>'Canada, United States', 'Canada'=>'Canada', 'United States'=>'United States'], null, array('class' => 'form-control'))}}
+                                {{ Form::select('country', ['Canada'=>'Canada', 'United States'=>'United States'], null, array('class' => 'form-control'))}}
                             </div>
                         </div>
 
