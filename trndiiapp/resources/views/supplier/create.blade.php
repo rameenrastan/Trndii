@@ -1,24 +1,6 @@
 @extends('layouts.app')
 
-<!-- $table->increments('id');
-            $table->string('name');
-            $table->string('phone')->default("Enter a phone number");
-            $table->string('addressline1')->default("Enter an address line");
-            $table->string('addressline2')->nullable();
-            $table->string('postalcode')->default("Enter a postal code");
-            $table->string("city")->default("Enter a city");
-            $table->string('country')->default("Enter a country");
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps(); -->
-
-@section('scripts')
-    <script src="{{ asset('js/app.js') }}"></script>
-@endsection
-
 @section('content')
-
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -98,7 +80,6 @@
                             </div>
                         </div>
 
-
                         {!! Form::close() !!}
 
                     </div>
@@ -106,6 +87,4 @@
             </div>
         </div>
     </div>
-    </div>
-
 @endsection

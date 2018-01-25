@@ -1,11 +1,6 @@
 
 @extends('layouts.app')
 
-@section('scripts')
-    <script src="{{ asset('js/app.js') }}"></script>
-
-@endsection
-
 @section('content')
 
  <div class="container" style="background-color:white ">
