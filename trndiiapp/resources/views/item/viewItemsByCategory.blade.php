@@ -69,11 +69,6 @@
                                                     <br><br>
                                                 </div>
                                             </div>
-                                            <div class="display-group">
-                                                <div><p align="left" style="padding-left:10px">Order placed on
-                                                        <b>{{\Carbon\Carbon::parse($item->created_at)->format('d/m/Y')}}</b>
-                                                    </p></div>
-                                            </div>
                                         </div>
                                         <br/>
                                     @endforeach
