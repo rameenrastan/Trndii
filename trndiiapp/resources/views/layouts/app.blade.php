@@ -108,9 +108,9 @@
           <ul class="list-unstyled">
             <a href="/contact" class="footer-text">Send us a message</a>
             <br>
-            <a href="#" class="footer-text">About us</a>
+            <a href="/aboutUs" class="footer-text">About us</a>
             <br>
-            <a href="#" class="footer-text">FAQ</a>
+            <a href="/faq" class="footer-text">FAQ</a>
           </ul>
         </div>
         <div class="p-4 col-md-3">
@@ -119,7 +119,7 @@
             <a href="tel:+xxx - xxx xxx xxxx" class="footer-text"><i class="fa d-inline mr-3 text-secondary fa-phone"></i>(XXX) XXX-XXXX</a>
           </p>
           <p>
-            <a href="mailto:support@trndii.com" class="footer-text"><i class="fa d-inline mr-3 text-secondary fa-envelope-o"></i>support@trndii.com</a>
+            <a href="mailto:support@trndii.com" class="footer-text"><i class="fa d-inline mr-3 text-secondary fa-envelope-o"></i>TRNDii.mgmt@gmail.ca</a>
           </p>
           <p>
             <a href="#" class="footer-text" target="_blank"><i class="fa d-inline mr-3 fa-map-marker text-secondary"></i>[Address Placeholder], QC</a>
@@ -136,7 +136,7 @@
       </div>
       <div class="row">
         <div class="col-md-12 mt-3">
-          <p class="text-center footer-text">© Copyright 2017 Trndii - All rights reserved. </p>
+          <p class="text-center footer-text">© Copyright 2018 Trndii - All rights reserved. </p>
         </div>
       </div>
     </div>

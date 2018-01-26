@@ -57,8 +57,8 @@ Route::resource('transactions', 'TransactionsController');
 
 Route::post('/send', 'EmailController@send');
 
-
 Route::get('contact', 'PagesController@getContact');
+
 Route::post('contact', 'PagesController@postContact');
 
 Route::get('/viewAllItems', 'ItemsController@viewAllItems');
@@ -68,6 +68,10 @@ Route::get('/addresses', 'PDFController@makePDF');
 Route::get('/testPDF', 'PDFController@getPdfByItemTest');
 
 Route::get('/browseItemsByCategory', 'ItemsController@getItemsByCategory');
+
+Route::get('/faq', 'PagesController@getFAQ');
+
+Route::get('/aboutUs', 'PagesController@getAboutUs');
 
 $router->get('/pdfInfo/{itemId}/{itemName}',[
     'uses' => 'PDFController@getPdfByItem',
