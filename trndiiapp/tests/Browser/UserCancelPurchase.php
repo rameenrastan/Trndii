@@ -23,7 +23,7 @@ class UserCancelPurchase extends DuskTestCase
                 ->type('email', 'test@test.com')
                 ->type('password', 'password')
                 ->press('Login')
-                ->visit('/item/100')
+                ->visit('/item/1')
                 ->press('Purchase')
                 ->pause(1000)
                 ->press('Confirm')
