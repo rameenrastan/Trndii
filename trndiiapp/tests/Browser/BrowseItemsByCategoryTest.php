@@ -16,11 +16,7 @@ class BrowseItemsByCategoryTest extends DuskTestCase
     public function testBrowseItemsByCategory()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit('/')
-                    ->type('email', 'sammoosavi94@gmail.com')
-                    ->type('password', 'test123')
-                    ->press('Login')
-                    ->visit('/browseItemsByCategory')
+            $browser->visit('/browseItemsByCategory')
                     ->assertSee('Browse Items By Category');
         });
     }
