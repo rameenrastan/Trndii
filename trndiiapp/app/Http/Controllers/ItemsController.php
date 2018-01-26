@@ -92,7 +92,7 @@ class ItemsController extends Controller
         $this->itemRepo->store($request);
 
         //Redirect
-        Log::info("User " . Auth::user()->email . " created new item " . $request->Name );
+        Log::info("An admin created new item " . $request->Name );
         return redirect('/admin')->with('success', 'Item successfully created.');
     }
 
