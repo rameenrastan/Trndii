@@ -14,21 +14,28 @@
         <div class="tab-content">
             <div id="home" class="tab-pane fade in active">
                 <div class="row">
-                    <div class="col-md-7 col-md-offset-3">
+                    <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">All Items</div>
-                            <div class="panel-body">
+                            <div class="panel-body" style="padding: 25px">
                                 @if(count($items) > 0)
+                                    <?php $counter = 1 ?>
+
                                     @foreach($items as $item)
-                                        <div style="border: 3px solid #ccfff0;">
+                                        @if($counter % 4 == 1)
+                                            <div class="row is-flex">
+                                        @endif
+
+                                        <div class="col-md-3 col-sm-6"
+                                             style="border: 3px solid #ccfff0; padding: 15px;">
                                             <div class="row">
-                                                <div class="col-md-5">
+                                                <div class="col-md-12">
                                                     <a href="item/{{$item->id}}">
                                                         <img alt="{{$item->Name}}" src="{{$item->Picture_URL}}"
                                                              class="img-thumbnail"/>
                                                     </a>
                                                 </div>
-                                                <div class="col-md-7" align="left">
+                                                <div class="col-md-12" align="center">
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <h2 style="margin-top: 5px;">
@@ -40,7 +47,6 @@
                                                             </h3>
                                                         </div>
                                                     </div>
-
                                                 </div>
                                             </div>
                                             <br>
@@ -58,54 +64,76 @@
                                                         <b>{{$item->Category}}</b></p></div>
                                             </div>
                                             <div class="progress" style="margin: 20px;">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="70"
+                                                <div class="progress-bar" role="progressbar"
+                                                     aria-valuenow="70"
                                                      aria-valuemin="0" aria-valuemax="100"
                                                      style="width:{{$item->Number_Transactions/$item->Threshold*100}}%; background-color: #14A989;">
                                                 </div>
                                             </div>
                                             <div class="row" style="font-size: 16px;">
                                                 <div class="col-md-12 text-center">
-                                                    {{$item->Number_Transactions}} / {{$item->Threshold}} Orders Placed
+                                                    {{$item->Number_Transactions}} / {{$item->Threshold}}
+                                                    Orders Placed
                                                     <br><br>
                                                 </div>
                                             </div>
                                             <div class="display-group">
-                                                <div><p align="left" style="padding-left:10px">Order placed on
+                                                <div>
+                                                    <p align="left" style="padding-left:10px">Order placed
+                                                        on
                                                         <b>{{\Carbon\Carbon::parse($item->created_at)->format('d/m/Y')}}</b>
-                                                    </p></div>
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
-                                        <br/>
+
+                                        @if(++$counter % 4 == 1)
+                                            </div>
+                                        @endif
                                     @endforeach
+                                    @if($counter % 4 != 1)
+                                        </div>
+                                    @endif
                                 @else
                                     <p>There are currently no items.</p>
+                                @endif
+
+                                @if($items->count()>0)
+                                    <div>
+                                        {{ $items->links() }}
+                                    </div>
                                 @endif
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
 
             @for($i = 0; $i < count($categories); $i++)
                 <div id="menu{{$i + 1}}" class="tab-pane fade">
                     <div class="row">
-                        <div class="col-md-7 col-md-offset-3">
+                        <div class="col-md-12">
                             <div class="panel panel-default">
                                 <div class="panel-heading">{{$categories[$i]}}</div>
-                                <div class="panel-body">
-                                    @if(count($items) > 0)
-                                        @foreach($items as $item)
+                                <div class="panel-body" style="padding: 25px;">
+                                    @if(count($items->where('Category', $categories[$i])) > 0)
+                                        <?php $counter = 1 ?>
+                                        @foreach($items->where('Category', $categories[$i]) as $item)
                                             @if($item->Category == $categories[$i])
-                                                <div style="border: 3px solid #ccfff0;">
+                                                @if($counter % 4 == 1)
+                                                    <div class="row is-flex">
+                                                @endif
+
+                                                <div class="col-md-3 col-sm-6" style="border: 3px solid #ccfff0; padding: 15px;">
                                                     <div class="row">
-                                                        <div class="col-md-5">
+                                                        <div class="col-md-12">
                                                             <a href="item/{{$item->id}}">
-                                                                <img alt="{{$item->Name}}" src="{{$item->Picture_URL}}"
+                                                                <img alt="{{$item->Name}}"
+                                                                     src="{{$item->Picture_URL}}"
                                                                      class="img-thumbnail"/>
                                                             </a>
                                                         </div>
-                                                        <div class="col-md-7" align="left">
+                                                        <div class="col-md-12" align="center">
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                     <h2 style="margin-top: 5px;">
@@ -135,37 +163,51 @@
                                                                 <b>{{$item->Category}}</b></p></div>
                                                     </div>
                                                     <div class="progress" style="margin: 20px;">
-                                                        <div class="progress-bar" role="progressbar" aria-valuenow="70"
+                                                        <div class="progress-bar" role="progressbar"
+                                                             aria-valuenow="70"
                                                              aria-valuemin="0" aria-valuemax="100"
                                                              style="width:{{$item->Number_Transactions/$item->Threshold*100}}%; background-color: #14A989;">
                                                         </div>
                                                     </div>
                                                     <div class="row" style="font-size: 16px;">
                                                         <div class="col-md-12 text-center">
-                                                            {{$item->Number_Transactions}} / {{$item->Threshold}} Orders
+                                                            {{$item->Number_Transactions}} / {{$item->Threshold}}
+                                                            Orders
                                                             Placed <br><br>
                                                         </div>
                                                     </div>
                                                     <div class="display-group">
-                                                        <div><p align="left" style="padding-left:10px">Order placed on
+                                                        <div><p align="left" style="padding-left:10px">Order placed
+                                                                on
                                                                 <b>{{\Carbon\Carbon::parse($item->created_at)->format('d/m/Y')}}</b>
                                                             </p></div>
                                                     </div>
                                                 </div>
-                                                <br/>
+
+                                                @if(++$counter % 4 == 1)
+                                                    </div>
+                                                @endif
                                             @endif
                                         @endforeach
+                                        @if($counter % 4 != 1)
+                                            </div>
+                                        @endif
                                     @else
                                         <p>There are currently no items.</p>
+                                    @endif
+
+                                    @if($items->count()>0)
+                                        <div>
+                                            {{ $items->links() }}
+                                        </div>
                                     @endif
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
-            @endfor
 
+            @endfor
         </div>
     </div>
 

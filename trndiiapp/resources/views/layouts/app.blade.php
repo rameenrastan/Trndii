@@ -17,7 +17,7 @@
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
-         
+
                 <div class="navbar-header">
 
                     <!-- Collapsed Hamburger -->
@@ -33,7 +33,7 @@
                         <img src="{{ asset('images/logo_small_white.png') }}" alt="Trndii" height="100%">
                     </a>
                 </div>
-              
+
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
 
                     <!-- Left Side Of Navbar -->
@@ -73,20 +73,19 @@
                             </li>
                             <!-- Currently not implementing tokens
                                 <li><a href="#" style="font-size: 18px; color: #FDE706;"><img src="images/token.png" alt="Tokens" height="22">&nbsp; 100</a></li>
-                            -->  
+                            -->
                         @endif
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a style="color: #ffffff;" href="/browseItemsByCategory">Browse Categories</a></li>
                     </ul>
                     <!-- Right Side Of Navbar -->
-                    <form class="navbar-form navbar-right">
+                    <form class="navbar-form navbar-right" action="{{ action ('ItemsController@search')}}", method="POST">
+                    {{ csrf_field() }}
                         <div class="form-group">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search">
-                            </div>
+                            <input type="text" id="searching" class="form-control" placeholder="Search" name="search">
                         </div>
-                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                        <button type="submit" class="btn btn-default" name="searchButton"><span class="glyphicon glyphicon-search"></span></button>
                     </form>
                 </div>
             </div>
@@ -94,7 +93,7 @@
         @include('inc.messages')
         @yield('content')
     </div>
-    
+
 <!-- Start of FOOTER -->
     <div class="footer">
     <div class="container">
@@ -140,7 +139,29 @@
         </div>
       </div>
     </div>
-  </div> 
+  </div>
+
+    <!-- Algolia Autocomplete -->
+    <script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+    <script>
+        var client = algoliasearch('{{ env("ALGOLIA_APP_ID") }}', '{{ env("ALGOLIA_SEARCH_ONLY") }}');
+        var index = client.initIndex('items');
+        autocomplete('#searching', { hint: false }, [
+            {
+                source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+                displayKey: 'Name',
+                templates: {
+                    suggestion: function(suggestion) {
+                        return suggestion._highlightResult.Name.value;
+                    }
+                }
+            }
+        ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+            console.log(suggestion, dataset);
+        });
+    </script>
+
   <!-- Scripts -->
     @yield('scripts')
 </body>
