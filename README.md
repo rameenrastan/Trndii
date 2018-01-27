@@ -37,3 +37,14 @@
 - Create new vue components in /resources/assets/js/components
 - Register components in app.js (i.e. Vue.component('example', require('./components/Example.vue'));)
 - Import components into appropriate blade file. 
+
+## Web  Server : 
+
+- ec2-13-58-123-55.us-east-2.compute.amazonaws.com
+
+## Jenkins Server : 
+
+- ec2-13-58-123-55.us-east-2.compute.amazonaws.com:8080
+
+- username: trndii
+- password: trndii123

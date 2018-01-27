@@ -47,7 +47,7 @@ class ItemRepository implements ItemRepositoryInterface{
     public function viewAllItems()
     {
         Log::info('Database query: getting all items.');
-        return item::orderby('Name','asc')->paginate(10);
+        return item::orderby('Name','asc')->paginate(12);
     }
 
     public function update($id)
@@ -101,5 +101,12 @@ class ItemRepository implements ItemRepositoryInterface{
     public function getSupplierItems()
     {
         return DB::table('items')->where('Supplier','=', Auth::user()->name)->get();
+    }
+
+    public function getSearchResults(Request $request)
+    {
+        $name = $request->search;
+
+        return item::search($name)->paginate(15);
     }
 }

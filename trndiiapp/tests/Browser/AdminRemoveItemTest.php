@@ -17,8 +17,8 @@ class AdminRemoveItemTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/admin/login')
-                    ->type('email', 'sammoosavi94@gmail.com')
-                    ->type('password', 'test123')
+                    ->type('email', 'admin@admin.com')
+                    ->type('password', 'password')
                     ->press('Login')
                     ->visit('/viewAllItems')
                     ->press('Delete')

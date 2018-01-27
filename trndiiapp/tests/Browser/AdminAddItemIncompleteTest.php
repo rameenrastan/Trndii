@@ -17,13 +17,13 @@ class AdminAddItemIncompleteTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/admin/login')
-            ->type('email', 'sammoosavi94@gmail.com')
-            ->type('password', 'test123')
+            ->type('email', 'admin@admin.com')
+            ->type('password', 'password')
             ->press('Login')
             ->visit('/item/create')
             ->keys('#start-date', '2017', '{tab}', '09', '15')
             ->keys('#end-date', '2018', '{tab}', '02', '20')
-            ->press('Create Item')
+            ->press('Submit')
             ->assertSee('The name field is required.')
             ->assertSee('The tokens given field is required.')
             ->assertSee('The threshold field is required.')

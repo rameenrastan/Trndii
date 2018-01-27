@@ -17,8 +17,8 @@ class EditAccountTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                    ->type('email', 'sammoosavi94@gmail.com')
-                    ->type('password', 'test123')
+                    ->type('email', 'test@test.com')
+                    ->type('password', 'password')
                     ->press('Login')
                     ->visit('/editDetails')
                     ->type('phone', '5142223333')
@@ -26,7 +26,7 @@ class EditAccountTest extends DuskTestCase
                     ->type('addressline2', '123 test2 street')
                     ->type('postalcode', 'J5Y 3A1')
                     ->type('city', 'Montreal')
-                    ->type('password', 'test123')
+                    ->type('password', 'password')
                     ->type('newpassword', 'test1234')
                     ->type('confirmnewpassword', 'test1234')
                     ->select('country', 'Canada')
