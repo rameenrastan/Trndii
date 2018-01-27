@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-@section('scripts')
-    <script src="{{ asset('js/app.js') }}"></script>
-@endsection
-
 {{--This section consists of each item listing, which is actually a row with 2 columns. The column on the left has the item's picture while the 
 row on the right is composed of 3 rows, each row containing part of the item information.--}}
 

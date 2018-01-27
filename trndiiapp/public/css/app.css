@@ -8430,6 +8430,21 @@ a {
   border-color: #14A989;
 }
 
+
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: white;
+}
+
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+  background-color: #12735e;
+}
+
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    color: white;
+  }
+
 .algolia-autocomplete {
   width: 100%;
   display: inline-block !important;
