@@ -17,8 +17,8 @@ class EditAccountIncompleteTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                    ->type('email', 'sammoosavi94@gmail.com')
-                    ->type('password', 'test123')
+                    ->type('email', 'test@test.com')
+                    ->type('password', 'password')
                     ->press('Login')
                     ->visit('/editDetails')
                     ->type('phone', '')

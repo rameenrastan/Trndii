@@ -17,8 +17,8 @@ class AdminAddItemCompleteTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/admin/login')
-                    ->type('email', 'sammoosavi94@gmail.com')
-                    ->type('password', 'test123')
+                    ->type('email', 'admin@admin.com')
+                    ->type('password', 'password')
                     ->press('Login')
                     ->visit('/item/create')
                     ->type('Name', 'test')
@@ -31,7 +31,7 @@ class AdminAddItemCompleteTest extends DuskTestCase
                     ->keys('#start-date', '2017', '{tab}', '09', '15')
                     ->keys('#end-date', '2018', '{tab}', '02', '20')
                     ->type('Picture URL', 'test.jpg')
-                    ->press('Create Item')
+                    ->press('Submit')
                     ->assertSee('Item successfully created.');
         });
     }

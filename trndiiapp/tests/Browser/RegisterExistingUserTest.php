@@ -17,8 +17,8 @@ class RegisterExistingUserTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/register')
-                    ->type('name', 'Sam Moosavi')
-                    ->type('email', 'sammoosavi94@gmail.com')
+                ->type('email', 'test@test.com')
+                ->type('name', 'test user 2 ')
                     ->type('password', 'test1234')
                     ->type('password_confirmation', 'test1234')
                     ->press('Register')

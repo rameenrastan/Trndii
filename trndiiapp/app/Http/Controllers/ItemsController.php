@@ -91,8 +91,8 @@ class ItemsController extends Controller
         //Store in database
         $this->itemRepo->store($request);
 
-        //Redirect
-        Log::info("User " . Auth::user()->email . " created new item " . $request->Name );
+        //Log::info("User " . $user->email . " created new item ". $request->Name);
+        Log::info("Admin created new item " . $request->Name );
         return redirect('/admin')->with('success', 'Item successfully created.');
     }
 
@@ -167,7 +167,8 @@ class ItemsController extends Controller
     public function viewAllItems()
     {
         $items=$this->itemRepo->viewAllItems();
-        Log::info("User " . Auth::user()->email . " is viewing all items.");
+        //Log::info("User " . $user->email . " is viewing all items ");
+        Log::info("Admin is viewing all items.");
         return view('item.viewAllItems')->with('items',$items);
     }
 

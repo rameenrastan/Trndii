@@ -17,8 +17,8 @@ class ViewItemTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                    ->type('email', 'sammoosavi94@gmail.com')
-                    ->type('password', 'test1234')
+                    ->type('email', 'test@test.com')
+                    ->type('password', 'password')
                     ->press('Login')
                     ->visit('/item')
                     ->assertSee('Browsing Items')

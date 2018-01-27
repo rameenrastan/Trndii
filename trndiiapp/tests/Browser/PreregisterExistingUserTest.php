@@ -15,6 +15,8 @@ class PreregisterExistingUserTest extends DuskTestCase
      */
     public function testExistingPreregistration()
     {
+
+        //Need to have the preregistered user in the seeding
         $this->browse(function (Browser $browser) {
             $browser->visit('/preregistration')
                     ->type('firstName', 'test10')
