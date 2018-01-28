@@ -56,7 +56,7 @@ class AdminController extends Controller
         $this->validate($request, array(
 
             'name'=>'required|max:255',
-            'phone'=>'required',
+            'phone'=>'required|min:10 | max:10',
             'addressline1'=>'required',
             'postalcode' => 'required',
             'city' => 'required|string',

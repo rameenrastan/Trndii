@@ -11,8 +11,18 @@ use Log;
 class PagesController extends Controller
 {
     public function getContact(){
-        Log::info("User " . Auth::user()->email . " is viewing the contact page.");
+        Log::info("A user is viewing the contact page.");
         return view('contact');
+    }
+
+    public function getFAQ(){
+        Log::info("A user is viewing the FAQ page.");
+        return view('help.faq');
+    }
+
+    public function getAboutUs(){
+        Log::info("A user is viewing the About Us page.");
+        return view('help.aboutUs');
     }
 
     public function postContact(Request $request){
