@@ -10,6 +10,7 @@ namespace App\Repositories;
 
 use Illuminate\Support\Facades\DB;
 use App\Repositories\Interfaces\PdfRepositoryInterface;
+use Log;
 
 class PdfRepository implements PdfRepositoryInterface
 {
@@ -17,7 +18,7 @@ class PdfRepository implements PdfRepositoryInterface
     public function findAddressByItemId($itemId)
     {
 
-
+        Log::info("Database query: retrieving all addresses of users commited to item " . $id);
         $addresses = DB::table('users')
             ->join('transactions', 'users.email', '=', 'transactions.email')
             ->join('items', 'items.id', '=', 'transactions.item_fk')
