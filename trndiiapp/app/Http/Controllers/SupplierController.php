@@ -6,6 +6,7 @@ use App\item;
 use Auth;
 use Illuminate\Support\Facades\DB;  
 use Illuminate\Http\Request;
+use Log;
 use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterface;
 
 class SupplierController extends Controller
@@ -30,13 +31,14 @@ class SupplierController extends Controller
      */
     public function index()
     {
+        Log::info("A supplier is viewing their home page.");
         return view('supplier-home');
     }
 
     public function viewItemsStatus(Request $request)
     {
         $supplierItems = $this->itemRepo->getSupplierItems();
-        
+        Log::info("A supplier is viewing the progress and status of their items.");
         return view('supplier.viewItemsStatus', compact('supplierItems'));
     }
 }
