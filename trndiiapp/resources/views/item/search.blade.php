@@ -1,15 +1,16 @@
+
 @extends('layouts.app')
 
-{{--This section consists of each item listing, which is actually a row with 2 columns. The column on the left has the item's picture while the 
-row on the right is composed of 3 rows, each row containing part of the item information.--}}
+@section('scripts')
+    <script src="{{ asset('js/app.js') }}"></script>
+@endsection
 
 @section('content')
-
-    <div class="container">
+<div class="container">
         <div class="row">
             <div class="col-md-7 col-md-offset-3">
                 <div class="panel panel-default">
-                    <div class="panel-heading">All Items</div>
+                    <div class="panel-heading">Search Results</div>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
@@ -27,7 +28,7 @@ row on the right is composed of 3 rows, each row containing part of the item inf
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <a href="item/{{$item->id}}">
+                                        <a href="/item/{{$item->id}}">
                                             <img alt="{{$item->Name}}" src="{{$item->Picture_URL}}" class="img-thumbnail"/>
                                         </a>
                                     </div>
@@ -35,7 +36,7 @@ row on the right is composed of 3 rows, each row containing part of the item inf
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <h2 style="margin-top: 5px;">
-                                                    <a href="item/{{$item->id}}"> {{$item->Name}}</a>
+                                                    <a href="/item/{{$item->id}}"> {{$item->Name}}</a>
                                                 </h2>
                                                 {{$item->Short_Description}}
                                                 <h3>
@@ -55,9 +56,9 @@ row on the right is composed of 3 rows, each row containing part of the item inf
                                 <br>
                             @endforeach
 
-                            {{$items->links()}}
+                                {{ $items->links() }}
                         @else
-                            <p>No items in database</p>
+                            <p>There are no items that match your search.</p>
                         @endif
                     </div>
                 </div>
