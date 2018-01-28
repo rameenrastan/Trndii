@@ -16,13 +16,23 @@ class UserRepository implements UserRepositoryInterface {
 
     }
 
+    /**
+     * Finds a user by their email.
+     * @param  $email
+     * @return User
+     */
     public function findByEmail($email){
 
         Log::info('Database query: retrieving user ' . $email);
         return $this->user->where('email', $email)->first();
 
     }
-	
+    
+    /**
+     * Updates a user's credit card information (Stripe ID in the database)
+     * @param  $email, $customerId
+     * @return void
+     */
     public function updateCreditCard($email, $customerId){
 
         Log::info('Database query: updating credit card information of user ' . $email);
@@ -32,6 +42,11 @@ class UserRepository implements UserRepositoryInterface {
 
     }
 
+    /**
+     * Updates a user's information in the database.
+     * @param  $request, $id
+     * @return void
+     */
     public function update($request, $id){
 
         Log::info('Database query: updating account information of user ' . $id);

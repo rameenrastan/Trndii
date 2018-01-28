@@ -31,6 +31,12 @@ class ItemsController extends Controller
         $this->userRepo = $userRepo;
     }
 
+    /**
+     * Displays the item index list to a user.
+     *
+     * @param  null
+     * @return \Illuminate\Http\Response
+     */
     public function index(){
 
         $items=$this->itemRepo->index();
@@ -164,6 +170,11 @@ class ItemsController extends Controller
 
     }
 
+    /**
+     * Displays all items to an admin.
+     * @param  null
+     * @return \Illuminate\Http\Response
+     */
     public function viewAllItems()
     {
         $items=$this->itemRepo->viewAllItems();
@@ -172,6 +183,12 @@ class ItemsController extends Controller
         return view('item.viewAllItems')->with('items',$items);
     }
 
+    /**
+     * Displays all items by category.
+     *
+     * @param  null
+     * @return \Illuminate\Http\Response
+     */
     public function getItemsByCategory(CategoryRepositoryInterface $categoriesRepo){
 
         $items=$this->itemRepo->viewAllItems();
@@ -212,10 +229,15 @@ class ItemsController extends Controller
         }
     }
 
+    /**
+     * Gets search results of a user search bar input.
+     * @param  $request
+     * @return \Illuminate\Http\Response
+     */
     public function search(Request $request)
     {
         $items = $this->itemRepo->getSearchResults($request);
-
+        Log::info("A user is viewing search results of " . $request->search);
         return view('item.search')->with('items', $items);
     }
 

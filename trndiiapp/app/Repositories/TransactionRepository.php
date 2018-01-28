@@ -19,6 +19,11 @@ class TransactionRepository implements TransactionRepositoryInterface {
 
     }
 
+    /**
+     * Getting all transactions associated with a user from the database.
+     * @param  null
+     * @return Transaction[]
+     */
     public function index(){
 
         Log::info('Database query: getting transactions of user ' . Auth::user()->email);
@@ -34,6 +39,11 @@ class TransactionRepository implements TransactionRepositoryInterface {
 
     }
 
+    /**
+     * Inserts a new transaction associating a user with an item.
+     * @param  $email, $itemId
+     * @return void
+     */
     public function insert($email, $itemId){
 
         Log::info('Database query: inserting a new transaction in the transactions table, User: ' . Auth::user()->email . ' and Item: ' . $itemId);
@@ -44,12 +54,22 @@ class TransactionRepository implements TransactionRepositoryInterface {
             ]);
     }
 
+    /**
+     * Get all transactions associated to an item.
+     * @param  int $id
+     * @return Transaction[]
+     */
     public function getAllByItemId($id){
         Log::info('Database query: retrieving all transactions associated with item ' . $id);
         return DB::table('transactions')->where('item_fk', $id)->get();
 
     }
 
+    /**
+     * Deletes a transaction associated with a specific user and item.
+     * @param  $itemId
+     * @return void
+     */
     public function destroy($itemId)
     {
         DB::table('transactions')

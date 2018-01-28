@@ -15,6 +15,11 @@ use Log;
 class PdfRepository implements PdfRepositoryInterface
 {
 
+    /**
+     * Retrieves all addresses of users commited to an item from the database.
+     * @param  int $itemId
+     * @return $addresses
+     */
     public function findAddressByItemId($itemId)
     {
 

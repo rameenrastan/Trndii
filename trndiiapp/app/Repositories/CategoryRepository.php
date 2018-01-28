@@ -12,6 +12,11 @@ use Log;
 
 class CategoryRepository implements CategoryRepositoryInterface{
 
+    /**
+     * Gets all categories in the database.
+     * @param  null
+     * @return Category[]
+     */
     public function getCategories(){
         Log::info("Database query: retrieving all item categories.");
         return Category::pluck('Name')->toArray();

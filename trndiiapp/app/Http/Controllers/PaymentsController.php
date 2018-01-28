@@ -71,7 +71,7 @@ class PaymentsController extends Controller
 
         $amount = $amount * 100; 
         
-        Stripe::setApiKey('sk_test_NT3PRUGQkLOj8cnPlp1X2APb');    
+        Stripe::setApiKey(env('STRIPE_SECRET'));    
 
         $charge = Charge::create([
 
