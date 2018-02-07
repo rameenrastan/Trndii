@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Log;
 use Auth;
+use Feature;
 
 class HomeController extends Controller
 {
@@ -26,6 +27,8 @@ class HomeController extends Controller
     public function index()
     {
         Log::info("User " . Auth::user()->email . " is viewing the home page.");
+        Feature::add('textChanger', true); //Example to test if feature toggling works
         return view('home');
     }
+
 }
