@@ -8430,7 +8430,6 @@ a {
   border-color: #14A989;
 }
 
-
 .navbar-default .navbar-toggle .icon-bar {
   background-color: white;
 }
@@ -8444,6 +8443,7 @@ a {
   .navbar-default .navbar-nav .open .dropdown-menu > li > a {
     color: white;
   }
+}
 
 .algolia-autocomplete {
   width: 100%;
