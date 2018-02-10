@@ -13,8 +13,10 @@ use App\Repositories\Interfaces\TransactionRepositoryInterface as TransactionRep
 use App\Repositories\Interfaces\UserRepositoryInterface as UserRepositoryInterface;
 use Log;
 use Auth;
+use Feature;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ItemExpired;
+
 
 
 class ItemsController extends Controller
@@ -41,6 +43,7 @@ class ItemsController extends Controller
 
         $items=$this->itemRepo->index();
         Log::info("User " . Auth::user()->email . " is viewing the item list");
+        Feature::add('textChanger', false); //Example to test if feature toggling works
         return view('item.index')->with('items',$items);
 
     }

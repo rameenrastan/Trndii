@@ -62,6 +62,12 @@
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
+
+                                            <!--Example to test if feature toggling works -->
+                                            @feature('textChanger')
+                                                Toggle works!
+                                            @endfeature
+
                                             Logout
                                         </a>
 

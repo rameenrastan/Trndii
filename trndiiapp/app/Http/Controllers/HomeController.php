@@ -7,6 +7,7 @@ use Log;
 use Bart\Ab\Ab;
 
 use Auth;
+use Feature;
 
 class HomeController extends Controller
 {
@@ -28,6 +29,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+
         $this->ab->getCurrentTest();
         if($this->ab->getCurrentTest()== "A"){
 
@@ -42,6 +44,6 @@ class HomeController extends Controller
 //            print $this->ab->getCurrentTest();
              return view('home');
         }
-
     }
+
 }

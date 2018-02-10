@@ -188,6 +188,8 @@ return [
 
         Laravel\Scout\ScoutServiceProvider::class,
 
+        LaravelFeature\Provider\FeatureServiceProvider::class,
+
     ],
 
     /*
@@ -242,6 +244,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'AB' => Bart\Ab\Facade::class,
+        'Feature' => \LaravelFeature\Facade\Feature::class,
     ],
 
 ];
