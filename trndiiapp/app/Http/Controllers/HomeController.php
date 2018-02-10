@@ -29,14 +29,14 @@ class HomeController extends Controller
     public function index()
     {
         $this->ab->getCurrentTest();
-        if($this->ab->getCurrentTest()== "teaser1"){
+        if($this->ab->getCurrentTest()== "A"){
 
             Log::info("User " . Auth::user()->email . " is viewing the home page.");
 //          print $this->ab->getCurrentTest();
               return view('home');
         }
 
-        if($this->ab->getCurrentTest()== "teaser2"){
+        if($this->ab->getCurrentTest()== "B"){
 
             Log::info("User " . Auth::user()->email . " is viewing the home page.");
 //            print $this->ab->getCurrentTest();

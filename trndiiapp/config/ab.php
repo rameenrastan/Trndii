@@ -2,13 +2,14 @@
 
 return [
 
+    //enables/disables A/B testing
     'enabled' => true,
     'default' => 'none',
 
+    //defines tests with distribution levels (segmentation)
     'tests' => [
-        'teaser1' => 1,
-        'teaser2' => 2,
-        'teaser3' => 1,
+        'A' => 1,
+        'B' => 1,
     ],
 
 ];
