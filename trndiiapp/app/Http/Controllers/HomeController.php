@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Log;
+use Bart\Ab\Ab;
+
 use Auth;
 use Feature;
 
@@ -14,8 +16,9 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Ab $ab)
     {
+        $this->ab= $ab;
         $this->middleware('auth');
     }
 
@@ -26,9 +29,21 @@ class HomeController extends Controller
      */
     public function index()
     {
-        Log::info("User " . Auth::user()->email . " is viewing the home page.");
-        Feature::add('textChanger', true); //Example to test if feature toggling works
-        return view('home');
+
+        $this->ab->getCurrentTest();
+        if($this->ab->getCurrentTest()== "A"){
+
+            Log::info("User " . Auth::user()->email . " is viewing the home page.");
+//          print $this->ab->getCurrentTest();
+              return view('home');
+        }
+
+        if($this->ab->getCurrentTest()== "B"){
+
+            Log::info("User " . Auth::user()->email . " is viewing the home page.");
+//            print $this->ab->getCurrentTest();
+             return view('home');
+        }
     }
 
 }

@@ -7,9 +7,20 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <img src="images/logo_full.png" width="100%">
+
+                        @test('teaser1')
                         <h3 align="center">
-                            Welcome to Trndii! If you're not sure where to start, click <a href="#"> here </a>
+                             Welcome to Trndii! If you're not sure where to start, click <a href="#"> here </a>
                         </h3>
+                        @endtest
+
+                        @test('teaser2')
+                        <h3 align="center">
+                            Welcome to Trndii! Click here for more information <a href="#"> here </a>
+                        </h3>
+                        @endtest
+
+
                     </div>
 
                     <div class="panel-body" style="border:none;">
