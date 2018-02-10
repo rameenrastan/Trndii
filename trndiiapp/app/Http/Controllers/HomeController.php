@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Log;
+use Bart\Ab\Ab;
+
 use Auth;
 
 class HomeController extends Controller
@@ -13,8 +15,9 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Ab $ab)
     {
+        $this->ab= $ab;
         $this->middleware('auth');
     }
 
@@ -25,7 +28,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-        Log::info("User " . Auth::user()->email . " is viewing the home page.");
-        return view('home');
+        $this->ab->getCurrentTest();
+        if($this->ab->getCurrentTest()== "teaser1"){
+
+            Log::info("User " . Auth::user()->email . " is viewing the home page.");
+//          print $this->ab->getCurrentTest();
+              return view('home');
+        }
+
+        if($this->ab->getCurrentTest()== "teaser2"){
+
+            Log::info("User " . Auth::user()->email . " is viewing the home page.");
+//            print $this->ab->getCurrentTest();
+             return view('home');
+        }
+
     }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f84d82f43fe97f36bcaebf57bd643780",
+    "content-hash": "b7c56f9db9c4a327ab55261ec3525383",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -111,6 +111,52 @@
                 "pdf"
             ],
             "time": "2017-07-29T19:01:17+00:00"
+        },
+        {
+            "name": "bart/ab",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bart/ab.git",
+                "reference": "551807141428d55a3a44143de97f5fcfafbd045b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bart/ab/zipball/551807141428d55a3a44143de97f5fcfafbd045b",
+                "reference": "551807141428d55a3a44143de97f5fcfafbd045b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.0",
+                "namshi/ab": "^1.1",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Bart\\Ab\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rene Bartkowiak",
+                    "email": "info@rene-bartkowiak.com"
+                }
+            ],
+            "description": "A/B testing tool for Laravel apps",
+            "homepage": "https://github.com/bart/ab",
+            "keywords": [
+                "AB",
+                "laravel",
+                "optimizely",
+                "split",
+                "testing"
+            ],
+            "time": "2017-10-27T11:44:11+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1168,6 +1214,43 @@
                 "schedule"
             ],
             "time": "2017-01-23T04:29:33+00:00"
+        },
+        {
+            "name": "namshi/ab",
+            "version": "1.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/namshi/AB.git",
+                "reference": "8606b2e495af47c30610f8f15d991cb01970818e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/namshi/AB/zipball/8606b2e495af47c30610f8f15d991cb01970818e",
+                "reference": "8606b2e495af47c30610f8f15d991cb01970818e",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Namshi\\AB": "src/",
+                    "Namshi\\AB\\Test": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "odino",
+                    "email": "alessandro.nadalin@gmail.com"
+                }
+            ],
+            "description": "A library to run AB tests within your code.",
+            "time": "2017-10-28T17:20:00+00:00"
         },
         {
             "name": "nesbot/carbon",
