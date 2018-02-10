@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f84d82f43fe97f36bcaebf57bd643780",
+    "content-hash": "2c067d993bdf3cd69693d30cb762eecd",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -318,6 +318,58 @@
                 "parser"
             ],
             "time": "2017-11-14T20:44:03+00:00"
+        },
+        {
+            "name": "francescomalatesta/laravel-feature",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/francescomalatesta/laravel-feature.git",
+                "reference": "2af8739deb5c3526a6bfdb29e54789f7948b66d9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/francescomalatesta/laravel-feature/zipball/2af8739deb5c3526a6bfdb29e54789f7948b66d9",
+                "reference": "2af8739deb5c3526a6bfdb29e54789f7948b66d9",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "~5.1",
+                "illuminate/support": "~5.1",
+                "php": "~5.6|~7.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.4",
+                "orchestra/testbench": "~3.1",
+                "phpunit/phpunit": "~4.0||~5.0",
+                "squizlabs/php_codesniffer": "^2.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LaravelFeature\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Francesco Malatesta",
+                    "email": "hellofrancesco@gmail.com",
+                    "homepage": "https://github.com/francescomalatesta",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple package to manage feature flagging in a Laravel project.",
+            "homepage": "https://github.com/francescomalatesta/laravel-feature",
+            "keywords": [
+                "feature",
+                "flag",
+                "laravel"
+            ],
+            "time": "2016-12-18T14:04:02+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

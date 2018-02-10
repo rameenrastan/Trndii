@@ -8,6 +8,7 @@
         "php": ">=5.6.4",
         "algolia/algoliasearch-client-php": "^1.25",
         "barryvdh/laravel-dompdf": "^0.8.1",
+        "francescomalatesta/laravel-feature": "^0.1.0",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/cashier": "~7.0",
         "laravel/framework": "5.4.*",
