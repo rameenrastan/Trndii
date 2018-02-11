@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Log;
+use Bart\Ab\Ab;
+
 use Auth;
+use Feature;
 
 class HomeController extends Controller
 {
@@ -13,8 +16,9 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Ab $ab)
     {
+        $this->ab= $ab;
         $this->middleware('auth');
     }
 
@@ -25,7 +29,16 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $this->ab->getCurrentTest();
+        if($this->ab->getCurrentTest()== "A"){
+            Feature::add('Cancel Purchase', false);
+        }
+
+        if($this->ab->getCurrentTest()== "B"){
+            Feature::add('Cancel Purchase', true);
+        };
         Log::info("User " . Auth::user()->email . " is viewing the home page.");
         return view('home');
     }
+
 }

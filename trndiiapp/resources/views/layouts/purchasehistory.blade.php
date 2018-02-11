@@ -69,6 +69,7 @@
                                                         <b>{{\Carbon\Carbon::parse($item->created_at)->format('d/m/Y')}}</b>
                                                     </p></div>
                                             </div>
+                                            @feature('Cancel Purchase')
                                             @if($item->Status == 'pending')
                                                 <div class="display-group">
                                                     <button type="button" class="btn btn-primary btn-lg"
@@ -77,6 +78,7 @@
                                                 </div>
                                                 <p></p>
                                             @endif
+                                            @endfeature
                                         </div>
                                         <br/>
                                     @endforeach
@@ -148,11 +150,13 @@
                                                             <b>{{\Carbon\Carbon::parse($item->created_at)->format('d/m/Y')}}</b>
                                                         </p></div>
                                                 </div>
+                                                @feature('Cancel Purchase')
                                                 <div class="display-group">
                                                     <button type="button" class="btn btn-primary btn-lg"
                                                             data-toggle="modal" data-target="#CancelModal">Cancel
                                                     </button>
                                                 </div>
+                                                @endfeature
                                                 <p></p>
                                             </div>
                                             <br/>
