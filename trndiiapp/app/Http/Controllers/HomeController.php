@@ -29,21 +29,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-
         $this->ab->getCurrentTest();
         if($this->ab->getCurrentTest()== "A"){
-
-            Log::info("User " . Auth::user()->email . " is viewing the home page.");
-//          print $this->ab->getCurrentTest();
-              return view('home');
+            Feature::add('Cancel Purchase', false);
         }
 
         if($this->ab->getCurrentTest()== "B"){
-
-            Log::info("User " . Auth::user()->email . " is viewing the home page.");
-//            print $this->ab->getCurrentTest();
-             return view('home');
-        }
+            Feature::add('Cancel Purchase', true);
+        };
+        Log::info("User " . Auth::user()->email . " is viewing the home page.");
+        return view('home');
     }
 
 }
