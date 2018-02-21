@@ -64,9 +64,9 @@
                                                      document.getElementById('logout-form').submit();">
 
                                             <!--Example to test if feature toggling works -->
-                                            @feature('textChanger')
-                                                Toggle works!
-                                            @endfeature
+                                            <!--@feature('textChanger')-->
+                                                <!--Toggle works!-->
+                                            <!--@endfeature -->
 
                                             Logout
                                         </a>
@@ -84,6 +84,7 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a style="color: #ffffff;" href="/browseItemsByCategory">Browse Categories</a></li>
+                        <li><a style="color: #ffffff;" href="/shoppingCart">Shopping Cart</a></li>
                     </ul>
                     <!-- Right Side Of Navbar -->
                     <form class="navbar-form navbar-right" action="{{ action ('ItemsController@search')}}", method="POST">

@@ -76,6 +76,7 @@ Route::post('/search', 'ItemsController@search');
 
 Route::get('/search', 'ItemsController@search');
 
+Route::get('/shoppingCart', 'CartController@index');
 
 $router->get('/pdfInfo/{itemId}/{itemName}',[
     'uses' => 'PDFController@getPdfByItem',
