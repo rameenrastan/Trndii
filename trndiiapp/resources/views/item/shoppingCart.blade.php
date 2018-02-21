@@ -17,7 +17,7 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <a href="item/{{$item->id}}">
-                                            <img alt="{{$item->name}}" src="{{$item->Picture_URL}}" class="img-thumbnail"/>
+                                            <img alt="{{$item->name}}" src="{{$item->model->Picture_URL}}" class="img-thumbnail"/>
                                         </a>
                                     </div>
                                     <div class="col-md-8" style="text-align: left">
@@ -26,7 +26,7 @@
                                                 <h2 style="margin-top: 5px;">
                                                     <a href="item/{{$item->id}}"> {{$item->name}}</a>
                                                 </h2>
-                                                {{$item->Short_Description}}
+                                                {{$item->model->Short_Description}}
                                                 <h3>
                                                     ${{$item->price}}
                                                 </h3>
@@ -35,7 +35,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <h4>
-                                                    Receive <strong>{{$item->Tokens_Given}}</strong> tokens upon purchase
+                                                    Receive <strong>{{$item->model->Tokens_Given}}</strong> tokens upon purchase
                                                 </h4>
                                             </div>
                                         </div>
