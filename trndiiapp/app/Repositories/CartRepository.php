@@ -18,4 +18,15 @@ class CartRepository implements CartRepositoryInterface{
         
         Cart::remove($id);
     }
+
+    public function removeNonPendingItems(){
+
+        foreach(Cart::content() as $item){
+            
+            if($item->model->Status != 'pending'){
+
+                Cart::remove($item->rowId);
+            }
+        }
+    }
 }

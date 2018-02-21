@@ -7,4 +7,5 @@ interface CartRepositoryInterface{
 
     public function store(Request $request);
     public function destroy($id);
+    public function removeNonPendingItems();
 }

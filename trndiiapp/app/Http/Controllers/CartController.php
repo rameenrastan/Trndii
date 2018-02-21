@@ -23,6 +23,7 @@ class CartController extends Controller
      */
     public function index()
     {
+        $this->cartRepo->removeNonPendingItems();
         return view('item.shoppingCart');
     }
 
@@ -45,6 +46,7 @@ class CartController extends Controller
     public function store(Request $request)
     {
         $this->cartRepo->store($request);
+        $this->cartRepo->removeNonPendingItems();
         return redirect('/shoppingCart')->with('success', 'The item has been added to the cart');
     }
 
@@ -91,6 +93,7 @@ class CartController extends Controller
     public function destroy($id)
     {
         $this->cartRepo->destroy($id);
+        $this->cartRepo->removeNonPendingItems();
         return redirect('/shoppingCart')->with('success', 'The item has been removed from your shopping cart.');
     }
 }
