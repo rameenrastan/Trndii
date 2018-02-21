@@ -11,6 +11,8 @@
 |
 */
 
+use Gloudemans\Shoppingcart\Facades\Cart;
+
 Route::get('/', 'HomeController@index')->name('home');
 
 Auth::routes();
@@ -84,3 +86,7 @@ $router->get('/pdfInfo/{itemId}/{itemName}',[
     'uses' => 'PDFController@getPdfByItem',
     'as'   => 'PdfController'
 ]);
+
+Route::get('emptyCart', function() { //temporary function to empty the shopping cart.
+    Cart::destroy();
+});
