@@ -10,6 +10,7 @@
         "barryvdh/laravel-dompdf": "^0.8.1",
         "bart/ab": "^1.1",
         "francescomalatesta/laravel-feature": "^0.1.0",
+        "gloudemans/shoppingcart": "^2.5",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/cashier": "~7.0",
         "laravel/framework": "5.4.*",

@@ -190,6 +190,11 @@ return [
 
         LaravelFeature\Provider\FeatureServiceProvider::class,
 
+        /*
+         * Shopping Cart Service Providers...
+         */
+        Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
+
     ],
 
     /*
@@ -245,6 +250,7 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'AB' => Bart\Ab\Facade::class,
         'Feature' => \LaravelFeature\Facade\Feature::class,
+        'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
     ],
 
 ];
