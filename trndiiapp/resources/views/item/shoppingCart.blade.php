@@ -3,7 +3,7 @@
 @section('content')
     <h1>Shopping Cart</h1>
 
-<div class="container">
+    <div class="container">
         <div class="row">
             <div class="col-md-7 col-md-offset-3">
                 <div class="panel panel-default">
@@ -16,8 +16,8 @@
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <a href="item/{{$item->id}}">
-                                            <img alt="{{$item->name}}" src="{{$item->model->Picture_URL}}" class="img-thumbnail"/>
+                                        <a href="item/{{$item->model->id}}">
+                                            <img alt="{{$item->model->Name}}" src="{{$item->model->Picture_URL}}" class="img-thumbnail"/>
                                         </a>
                                     </div>
                                     <div class="col-md-8" style="text-align: left">
@@ -28,7 +28,7 @@
                                                 </h2>
                                                 {{$item->model->Short_Description}}
                                                 <h3>
-                                                    ${{$item->price}}
+                                                    ${{$item->model->Price}}
                                                 </h3>
                                             </div>
                                         </div>
@@ -37,6 +37,15 @@
                                                 <h4>
                                                     Receive <strong>{{$item->model->Tokens_Given}}</strong> tokens upon purchase
                                                 </h4>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <form action="{{ route('cart.destroy', $item->rowId) }}" method="POST">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                    <button type="submit" class="btn btn-primary">Remove from cart</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>

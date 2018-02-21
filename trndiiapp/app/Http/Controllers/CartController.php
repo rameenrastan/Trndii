@@ -45,7 +45,6 @@ class CartController extends Controller
     public function store(Request $request)
     {
         $this->cartRepo->store($request);
-        //Cart::add($request->id, $request->Name, 1, $request->Price)->associate('App\item');
         return redirect('/shoppingCart')->with('success', 'The item has been added to the cart');
     }
 
@@ -91,6 +90,7 @@ class CartController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->cartRepo->destroy($id);
+        return redirect('/shoppingCart')->with('success', 'The item has been removed from your shopping cart.');
     }
 }

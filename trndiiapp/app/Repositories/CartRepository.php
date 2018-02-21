@@ -13,4 +13,9 @@ class CartRepository implements CartRepositoryInterface{
 
         Cart::add($request->id, $request->Name, 1, $request->Price)->associate('App\item');
     }
+
+    public function destroy($id){
+        
+        Cart::remove($id);
+    }
 }
