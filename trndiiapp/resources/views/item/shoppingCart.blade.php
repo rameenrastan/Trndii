@@ -13,7 +13,8 @@
                         @if(Cart::count() > 0)
 
                             @foreach(Cart::content() as $item)
-
+                                
+                                @if($item->model->Status == 'pending')
                                 <div class="row">
                                     <div class="col-md-4">
                                         <a href="item/{{$item->model->id}}">
@@ -51,6 +52,7 @@
                                     </div>
                                 </div>
                                 <br>
+                                @endif
                             @endforeach
                         @else
                             <p>There are no items in your shopping cart.</p>
