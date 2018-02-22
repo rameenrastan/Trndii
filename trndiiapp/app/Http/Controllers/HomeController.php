@@ -5,19 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Log;
 use Bart\Ab\Ab;
-
 use Auth;
 use Feature;
+use App\Repositories\Interfaces\ExperimentsRepositoryInterface;
 
 class HomeController extends Controller
 {
+
+    protected $experimentsRepo;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(Ab $ab)
+    public function __construct(Ab $ab, ExperimentsRepositoryInterface $experimentsRepo)
     {
+        $this->experimentsRepo = $experimentsRepo;
         $this->ab= $ab;
         $this->middleware('auth');
     }
@@ -29,13 +32,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $this->ab->getCurrentTest();
-        if($this->ab->getCurrentTest()== "A"){
-            Feature::add('Cancel Purchase', false);
+        if(Auth::user()->segment == "")
+        {
+            Auth::user()->segment = $this->ab->getCurrentTest();
+            Auth::user()->save();
         }
-
-        if($this->ab->getCurrentTest()== "B"){
+        if(Auth::user()->segment== "A"){
+            Feature::add('Cancel Purchase', false);
+            Feature::add('textChanger', false);
+            $this->experimentsRepo->incrementExperimentAVisitors();
+        }
+        if(Auth::user()->segment== "B"){
             Feature::add('Cancel Purchase', true);
+            Feature::add('textChanger', true);
+            $this->experimentsRepo->incrementExperimentBVisitors();
         };
         Log::info("User " . Auth::user()->email . " is viewing the home page.");
         return view('home');
