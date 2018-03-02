@@ -12,6 +12,8 @@
             <a href="/viewAllItems">Click here to view all items</a>
             <br>
             <a href="/supplier/create">Click here to add supplier</a>
+            <br>
+            <a href="/banUserForm">Click here to moderate users</a>
         </div>
     </div>
 @endsection

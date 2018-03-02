@@ -7,6 +7,7 @@ use App\Supplier;
 use Illuminate\Http\Request;
 use Log;
 use Auth;
+use App\User;
 
 class AdminController extends Controller
 {
@@ -33,6 +34,21 @@ class AdminController extends Controller
 
     public function createSupplier(){
         return view('supplier.create');
+    }
+
+    public function banUserForm(){
+
+        $userEmails = User::pluck('email')->toArray();
+
+        $userEmails=array_combine($userEmails,$userEmails);
+
+
+        //return view('item.create', compact('supplierNames'), compact('categories'));
+
+        return view('admin.banUserForm', compact('userEmails'));
+    }
+    public function banUser(){
+        //ban the user in database and stuff
     }
 
     public function storeSupplier(Request $request){
