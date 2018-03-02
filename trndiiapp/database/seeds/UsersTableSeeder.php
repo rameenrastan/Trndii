@@ -21,6 +21,7 @@ class UsersTableSeeder extends Seeder
             'country'=>'Canada',
             'email' => "test@test.com",
             'password' => bcrypt('password'),
+            'status' => "Normal",
         ]);
 
         $test_user->save();

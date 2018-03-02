@@ -31,7 +31,20 @@
                         <div class="form-group">
                             {{Form::label('Ban Type','Ban Type',array('class'=>'col-md-4 control-label'))}}
                             <div class="col-md-6">
-                                {{ Form::select('Ban Type', ['Ban'=>'Ban', 'Suspension'=>'Suspension', 'Unban'=>'Unban'], null, array('class' => 'form-control'))}}
+                                {{ Form::select('Ban_Type', ['Ban'=>'Ban', 'Suspension'=>'Suspension', 'Unban'=>'Unban'], null, array('class' => 'form-control'))}}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            {{Form::label('Suspension Time','Suspension Time (In Days)',array('class'=>'col-md-4 control-label'))}}
+                            <div class="col-md-6">
+                                {{ Form::select('Suspension_Time', ['1'=>'1', '7'=>'7', '14'=>'14'], null, array('class' => 'form-control'))}}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                {{Form::submit('Submit', array('class' => 'btn btn-primary', 'id' => 'ban user'))}}
                             </div>
                         </div>
 

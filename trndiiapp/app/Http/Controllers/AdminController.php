@@ -8,18 +8,23 @@ use Illuminate\Http\Request;
 use Log;
 use Auth;
 use App\User;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 
 class AdminController extends Controller
 {
+
+    protected $userRepo;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserRepositoryInterface $userRepo)
     {
         $this->middleware('auth:admin');
+        $this->userRepo = $userRepo;
     }
+
 
     /**
      * Display a listing of the resource.
@@ -47,8 +52,27 @@ class AdminController extends Controller
 
         return view('admin.banUserForm', compact('userEmails'));
     }
-    public function banUser(){
-        //ban the user in database and stuff
+    public function banUser(Request $request){
+
+        //Validate data
+        $this->validate($request, array(
+
+            'Comment' => 'required| string'
+        ));
+
+        $ban_type=$request->Ban_Type;
+        $email=$request->Email;
+        $suspension_time=$request->Suspension_Time;
+        $comment=$request->Comment;
+
+        $user=$this->userRepo->findByEmail($email);
+
+        var_dump($ban_type);
+
+        Log::info('Ban user' . $email);
+        $user->status = $ban_type;
+        $user->save();
+
     }
 
     public function storeSupplier(Request $request){
