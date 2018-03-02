@@ -24,7 +24,6 @@ class CreateUsersTable extends Migration
             $table->string('country')->default("Enter a country");
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('status')->default("Normal");
             $table->string('stripe_id')->nullable();
             $table->string('card_brand')->nullable();
             $table->string('card_last_four')->nullable();

@@ -67,11 +67,28 @@ class AdminController extends Controller
 
         $user=$this->userRepo->findByEmail($email);
 
-        var_dump($ban_type);
 
-        Log::info('Ban user' . $email);
-        $user->status = $ban_type;
-        $user->save();
+
+        if($ban_type=="Ban"){
+            Log::info('Ban user' . $email);
+            $user->ban(['comment' => 'Enjoy your ban!',]);
+            return redirect('/admin')->with('success','You banned '. $email);
+        }
+        else if($ban_type=="Unban"){
+            Log::info('Unban user' . $email);
+            $user->unban();
+
+            return redirect('/admin')->with('success','You unbanned '. $email);
+        }
+
+        else if($ban_type=="Suspension"){
+            Log::info('Ban user' . $email. ' for '.$suspension_time.' days');
+            $user->ban([
+                'comment' => 'You\'re banned for '.$suspension_time.' days',
+                'expired_at' => '+'.$suspension_time.' days',
+            ]);
+            return redirect('/admin')->with('success','You banned '. $email.  ' for '.$suspension_time.' days');
+        }
 
     }
 

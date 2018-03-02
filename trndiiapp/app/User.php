@@ -5,11 +5,24 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Cashier\Billable;
+use Cog\Contracts\Ban\Bannable as BannableContract;
+use Cog\Laravel\Ban\Traits\Bannable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements BannableContract
 {
     use Notifiable;
     use Billable;
+    use Bannable;
+
+    /**
+     * Determine if BannedAtScope should be applied by default.
+     *
+     * @return bool
+     */
+    public function shouldApplyBannedAtScope()
+    {
+        return true;
+    }
     
     /**
      * The attributes that are mass assignable.
@@ -17,7 +30,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','phone','addressline1', 'addressline2', 'postalcode', 'city', 'country','status'
+        'name', 'email', 'password','phone','addressline1', 'addressline2', 'postalcode', 'city', 'country'
     ];
 
     /**
