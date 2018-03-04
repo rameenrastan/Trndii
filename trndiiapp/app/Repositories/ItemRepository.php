@@ -112,7 +112,10 @@ class ItemRepository implements ItemRepositoryInterface{
     public function checkCommit($item)
     {
         Log::info('Database query: finding the number of users commited to item ' . $item->id);
-        return DB::table('transactions')->where([['email', Auth::user()->email],['item_fk', $item->id]])->count();
+        if (!Auth::user()) {
+            return;
+        } else
+            return DB::table('transactions')->where([['email', Auth::user()->email], ['item_fk', $item->id]])->count();
     }
 
     /**

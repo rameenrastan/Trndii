@@ -38,6 +38,9 @@ Route::get('/supplier/items', 'SupplierController@viewItemsStatus');
 Route::get('/supplier/create', 'AdminController@createSupplier');
 Route::post('/supplier/store', 'AdminController@storeSupplier');
 
+Route::get('/banUserForm', 'AdminController@banUserForm');
+Route::post('/banUserForm', 'AdminController@banUser');
+
 Route::prefix('supplier')->group(function(){
     Route::get('/login', 'Auth\SupplierLoginController@showLoginForm')->name('supplier.login');
     Route::post('/login', 'Auth\SupplierLoginController@login')->name('supplier.login.submit');

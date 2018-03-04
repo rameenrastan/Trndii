@@ -7,18 +7,24 @@ use App\Supplier;
 use Illuminate\Http\Request;
 use Log;
 use Auth;
+use App\User;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 
 class AdminController extends Controller
 {
+
+    protected $userRepo;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserRepositoryInterface $userRepo)
     {
         $this->middleware('auth:admin');
+        $this->userRepo = $userRepo;
     }
+
 
     /**
      * Display a listing of the resource.
@@ -33,6 +39,57 @@ class AdminController extends Controller
 
     public function createSupplier(){
         return view('supplier.create');
+    }
+
+    public function banUserForm(){
+
+        $userEmails = User::pluck('email')->toArray();
+
+        $userEmails=array_combine($userEmails,$userEmails);
+
+
+        //return view('item.create', compact('supplierNames'), compact('categories'));
+
+        return view('admin.banUserForm', compact('userEmails'));
+    }
+    public function banUser(Request $request){
+
+        //Validate data
+        $this->validate($request, array(
+
+            'Comment' => 'required| string'
+        ));
+
+        $ban_type=$request->Ban_Type;
+        $email=$request->Email;
+        $suspension_time=$request->Suspension_Time;
+        $comment=$request->Comment;
+
+        $user=$this->userRepo->findByEmail($email);
+
+
+
+        if($ban_type=="Ban"){
+            Log::info('Ban user' . $email);
+            $user->ban(['comment' => 'Enjoy your ban!',]);
+            return redirect('/admin')->with('success','You banned '. $email);
+        }
+        else if($ban_type=="Unban"){
+            Log::info('Unban user' . $email);
+            $user->unban();
+
+            return redirect('/admin')->with('success','You unbanned '. $email);
+        }
+
+        else if($ban_type=="Suspension"){
+            Log::info('Ban user' . $email. ' for '.$suspension_time.' days');
+            $user->ban([
+                'comment' => 'You\'re banned for '.$suspension_time.' days',
+                'expired_at' => '+'.$suspension_time.' days',
+            ]);
+            return redirect('/admin')->with('success','You banned '. $email.  ' for '.$suspension_time.' days');
+        }
+
     }
 
     public function storeSupplier(Request $request){

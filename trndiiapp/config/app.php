@@ -194,6 +194,7 @@ return [
          * Shopping Cart Service Providers...
          */
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
+        Cog\Laravel\Ban\Providers\BanServiceProvider::class,
 
     ],
 
