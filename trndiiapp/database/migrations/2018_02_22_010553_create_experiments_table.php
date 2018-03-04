@@ -16,7 +16,7 @@ class CreateExperimentsTable extends Migration
         Schema::create('experiments', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
-            $table->integer('number_visitors')->default(0);
+            $table->integer('front_page_hits')->default(0);
             $table->integer('number_purchases')->default(0);
         });
     }

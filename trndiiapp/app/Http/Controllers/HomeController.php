@@ -37,15 +37,13 @@ class HomeController extends Controller
             Auth::user()->segment = $this->ab->getCurrentTest();
             Auth::user()->save();
         }
-        if(Auth::user()->segment== "A"){
+        else if(Auth::user()->segment== "A"){
             Feature::add('Cancel Purchase', false);
-            Feature::add('textChanger', false);
-            $this->experimentsRepo->incrementExperimentAVisitors();
+            $this->experimentsRepo->incrementExperimentAFrontPageHits();
         }
-        if(Auth::user()->segment== "B"){
+        else if(Auth::user()->segment== "B"){
             Feature::add('Cancel Purchase', true);
-            Feature::add('textChanger', true);
-            $this->experimentsRepo->incrementExperimentBVisitors();
+            $this->experimentsRepo->incrementExperimentBFrontPageHits();
         };
         Log::info("User " . Auth::user()->email . " is viewing the home page.");
         return view('home');

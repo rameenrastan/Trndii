@@ -13,18 +13,23 @@ use Illuminate\Support\Facades\Mail;
 use App\item; 
 use App\Repositories\Interfaces\TransactionRepositoryInterface as TransactionRepositoryInterface;
 use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterface;
+use Bart\Ab\Ab;
+use App\Repositories\Interfaces\ExperimentsRepositoryInterface;
 
 class TransactionsController extends Controller
 {
 
     protected $transactionRepo;
     protected $itemRepo;
-    
-    public function __construct(TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo){
+    protected $experimentsRepo;
+    protected $ab;
+
+    public function __construct(Ab $ab, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo, ExperimentsRepositoryInterface $experimentsRepo){
     
         $this->transactionRepo = $transactionRepo;
         $this->itemRepo = $itemRepo;
-
+        $this->experimentsRepo = $experimentsRepo;
+        $this->ab = $ab;
         
     }
 
@@ -117,6 +122,14 @@ class TransactionsController extends Controller
             }
 
             Log::info('User ' . $user->email . ' successfully commited to purchasing ' . $item->Name);
+
+            if(Auth::user()->segment== "A"){
+                $this->experimentsRepo->incrementExperimentAPurchases();
+            }
+            else if(Auth::user()->segment== "B"){
+                $this->experimentsRepo->incrementExperimentBPurchases();
+            };
+
             return redirect('/')->with('success', 'You have successfully commited to this purchase. You will be notified if the item reaches its threshold. Thanks!');
             
         }

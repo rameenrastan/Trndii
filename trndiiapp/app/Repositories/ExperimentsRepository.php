@@ -9,9 +9,9 @@ use Log;
 class ExperimentsRepository implements ExperimentsRepositoryInterface
 {
 
-    public function incrementExperimentAVisitors(){
-        DB::table('experiments')->where("name", "A")->increment('number_visitors');
-        Log::info("1 new visitor has logged into Experiment A.");
+    public function incrementExperimentAFrontPageHits(){
+        DB::table('experiments')->where("name", "A")->increment('front_page_hits');
+        Log::info("1 new front page hit on Experiment A.");
     }
 
     public function incrementExperimentAPurchases(){
@@ -19,9 +19,9 @@ class ExperimentsRepository implements ExperimentsRepositoryInterface
         Log::info("1 new purchase has been made in Experiment A.");
     }
 
-    public function incrementExperimentBVisitors(){
-        DB::table('experiments')->where("name", "B")->increment('number_visitors');
-        Log::info("1 new visitor has logged into Experiment B.");
+    public function incrementExperimentBFrontPageHits(){
+        DB::table('experiments')->where("name", "B")->increment('front_page_hits');
+        Log::info("1 new front page hit on Experiment B.");
     }
 
     public function incrementExperimentBPurchases(){
