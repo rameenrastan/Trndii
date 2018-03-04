@@ -190,6 +190,8 @@ return [
 
         LaravelFeature\Provider\FeatureServiceProvider::class,
 
+        Cog\Laravel\Ban\Providers\BanServiceProvider::class,
+
     ],
 
     /*
