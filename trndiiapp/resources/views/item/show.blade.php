@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="row" style="font-size: 20px;">
-                <div class="col-md-4 text-center">
+                <div class="col-md-4 text-center"> 
                     Price: ${{$item->Price}}
                 </div>
                 <div class="col-md-4 text-center">
