@@ -114,12 +114,13 @@ class ItemsController extends Controller
     public function show($id)
     {
 
-        $item=$this->itemRepo->find($id);
-
+        $item = $this->itemRepo->find($id);
         $checkCommit = $this->itemRepo->checkCommit($item);
-        Log::info("User " . Auth::user()->email . " is viewing the page for " . $item->Name);
+
+        if (Auth::user())
+            Log::info("User " . Auth::user()->email . " is viewing the page for " . $item->Name);
         return view('item.show')->withitem($item)
-                                ->with('checkCommit', $checkCommit);
+            ->with('checkCommit', $checkCommit);
     }
 
     
