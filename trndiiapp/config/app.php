@@ -174,7 +174,6 @@ return [
         * AB testing Service Providers...
         */
         Bart\Ab\ServiceProvider::class,
-
         /*
          * Application Service Providers...
          */
