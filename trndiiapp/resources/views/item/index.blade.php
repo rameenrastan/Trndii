@@ -50,6 +50,17 @@ row on the right is composed of 3 rows, each row containing part of the item inf
                                                 </h4>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <form action="{{ route('cart.store') }}" method="POST">
+                                                    {{ csrf_field() }}
+                                                    <input type="hidden" name="id", value="{{ $item->id }}">
+                                                    <input type="hidden" name="Name", value="{{ $item->Name }}">
+                                                    <input type="hidden" name="Price", value="{{ $item->Price }}">
+                                                    <button type="submit" class="btn btn-primary">Add To Cart</button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <br>

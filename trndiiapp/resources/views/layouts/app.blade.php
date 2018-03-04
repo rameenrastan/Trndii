@@ -78,6 +78,7 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a style="color: #ffffff;" href="/browseItemsByCategory">Browse Categories</a></li>
+                        <li><a style="color: #ffffff;" href="/shoppingCart">Shopping Cart</a></li>
                     </ul>
                     <!-- Right Side Of Navbar -->
                     <form class="navbar-form navbar-right" action="{{ action ('ItemsController@search')}}", method="POST">
