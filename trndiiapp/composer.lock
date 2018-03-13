@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "3b973f4ce637474c66442defbbe16bab"
+    "content-hash": "1a02c1aa6e2f8661f2bc30e47d8137f6",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -157,6 +157,47 @@
                 "testing"
             ],
             "time": "2017-10-27T11:44:11+00:00"
+        },
+        {
+            "name": "comocode/laravel-ab",
+            "version": "0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/comocode/laravel-ab.git",
+                "reference": "69649f5b083fce2678c09c7f8aaaa4b6a5b8397e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/comocode/laravel-ab/zipball/69649f5b083fce2678c09c7f8aaaa4b6a5b8397e",
+                "reference": "69649f5b083fce2678c09c7f8aaaa4b6a5b8397e",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "tests"
+                ],
+                "psr-4": {
+                    "ComoCode\\LaravelAb\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rulian Estivalletti",
+                    "email": "rulian.estivalletti@gmail.com"
+                }
+            ],
+            "description": "Blade level AB tests for Laravel 5",
+            "keywords": [
+                "AB",
+                "ab tests",
+                "laravel"
+            ],
+            "time": "2016-07-18T21:33:54+00:00"
         },
         {
             "name": "cybercog/laravel-ban",
