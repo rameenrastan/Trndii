@@ -35,6 +35,11 @@ class SupplierController extends Controller
         return view('supplier-home');
     }
 
+    public function viewReviews()
+    {
+        return view('supplier.viewReviews');
+    }
+
     public function viewItemsStatus(Request $request)
     {
         $supplierItems = $this->itemRepo->getSupplierItems();

@@ -45,6 +45,7 @@ Route::prefix('supplier')->group(function(){
     Route::get('/login', 'Auth\SupplierLoginController@showLoginForm')->name('supplier.login');
     Route::post('/login', 'Auth\SupplierLoginController@login')->name('supplier.login.submit');
     Route::get('/', 'SupplierController@index')->name('supplier.home');
+    Route::get('/reviews', 'SupplierController@viewReviews');
 });
 
 Route::resource('preregisteredusers', 'PreregisteredUsersController');
@@ -95,5 +96,3 @@ $router->get('/pdfInfo/{itemId}/{itemName}',[
 Route::get('emptyCart', function() { //temporary function to empty the shopping cart.
     Cart::destroy();
 });
-
-Route::get('/supplierReviews', 'ReviewController@index');
