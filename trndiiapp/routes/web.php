@@ -95,3 +95,5 @@ $router->get('/pdfInfo/{itemId}/{itemName}',[
 Route::get('emptyCart', function() { //temporary function to empty the shopping cart.
     Cart::destroy();
 });
+
+Route::get('/supplierReviews', 'ReviewController@index');
