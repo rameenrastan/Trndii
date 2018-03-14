@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('country')->default("Enter a country");
             $table->string('email')->unique();
             $table->string('password');
+            $table->integer('tokens')->default(0);
             $table->string('stripe_id')->nullable();
             $table->string('segment')->nullable();
             $table->rememberToken();
