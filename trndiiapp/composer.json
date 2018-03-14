@@ -19,6 +19,7 @@
         "laravel/scout": "^3.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4.0",
+        "monolog/monolog": "^1.23",
         "stripe/stripe-php": "^5.2"
     },
     "require-dev": {
