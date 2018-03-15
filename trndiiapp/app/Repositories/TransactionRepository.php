@@ -32,7 +32,7 @@ class TransactionRepository implements TransactionRepositoryInterface {
         Log::info('Database query: getting items associated with user ' . Auth::user()->email);
         return DB::table('items')
                         ->join('transactions', 'items.id', '=', 'transactions.item_fk')
-                        ->select('items.id', 'items.Name', 'items.Price', 'items.Bulk_Price', 'items.Short_Description', 'items.Start_Date', 'items.End_Date', 'items.Status', 'items.Threshold', 'items.Number_Transactions', 'items.Status', 'items.Picture_URL', 'transactions.created_at')
+                        ->select('items.id', 'items.Name', 'items.Price', 'items.Bulk_Price', 'items.Short_Description', 'items.Start_Date', 'items.End_Date', 'items.Status', 'items.Threshold', 'items.Number_Transactions', 'items.Status', 'items.Picture_URL', 'transactions.created_at', 'items.Supplier')
                         ->where('transactions.email', Auth::user()->email)
                         ->orderBy('transactions.created_at', 'DESC')
                         ->get();

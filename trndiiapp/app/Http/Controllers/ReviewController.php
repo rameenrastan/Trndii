@@ -3,9 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
+use App\Repositories\Interfaces\ReviewRepositoryInterface as ReviewRepositoryInterface;
 
 class ReviewController extends Controller
 {
+    protected $reviewRepo;
+
+    public function __construct(ReviewRepositoryInterface $reviewRepo) { 
+
+        $this->reviewRepo = $reviewRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -34,7 +43,8 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->reviewRepo->storeReview($request);
+        return redirect('/purchaseHistory')->with('success', 'Thank you for your feedback!');
     }
 
     /**
