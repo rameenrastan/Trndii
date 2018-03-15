@@ -7,5 +7,6 @@ interface UserRepositoryInterface {
     public function findByEmail($email);
     public function updateCreditCard($user, $customerId);
     public function update($request, $id);
+    public function addTokens($tempUser, $nbTokens);
 	
 }
