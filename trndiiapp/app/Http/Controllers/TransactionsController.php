@@ -15,6 +15,7 @@ use App\Repositories\Interfaces\TransactionRepositoryInterface as TransactionRep
 use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterface;
 use Bart\Ab\Ab;
 use App\Repositories\Interfaces\ExperimentsRepositoryInterface;
+use App\Domain\PaymentManager;
 
 class TransactionsController extends Controller
 {
@@ -23,13 +24,15 @@ class TransactionsController extends Controller
     protected $itemRepo;
     protected $experimentsRepo;
     protected $ab;
+    protected $paymentManager;
 
-    public function __construct(Ab $ab, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo, ExperimentsRepositoryInterface $experimentsRepo){
+    public function __construct(Ab $ab, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo, ExperimentsRepositoryInterface $experimentsRepo, PaymentManager $paymentManager){
     
         $this->transactionRepo = $transactionRepo;
         $this->itemRepo = $itemRepo;
         $this->experimentsRepo = $experimentsRepo;
         $this->ab = $ab;
+        $this->paymentManager = $paymentManager;
         
     }
 
@@ -117,7 +120,7 @@ class TransactionsController extends Controller
 
             if($item->Number_Transactions == $item->Threshold)
             {
-                app('App\Http\Controllers\PaymentsController')->chargeCustomers($item->id);
+                $this->paymentManager->chargeCustomers($item->id);
                 $this->itemRepo->setThresholdReached($item->id);
             }
 

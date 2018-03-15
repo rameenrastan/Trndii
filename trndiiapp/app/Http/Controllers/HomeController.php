@@ -32,6 +32,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        
         if(Auth::user()->segment == "")
         {
             Auth::user()->segment = $this->ab->getCurrentTest();

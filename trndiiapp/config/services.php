@@ -36,7 +36,7 @@ return [
     ],
 
     'loggly' => array(
-        'key'   => 'c1e07df8-28fc-4c6c-b17d-4b4588446511',
+        'key'   => env('LOGGLY_KEY'),
         'tag'   => 'ProjectName_' .strtolower(env('APP_ENV')),
     ),
 

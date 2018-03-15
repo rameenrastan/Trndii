@@ -158,9 +158,16 @@ class ItemsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        try { 
         $this->itemRepo->update($id);
 
         return redirect('/viewAllItems')->with('success', 'Item removed!');
+        }
+        catch(Exception $e) 
+        {
+            return $e->getMessage();
+            Log::error('');
+        }
     }
 
     /**
@@ -240,9 +247,14 @@ class ItemsController extends Controller
      */
     public function search(Request $request)
     {
+        try{
         $items = $this->itemRepo->getSearchResults($request);
         Log::info("A user is viewing search results of " . $request->search);
         return view('item.search')->with('items', $items);
+        }catch(Exception $e)
+        {
+            Log::error("Username: " . Auth::user()->email . " Operation Code: " );
+        }
     }
 
 }
