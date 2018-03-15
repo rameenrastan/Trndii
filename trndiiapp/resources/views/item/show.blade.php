@@ -98,6 +98,17 @@
                 <p>{{$itemReview->comment}}</p>
                 <p>Likes: {{$itemReview->likes}}</p>
                 <p>Dislikes: {{$itemReview->dislikes}}</p>
+                <form action="{{ route('review.storeLikeDislike') }}" method="POST">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="reviewId" value="{{$itemReview->id}}">
+                    <input type="submit" value="Like" name="LikeSubmit">
+                </form>
+                <br>
+                <form action="{{ route('review.storeLikeDislike') }}" method="POST">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="reviewId" value="{{$itemReview->id}}">
+                    <input type="submit" value="Dislike" name="DislikeSubmit">
+                </form>
                 </div>
             @endforeach
         @else

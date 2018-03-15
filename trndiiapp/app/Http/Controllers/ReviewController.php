@@ -53,6 +53,19 @@ class ReviewController extends Controller
         return redirect('/purchaseHistory')->with('success', 'Thank you for your feedback!');
     }
 
+    public function storeLikeDislike(Request $request)
+    {
+        if($request->has('LikeSubmit')){
+            $this->reviewRepo->storeReviewLike($request);
+            return redirect('/item')->with('success', 'Review liked!');
+        }
+
+        if($request->has('DislikeSubmit')){
+            $this->reviewRepo->storeReviewDislike($request);
+            return redirect('/item')->with('success', 'Review disliked!');
+        }
+    }
+
     /**
      * Display the specified resource.
      *

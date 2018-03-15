@@ -35,16 +35,20 @@ class ReviewRepository implements ReviewRepositoryInterface {
 
         $reviewLike = new ReviewLike;
 
-        $reviewLike->user_id;
-        $reviewLike->review_id;
+        $reviewLike->user_id = Auth::user()->id;
+        $reviewLike->review_id = $request->reviewId;
+
+        $reviewLike->save();
     }
 
     public function storeReviewDislike(Request $request){
 
         $reviewDislike = new ReviewDislike;
 
-        $reviewDislike->user_id;
-        $reviewDislike->review_id;
+        $reviewDislike->user_id = Auth::user()->id;
+        $reviewDislike->review_id = $request->reviewId;
+
+        $reviewDislike->save();
     }
 
     public function getItemReviews($itemId){

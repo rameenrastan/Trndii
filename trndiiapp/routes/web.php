@@ -90,6 +90,8 @@ Route::delete('/shoppingCart/{id}', 'CartController@destroy')->name('cart.destro
 
 Route::post('/purchaseHistory', 'ReviewController@store')->name('review.store');
 
+Route::post('/item', 'ReviewController@storeLikeDislike')->name('review.storeLikeDislike');
+
 $router->get('/pdfInfo/{itemId}/{itemName}',[
     'uses' => 'PDFController@getPdfByItem',
     'as'   => 'PdfController'
