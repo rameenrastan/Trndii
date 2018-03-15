@@ -7,4 +7,5 @@ interface ReviewRepositoryInterface {
 
     public function storeReview(Request $request);
     public function getItemReviews($itemId);
+    public function getReviewsForSupplier();
 }

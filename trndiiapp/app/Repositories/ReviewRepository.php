@@ -33,4 +33,9 @@ class ReviewRepository implements ReviewRepositoryInterface {
 
         return DB::table('reviews')->where('item_id', '=',  $itemId)->get();
     }
+
+    public function getReviewsForSupplier(){
+
+        return DB::table('reviews')->join('items', 'reviews.item_id' , '=', 'items.id')->select('items.*', 'reviews.*')->where('reviews.supplier_name', '=', Auth::user()->name)->get();
+    }
 }

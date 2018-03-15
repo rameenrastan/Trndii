@@ -8,20 +8,23 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Log;
 use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterface;
+use App\Repositories\Interfaces\ReviewRepositoryInterface as ReviewRepositoryInterface;
 
 class SupplierController extends Controller
 {
 
     protected $itemRepo;
+    protected $reviewRepo;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(ItemRepositoryInterface $itemRepo)
+    public function __construct(ItemRepositoryInterface $itemRepo, ReviewRepositoryInterface $reviewRepo)
     {
         $this->middleware('auth:supplier');
         $this->itemRepo=$itemRepo;
+        $this->reviewRepo=$reviewRepo;
     }
 
     /**
@@ -37,7 +40,8 @@ class SupplierController extends Controller
 
     public function viewReviews()
     {
-        return view('supplier.viewReviews');
+        $reviewsForSupplier = $this->reviewRepo->getReviewsForSupplier();
+        return view('supplier.viewReviews')->with('reviewsForSupplier', $reviewsForSupplier);
     }
 
     public function viewItemsStatus(Request $request)
