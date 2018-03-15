@@ -43,6 +43,12 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, array(
+
+            'Rating'=>'required',
+            'Comment'=>'required'
+        ));
+
         $this->reviewRepo->storeReview($request);
         return redirect('/purchaseHistory')->with('success', 'Thank you for your feedback!');
     }
