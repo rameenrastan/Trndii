@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Repositories\Interfaces\ReviewRepositoryInterface;
 use App\Review;
+use App\ReviewLike;
+use App\ReviewDislike;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -27,6 +29,22 @@ class ReviewRepository implements ReviewRepositoryInterface {
         $review->comment = $request->Comment;
 
         $review->save();
+    }
+
+    public function storeReviewLike(Request $request){
+
+        $reviewLike = new ReviewLike;
+
+        $reviewLike->user_id;
+        $reviewLike->review_id;
+    }
+
+    public function storeReviewDislike(Request $request){
+
+        $reviewDislike = new ReviewDislike;
+
+        $reviewDislike->user_id;
+        $reviewDislike->review_id;
     }
 
     public function getItemReviews($itemId){

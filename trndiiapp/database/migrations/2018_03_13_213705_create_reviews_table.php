@@ -20,6 +20,8 @@ class CreateReviewsTable extends Migration
             $table->string('supplier_name');
             $table->integer('rating');
             $table->string('comment');
+            $table->integer('likes')->default('0');
+            $table->integer('dislikes')->default('0');
             $table->timestamps();
         });
     }

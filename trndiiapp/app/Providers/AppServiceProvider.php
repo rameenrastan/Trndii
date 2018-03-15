@@ -39,7 +39,5 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('App\Repositories\Interfaces\ExperimentsRepositoryInterface', 'App\Repositories\ExperimentsRepository');
         $this->app->bind('App\Repositories\Interfaces\CartRepositoryInterface', 'App\Repositories\CartRepository');
         $this->app->bind('App\Repositories\Interfaces\ReviewRepositoryInterface', 'App\Repositories\ReviewRepository');
-        $this->app->bind('App\Repositories\Interfaces\ReviewLikeRepositoryInterface', 'App\Repositories\ReviewLikeRepository');
-        $this->app->bind('App\Repositories\Interfaces\ReviewDislikeRepositoryInterface', 'App\Repositories\ReviewDislikeRepository');
     }
 }

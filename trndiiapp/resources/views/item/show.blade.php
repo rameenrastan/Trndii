@@ -96,6 +96,8 @@
                 <h4>Rating: {{$itemReview->rating}}/5</h4>
                 <h4>By <font color="#14A989">{{$itemReview->user_name}}</font> on {{ Carbon\Carbon::parse($itemReview->created_at)->format('F d, Y')}}</h4>
                 <p>{{$itemReview->comment}}</p>
+                <p>Likes: {{$itemReview->likes}}</p>
+                <p>Dislikes: {{$itemReview->dislikes}}</p>
                 </div>
             @endforeach
         @else
