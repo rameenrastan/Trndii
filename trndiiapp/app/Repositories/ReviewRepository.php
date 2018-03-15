@@ -28,4 +28,9 @@ class ReviewRepository implements ReviewRepositoryInterface {
 
         $review->save();
     }
+
+    public function getItemReviews($itemId){
+
+        return DB::table('reviews')->where('item_id', '=',  $itemId)->get();
+    }
 }

@@ -85,6 +85,19 @@
             @endif
         </div>
     </div>
+    <div class="row">
+    @if(count($itemReviews) > 0)
+        <div class="col-md-12" style="text-align: center; margin-bottom: 30px; margin-top: 10px;">
+        <h3>User Reviews</h3>
+        </div>
+        @foreach($itemReviews as $itemReview)
+            <div class="col-md-12" style="text-align: center; margin-bottom: 30px; margin-top: 10px;">
+            <h4>User: {{$itemReview->user_name}}</h4>
+            <h4>Rating: {{$itemReview->rating}}/5</h4>
+            <h4>Comment: {{$itemReview->comment}}</h4>
+            </div>
+        @endforeach
+    @endif 
  </div>
 
 <!--Purchase button. When it is pressed it pops up a modal where user confirms their purchase.-->

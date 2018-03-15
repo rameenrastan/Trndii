@@ -11,6 +11,7 @@ use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterfa
 use App\Repositories\Interfaces\CategoryRepositoryInterface as CategoryRepositoryInterface;
 use App\Repositories\Interfaces\TransactionRepositoryInterface as TransactionRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface as UserRepositoryInterface;
+use App\Repositories\Interfaces\ReviewRepositoryInterface as ReviewRepositoryInterface;
 use Log;
 use Auth;
 use Feature;
@@ -25,12 +26,14 @@ class ItemsController extends Controller
     protected $itemRepo;
     protected $transactionRepo;
     protected $userRepo;
+    protected $reviewRepo;
     
-    public function __construct(ItemRepositoryInterface $itemRepo, TransactionRepositoryInterface $transactionRepo, UserRepositoryInterface $userRepo)
+    public function __construct(ItemRepositoryInterface $itemRepo, TransactionRepositoryInterface $transactionRepo, UserRepositoryInterface $userRepo, ReviewRepositoryInterface $reviewRepo)
     {
         $this->itemRepo=$itemRepo;
         $this->transactionRepo = $transactionRepo;
         $this->userRepo = $userRepo;
+        $this->reviewRepo = $reviewRepo;
     }
 
     /**
@@ -116,11 +119,13 @@ class ItemsController extends Controller
 
         $item = $this->itemRepo->find($id);
         $checkCommit = $this->itemRepo->checkCommit($item);
+        $itemReviews = $this->reviewRepo->getItemReviews($id);
 
         if (Auth::user())
             Log::info("User " . Auth::user()->email . " is viewing the page for " . $item->Name);
         return view('item.show')->withitem($item)
-            ->with('checkCommit', $checkCommit);
+            ->with('checkCommit', $checkCommit)
+            ->with('itemReviews', $itemReviews);
     }
 
     
