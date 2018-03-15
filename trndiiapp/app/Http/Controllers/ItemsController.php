@@ -14,9 +14,6 @@ use App\Repositories\Interfaces\UserRepositoryInterface as UserRepositoryInterfa
 use Log;
 use Auth;
 use Feature;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\ItemExpired;
-
 
 
 class ItemsController extends Controller
@@ -205,39 +202,6 @@ class ItemsController extends Controller
         $items=$this->itemRepo->viewAllItems();
         $categories=$categoriesRepo->getCategories();
         return view('item.viewItemsByCategory')->with('items', $items)->with('categories', $categories);
-    }
-
-    /**
-     * Gets all items that expire today, and sets their status to expired. 
-     * This method is ran by the task scheduler located in /app/Console/Kernel.php
-     * @param  null
-     * @return void
-     */
-    public function setExpired()
-    {
-        $expiredItems = $this->itemRepo->getExpiredItems();
-        
-        if(!empty($expiredItems)){
-        
-            foreach($expiredItems as $expiredItem){
-        
-            $item = $this->itemRepo->find($expiredItem->id);
-                        
-            $transactions = $this->transactionRepo->getAllByItemId($expiredItem->id);
-        
-            $this->itemRepo->setExpired($expiredItem->id);
-        
-            foreach($transactions as $transaction){
-                                
-                $user = $this->userRepo->findByEmail($transaction->email);
-                Log::info("User " . $user->email . " has been sent an item expired email for " . $item->Name);
-                Mail::to($transaction->email)->send(new ItemExpired($item, $user));
-                        
-            }      
-        
-        }
-        
-        }
     }
 
     /**
