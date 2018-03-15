@@ -86,19 +86,24 @@
         </div>
     </div>
     <div class="row">
-    @if(count($itemReviews) > 0)
         <div class="col-md-12" style="text-align: center; margin-bottom: 30px; margin-top: 10px;">
         <h3>User Reviews</h3>
         </div>
-        @foreach($itemReviews as $itemReview)
-            <div class="col-md-12" style="text-align: center; margin-bottom: 30px; margin-top: 10px;">
-            <h4>User: {{$itemReview->user_name}}</h4>
-            <h4>Rating: {{$itemReview->rating}}/5</h4>
-            <h4>Comment: {{$itemReview->comment}}</h4>
-            </div>
-        @endforeach
-    @endif 
- </div>
+        @if(count($itemReviews) > 0)
+            @foreach($itemReviews as $itemReview)
+                <div class="col-md-12" style="text-align: left; margin-bottom: 30px; margin-top: 10px;">
+                
+                <h4>Rating: {{$itemReview->rating}}/5</h4>
+                <h4>By <font color="#14A989">{{$itemReview->user_name}}</font> on {{ Carbon\Carbon::parse($itemReview->created_at)->format('F d, Y')}}</h4>
+                <p>{{$itemReview->comment}}</p>
+                </div>
+            @endforeach
+        @else
+        <div class="col-md-12" style="text-align: center; margin-bottom: 30px; margin-top: 10px;">
+            <h4>No reviews have been made for this item.</h4>
+        </div>
+        @endif
+    </div>
 
 <!--Purchase button. When it is pressed it pops up a modal where user confirms their purchase.-->
 <div id="BuyModal" class="modal fade" aria-labelledby="basicModal" aria-hidden="true">
