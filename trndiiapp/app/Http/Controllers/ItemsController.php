@@ -40,7 +40,7 @@ class ItemsController extends Controller
     public function index(){
 
         $items=$this->itemRepo->index();
-        $this->logger::info("User " . Auth::user()->email . " is viewing the item list");
+        $this->logger::info(session()->getId() . ' | [Viewing Item List] | ' . Auth::user()->email);
         return view('item.index')->with('items',$items);
 
     }
@@ -61,9 +61,9 @@ class ItemsController extends Controller
 
         $categories = array_combine($categories,$categories);
 
-        return view('item.create', compact('supplierNames'), compact('categories'));
+        $this->logger::info(session()->getId() . ' | [Create Item Page] | ' . 'Admin');
 
-        $this->logger::info("User " . Auth::user()->email . "is viewing the item creation page");
+        return view('item.create', compact('supplierNames'), compact('categories'));
 
     }
 
@@ -75,6 +75,8 @@ class ItemsController extends Controller
      */
     public function store(Request $request)
     {
+
+        $this->logger::info(session()->getId() . ' | [Create Item Started] | ' . 'Admin');
 
         //Validate data
         $this->validate($request, array(
@@ -97,8 +99,7 @@ class ItemsController extends Controller
         //Store in database
         $this->itemRepo->store($request);
 
-        //$this->logger::info("User " . $user->email . " created new item ". $request->Name);
-        $this->logger::info("Admin created new item " . $request->Name );
+        $this->logger::info(session()->getId() . ' | [Create Item Completed] | ' . 'Admin');
         return redirect('/admin')->with('success', 'Item successfully created.');
     }
 
@@ -115,7 +116,7 @@ class ItemsController extends Controller
         $checkCommit = $this->itemRepo->checkCommit($item);
 
         if (Auth::user())
-            $this->logger::info("User " . Auth::user()->email . " is viewing the page for " . $item->Name);
+            $this->logger::info(session()->getId() . ' | [Viewing Item Page] | ' . Auth::user()->email);
         return view('item.show')->withitem($item)
             ->with('checkCommit', $checkCommit);
     }
@@ -157,13 +158,13 @@ class ItemsController extends Controller
     {
         try { 
         $this->itemRepo->update($id);
-
+        $this->logger::info(session()->getId() . ' | [Item Removed] | ' . 'Admin');
         return redirect('/viewAllItems')->with('success', 'Item removed!');
         }
         catch(Exception $e) 
         {
             return $e->getMessage();
-            $this->logger::error('');
+            $this->logger::error(session()->getId() . ' | [Item Removed Failed] | ' . 'Admin');
         }
     }
 
@@ -186,8 +187,7 @@ class ItemsController extends Controller
     public function viewAllItems()
     {
         $items=$this->itemRepo->viewAllItems();
-        //$this->logger::info("User " . $user->email . " is viewing all items ");
-        $this->logger::info("Admin is viewing all items.");
+        $this->logger::info(session()->getId() . ' | [Admin View Items] | ' . 'Admin');
         return view('item.viewAllItems')->with('items',$items);
     }
 
@@ -212,12 +212,13 @@ class ItemsController extends Controller
     public function search(Request $request)
     {
         try {
+        $this->logger::info(session()->getId() . ' | [Item Search Started] | ' . Auth::user()->email);
         $items = $this->itemRepo->getSearchResults($request);
-        $this->logger::info("A user is viewing search results of " . $request->search);
+        $this->logger::info(session()->getId() . ' | [Item Search Finished] | ' . Auth::user()->email);
         return view('item.search')->with('items', $items);
         } catch(Exception $e) {
             return $e->getMessage();
-            $this->logger::error("Username: " . Auth::user()->email . " Operation Code: " );
+            $this->logger::info(session()->getId() . ' | [Item Search Failed] | ' . Auth::user()->email);
         }
     }
 

@@ -12,12 +12,16 @@ class ItemManager {
     protected $itemRepo;
     protected $transactionRepo;
     protected $userRepo;
-    
-    public function __construct(ItemRepositoryInterface $itemRepo, TransactionRepositoryInterface $transactionRepo, UserRepositoryInterface $userRepo)
+    protected $logger;
+    protected $mail;
+
+    public function __construct(ItemRepositoryInterface $itemRepo, TransactionRepositoryInterface $transactionRepo, UserRepositoryInterface $userRepo, Log $logger, Mail $mail)
     {
         $this->itemRepo=$itemRepo;
         $this->transactionRepo = $transactionRepo;
         $this->userRepo = $userRepo;
+        $this->logger = $logger;
+        $this->mail = $mail;
     }
 
     /**
@@ -43,8 +47,8 @@ class ItemManager {
             foreach($transactions as $transaction){
                                 
                 $user = $this->userRepo->findByEmail($transaction->email);
-                Log::info("User " . $user->email . " has been sent an item expired email for " . $item->Name);
-                Mail::to($transaction->email)->send(new ItemExpired($item, $user));
+                $this->logger::info("User " . $user->email . " has been sent an item expired email for " . $item->Name);
+                $this->mail::to($transaction->email)->send(new ItemExpired($item, $user));
                         
             }      
         

@@ -12,13 +12,19 @@ use Log;
 
 class CategoryRepository implements CategoryRepositoryInterface{
 
+    protected $logger;
+    
+        public function __construct(Log $logger){
+            $this->logger = $logger;
+        }
+
     /**
      * Gets all categories in the database.
      * @param  null
      * @return Category[]
      */
     public function getCategories(){
-        Log::info("Database query: retrieving all item categories.");
+        $this->logger::info(session()->getId() . ' | [Database Query: Retrieving Categories]');
         return Category::pluck('Name')->toArray();
     }
 }

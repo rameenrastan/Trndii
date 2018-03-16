@@ -49,7 +49,7 @@ class TransactionsController extends Controller
         $items = $this->transactionRepo->index();
         $userEmail=Auth::user()->email;
 
-        $this->logger::info("User " . $userEmail . " is viewing the purchase history page");
+        $this->logger::info(session()->getId() . ' | [Viewing Purchase History] | ' . $userEmail);
 
         return view('layouts.purchasehistory')
             ->with('items', $items);
@@ -108,9 +108,11 @@ class TransactionsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
         $stripeId = Auth::user()->stripe_id;
         $user = Auth::user();
+
+        $this->logger::info(session()->getId() . ' | [Start Purchase Commitment] | ' . $user->email);
+
         if($stripeId != ''){
 
             $this->transactionRepo->insert(Auth::user()->email, $id);    
@@ -126,7 +128,7 @@ class TransactionsController extends Controller
                 $this->itemRepo->setThresholdReached($item->id);
             }
 
-            $this->logger::info('User ' . $user->email . ' successfully commited to purchasing ' . $item->Name);
+            $this->logger::info(session()->getId() . ' | [Purchase Commitment Success] | ' . $user->email);
 
             if(Auth::user()->segment== "A"){
                 $this->experimentsRepo->incrementExperimentAPurchases();
@@ -141,7 +143,7 @@ class TransactionsController extends Controller
         
         else{
 
-            $this->logger::info('User ' . $user->email . ' attempted to purchase item ' . $id . ' without a registered credit card.');
+            $this->logger::info(session()->getId() . ' | [Purchase Commitment Failed (No Credit Card)] | ' . $user->email);
             return back()->with('error', 'You do not have a Credit Card registered with this account. Please go to the Edit Account page and register a payment option.');
 
         }           

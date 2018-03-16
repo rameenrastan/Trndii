@@ -37,13 +37,15 @@ class PDFController extends Controller
     public function getPdfByItem(PdfRepositoryInterface $pdfRepo , $itemId, $itemName)
     {
 
+        $this->logger::info(session()->getId() . ' | [Download PDF Started] | ' . $itemName);
+
         $data = ['data' => $pdfRepo->findAddressByItemId($itemId)];
 
         $pdf = PDF::loadView('pdf.addresses', $data);
 
         $pdfName = $itemName . "_Addresses.pdf";
 
-        $this->logger::info("A supplier downloaded a PDF of the shipping addresses of item " . $itemId);
+        $this->logger::info(session()->getId() . ' | [Download PDF Finished] | ' . $itemName);
 
         return $pdf->download($pdfName);
 

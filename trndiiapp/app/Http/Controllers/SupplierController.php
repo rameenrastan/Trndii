@@ -33,14 +33,14 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $this->logger::info("A supplier is viewing their home page.");
+        $this->logger::info(session()->getId() . ' | [View Suppler Home Page]');
         return view('supplier-home');
     }
 
     public function viewItemsStatus(Request $request)
     {
         $supplierItems = $this->itemRepo->getSupplierItems();
-        $this->logger::info("A supplier is viewing the progress and status of their items.");
+        $this->logger::info(session()->getId() . ' | [View Item Status]');
         return view('supplier.viewItemsStatus', compact('supplierItems'));
     }
 }

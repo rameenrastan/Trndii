@@ -35,16 +35,18 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $this->logger::info("User " . Auth::user()->email . " is viewing the admin home page.");
+        $this->logger::info(session()->getId() . ' | [Admin Homepage Visit]');
         return view('admin.admin-home');
     }
 
     public function createSupplier(){
+        $this->logger::info(session()->getId() . ' | [Admin Create Supplier Page]');
         return view('supplier.create');
     }
 
     public function banUserForm(){
 
+        $this->logger::info(session()->getId() . ' | [View User Emails]');
         $userEmails = User::pluck('email')->toArray();
 
         $userEmails=array_combine($userEmails,$userEmails);
@@ -55,7 +57,7 @@ class AdminController extends Controller
         return view('admin.banUserForm', compact('userEmails'));
     }
     public function banUser(Request $request){
-
+        $this->logger::info(session()->getId() . ' | [Ban User Started]');
         //Validate data
         $this->validate($request, array(
 
@@ -72,19 +74,19 @@ class AdminController extends Controller
 
 
         if($ban_type=="Ban"){
-            $this->logger::info('Ban user' . $email);
+            $this->logger::info(session()->getId() . ' | [Ban User] | ' . $email);
             $user->ban(['comment' => 'Enjoy your ban!',]);
             return redirect('/admin')->with('success','You banned '. $email);
         }
         else if($ban_type=="Unban"){
-            $this->logger::info('Unban user' . $email);
+            $this->logger::info(session()->getId() . ' | [Unban User] | ' . $email);
             $user->unban();
 
             return redirect('/admin')->with('success','You unbanned '. $email);
         }
 
         else if($ban_type=="Suspension"){
-            $this->logger::info('Ban user' . $email. ' for '.$suspension_time.' days');
+            $this->logger::info(session()->getId() . ' | [Suspend User] | ' . $email);
             $user->ban([
                 'comment' => 'You\'re banned for '.$suspension_time.' days',
                 'expired_at' => '+'.$suspension_time.' days',
@@ -95,7 +97,7 @@ class AdminController extends Controller
     }
 
     public function storeSupplier(Request $request){
-
+        $this->logger::info(session()->getId() . ' | [Create Supplier Started] | ' . $request->name);
         //Validate data
         $this->validate($request, array(
 
@@ -125,6 +127,8 @@ class AdminController extends Controller
         $supplier->email=$request->email;
         $supplier->password=$request->password;
         $supplier->save();
+
+        $this->logger::info(session()->getId() . ' | [Create Supplier Finished] | ' . $request->name);
 
         //Redirect
         return redirect('/admin')->with('success', 'Supplier successfully created.');

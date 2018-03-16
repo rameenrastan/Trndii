@@ -25,7 +25,7 @@ class PreregisteredUsersController extends Controller
      */
     public function index()
     {
-        $this->logger::info("A user is viewing the preregistration page");
+        $this->logger::info(session()->getId() . ' | [Viewing Preregistration Page]');
         return view('preregistration');
     }
 
@@ -47,6 +47,8 @@ class PreregisteredUsersController extends Controller
      */
     public function store(Request $request)
     {
+        $this->logger::info(session()->getId() . ' | [Preregistration Started] | ' . $request->email);
+
         $this->validate($request, [
             'firstName' => 'required',
             'lastName' => 'required',
@@ -59,7 +61,7 @@ class PreregisteredUsersController extends Controller
         $preregisteredUser->email = $request->input('email');
         $preregisteredUser->save();
         
-        $this->logger::info($preregisteredUser->email . " has preregistered an account.");
+        $this->logger::info(session()->getId() . ' | [Preregistration Finished] | ' . $request->email);
         return redirect('/preregistration')->with('success', 'Thank you for your interest! You will be notified via email when the website goes live.');
     }
 

@@ -11,12 +11,13 @@ class TransactionRepository implements TransactionRepositoryInterface {
 
     protected $transaction;
     protected $itemRepo;
+    protected $logger;
     
-    public function __construct(Transaction $transaction, ItemRepository $itemRepository){
+    public function __construct(Transaction $transaction, ItemRepository $itemRepository, Log $logger){
 
         $this->transactionr = $transaction;
-        $this->itemRepo= $itemRepository;
-
+        $this->itemRepo = $itemRepository;
+        $this->logger = $logger;
     }
 
     /**
@@ -26,10 +27,11 @@ class TransactionRepository implements TransactionRepositoryInterface {
      */
     public function index(){
 
-        Log::info('Database query: getting transactions of user ' . Auth::user()->email);
+        $this->logger::info(session()->getId() . ' | [Started Number of Transactions] | ' . Auth::user()->email);
         $itemsfk = DB::table('transactions')->where('email', Auth::user()->email)->pluck('item_fk');
+        $this->logger::info(session()->getId() . ' | [Completed Number of Transactions] | ' . Auth::user()->email);
         
-        Log::info('Database query: getting items associated with user ' . Auth::user()->email);
+        $this->logger::info(session()->getId() . ' | [Retrieve Associated Items] | ' . Auth::user()->email);
         return DB::table('items')
                         ->join('transactions', 'items.id', '=', 'transactions.item_fk')
                         ->select('items.id', 'items.Name', 'items.Price', 'items.Bulk_Price', 'items.Short_Description', 'items.Start_Date', 'items.End_Date', 'items.Status', 'items.Threshold', 'items.Number_Transactions', 'items.Status', 'items.Picture_URL', 'transactions.created_at')
@@ -46,12 +48,13 @@ class TransactionRepository implements TransactionRepositoryInterface {
      */
     public function insert($email, $itemId){
 
-        Log::info('Database query: inserting a new transaction in the transactions table, User: ' . Auth::user()->email . ' and Item: ' . $itemId);
+        $this->logger::info(session()->getId() . ' | [Insert Transaction Started] | ' . Auth::user()->email);
         DB::table('transactions')->insert([
 
                ['email' => $email, 'item_fk' => $itemId]
             
             ]);
+        $this->logger::info(session()->getId() . ' | [Insert Transaction Completed] | ' . Auth::user()->email);
     }
 
     /**
@@ -60,7 +63,6 @@ class TransactionRepository implements TransactionRepositoryInterface {
      * @return Transaction[]
      */
     public function getAllByItemId($id){
-        Log::info('Database query: retrieving all transactions associated with item ' . $id);
         return DB::table('transactions')->where('item_fk', $id)->get();
 
     }

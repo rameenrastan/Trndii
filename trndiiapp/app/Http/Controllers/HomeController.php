@@ -33,7 +33,7 @@ class HomeController extends Controller
     {
         
         $this->experimentHandler->handleExperiment(Auth::user(), Auth::user()->segment);
-        $this->logger::info("User " . Auth::user()->email . " is viewing the home page.");
+        $this->logger::info(session()->getId() . ' | [Homepage Visit] | ' . Auth::user()->email);
         return view('home');
     }
 

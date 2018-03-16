@@ -12,9 +12,10 @@ class PagesController extends Controller
 {
     protected $logger;
     
-    public function __construct(Log $logger)
+    public function __construct(Log $logger, Mail $mail)
     {
         $this->logger = $logger;
+        $this->mail = $mail;
     }
 
     public function getContact(){
@@ -45,7 +46,7 @@ class PagesController extends Controller
             'bodyMessage'=>$request->message
         );
 
-        Mail::send('mail.contact',$data,function ($message) use($data){
+        $this->mail::send('mail.contact',$data,function ($message) use($data){
             $message->from($data['email']);
                 $message->to('asdasd-a126ef@inbox.mailtrap.io');
                     $message->subject($data['subject']);
