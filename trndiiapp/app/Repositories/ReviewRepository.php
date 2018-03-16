@@ -33,22 +33,40 @@ class ReviewRepository implements ReviewRepositoryInterface {
 
     public function storeReviewLike(Request $request){
 
-        $reviewLike = new ReviewLike;
+        $savedLikes = DB::table('review_likes')->where([['user_id', '=', Auth::user()->id], ['review_id', '=', $request->reviewId],])->get();
 
-        $reviewLike->user_id = Auth::user()->id;
-        $reviewLike->review_id = $request->reviewId;
+        if(count($savedLikes) == 0){
+            $reviewLike = new ReviewLike;
 
-        $reviewLike->save();
+            $reviewLike->user_id = Auth::user()->id;
+            $reviewLike->review_id = $request->reviewId;
+    
+            $reviewLike->save();
+
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public function storeReviewDislike(Request $request){
 
-        $reviewDislike = new ReviewDislike;
+        $savedDislikes = DB::table('review_dislikes')->where([['user_id', '=', Auth::user()->id], ['review_id', '=', $request->reviewId],])->get();
 
-        $reviewDislike->user_id = Auth::user()->id;
-        $reviewDislike->review_id = $request->reviewId;
+        if(count($savedDislikes) == 0){
+            $reviewDislike = new ReviewDislike;
 
-        $reviewDislike->save();
+            $reviewDislike->user_id = Auth::user()->id;
+            $reviewDislike->review_id = $request->reviewId;
+    
+            $reviewDislike->save();
+
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public function getItemReviews($itemId){
