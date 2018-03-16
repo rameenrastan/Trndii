@@ -85,6 +85,10 @@ Route::get('/shoppingCart', 'CartController@index');
 
 Route::post('/shoppingCart', 'CartController@store')->name('cart.store');
 
+
+Route::post('/addcomment/{itemid}', ['uses' => 'ItemsController@addComment', 'as' => 'ItemController.addComment']);
+
+
 Route::delete('/shoppingCart/{id}', 'CartController@destroy')->name('cart.destroy');
 
 $router->get('/pdfInfo/{itemId}/{itemName}',[
