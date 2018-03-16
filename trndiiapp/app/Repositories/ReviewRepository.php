@@ -37,7 +37,13 @@ class ReviewRepository implements ReviewRepositoryInterface {
 
         if(count($savedLikes) == 0){
 
-            DB::table('review_dislikes')->where([['user_id', '=', Auth::user()->id], ['review_id', '=', $request->reviewId],])->delete();
+            $savedDislike = DB::table('review_dislikes')->where([['user_id', '=', Auth::user()->id], ['review_id', '=', $request->reviewId],])->get();
+
+            if(count($savedDislike) != 0){
+
+                DB::table('review_dislikes')->where([['user_id', '=', Auth::user()->id], ['review_id', '=', $request->reviewId],])->delete();
+                DB::table('reviews')->where('id', '=', $request->reviewId)->decrement('dislikes');
+            }
 
             $reviewLike = new ReviewLike;
 
@@ -45,6 +51,8 @@ class ReviewRepository implements ReviewRepositoryInterface {
             $reviewLike->review_id = $request->reviewId;
     
             $reviewLike->save();
+
+            DB::table('reviews')->where('id', '=', $request->reviewId)->increment('likes');
 
             return true;
         }
@@ -59,7 +67,13 @@ class ReviewRepository implements ReviewRepositoryInterface {
 
         if(count($savedDislikes) == 0){
 
-            $savedLikes = DB::table('review_likes')->where([['user_id', '=', Auth::user()->id], ['review_id', '=', $request->reviewId],])->delete();
+            $savedLikes = DB::table('review_likes')->where([['user_id', '=', Auth::user()->id], ['review_id', '=', $request->reviewId],])->get();
+
+            if(count($savedLikes) != 0){
+
+                DB::table('review_likes')->where([['user_id', '=', Auth::user()->id], ['review_id', '=', $request->reviewId],])->delete();
+                DB::table('reviews')->where('id', '=', $request->reviewId)->decrement('likes');
+            }
 
             $reviewDislike = new ReviewDislike;
 
@@ -67,6 +81,8 @@ class ReviewRepository implements ReviewRepositoryInterface {
             $reviewDislike->review_id = $request->reviewId;
     
             $reviewDislike->save();
+
+            DB::table('reviews')->where('id', '=', $request->reviewId)->increment('dislikes');
 
             return true;
         }
