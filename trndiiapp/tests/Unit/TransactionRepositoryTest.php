@@ -7,6 +7,9 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Repositories;
 use App\User;
+use App\Transaction;
+use Log;
+use Mockery;
 
 class TransacationRepistoryTest extends TestCase
 {
@@ -30,7 +33,7 @@ class TransacationRepistoryTest extends TestCase
             'email' => "test@test.com",
             'password' => bcrypt('password'),
         ]);
-
+        $this->be($test_user);
         $test_user->save();
 
         $test_item = new \App\item([
@@ -56,9 +59,9 @@ class TransacationRepistoryTest extends TestCase
 
         $test_item->save();
 
-
-        $repository = new Repositories\TransactionRepository();
-        $repository->insert($test_user->email,$test_item->id);
+        $log = $this->createMock('Log');
+        $repository = new Repositories\TransactionRepository(new Transaction, new Repositories\ItemRepository(new Log), new Log);
+        $repository->insert($test_user->email, $test_item->id);
 
 
 

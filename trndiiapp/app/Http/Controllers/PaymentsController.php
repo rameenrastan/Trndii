@@ -56,9 +56,9 @@ class PaymentsController extends Controller
 
        ]);
 
-   
         $this->userRepo->updateCreditCard($auth->email, $customer->id);
         $this->logger::info(session()->getId() . ' | [Update Credit Card Finished] | ' . Auth::user()->email);
+        
         return redirect('/editDetails')->with('success', 'Credit Card Updated');
 
     }
