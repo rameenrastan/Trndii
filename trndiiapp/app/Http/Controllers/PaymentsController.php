@@ -24,9 +24,11 @@ class PaymentsController extends Controller
     protected $userRepo;
     protected $transactionRepo;
     protected $itemRepo;
+    protected $logger;
      
-    public function __construct(UserRepositoryInterface $userRepo, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo){
-    
+    public function __construct(Log $logger, UserRepositoryInterface $userRepo, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo){
+        
+        $this->logger = $logger;
         $this->userRepo = $userRepo;
         $this->transactionRepo = $transactionRepo;
         $this->itemRepo = $itemRepo;
@@ -55,7 +57,7 @@ class PaymentsController extends Controller
 
    
         $this->userRepo->updateCreditCard($auth->email, $customer->id);
-        Log::info("User " . $user->email . " has updated their credit card.");
+        $this->logger::info("User " . $user->email . " has updated their credit card.");
         return redirect('/editDetails')->with('success', 'Credit Card Updated');
 
     }

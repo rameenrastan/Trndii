@@ -15,10 +15,12 @@ class PDFController extends Controller
 
 
     protected $pdfRepo;
+    protected $logger;
 
-    public function _construct(PdfRepositoryInterface $pdfRepo){
+    public function _construct(PdfRepositoryInterface $pdfRepo, Log $logger){
 
         $this->pdfRepo = $pdfRepo;
+        $this->logger = $logger;
     }
 
     public function makePDF()
@@ -41,7 +43,7 @@ class PDFController extends Controller
 
         $pdfName = $itemName . "_Addresses.pdf";
 
-        Log::info("A supplier downloaded a PDF of the shipping addresses of item " . $itemId);
+        $this->logger::info("A supplier downloaded a PDF of the shipping addresses of item " . $itemId);
 
         return $pdf->download($pdfName);
 

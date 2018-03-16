@@ -11,14 +11,16 @@ class HomeController extends Controller
 {
 
     protected $experimentHandler;
+    protected $logger;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(ExperimentHandler $experimentHandler)
+    public function __construct(ExperimentHandler $experimentHandler, Log $logger)
     {
         $this->experimentHandler = $experimentHandler;
+        $this->logger = $logger;
         $this->middleware('auth');
     }
 
@@ -31,7 +33,7 @@ class HomeController extends Controller
     {
         
         $this->experimentHandler->handleExperiment(Auth::user(), Auth::user()->segment);
-        Log::info("User " . Auth::user()->email . " is viewing the home page.");
+        $this->logger::info("User " . Auth::user()->email . " is viewing the home page.");
         return view('home');
     }
 

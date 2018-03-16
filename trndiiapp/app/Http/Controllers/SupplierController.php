@@ -13,15 +13,17 @@ class SupplierController extends Controller
 {
 
     protected $itemRepo;
+    protected $logger;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(ItemRepositoryInterface $itemRepo)
+    public function __construct(ItemRepositoryInterface $itemRepo, Log $logger)
     {
         $this->middleware('auth:supplier');
         $this->itemRepo=$itemRepo;
+        $this->logger=$logger;
     }
 
     /**
@@ -31,14 +33,14 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        Log::info("A supplier is viewing their home page.");
+        $this->logger::info("A supplier is viewing their home page.");
         return view('supplier-home');
     }
 
     public function viewItemsStatus(Request $request)
     {
         $supplierItems = $this->itemRepo->getSupplierItems();
-        Log::info("A supplier is viewing the progress and status of their items.");
+        $this->logger::info("A supplier is viewing the progress and status of their items.");
         return view('supplier.viewItemsStatus', compact('supplierItems'));
     }
 }

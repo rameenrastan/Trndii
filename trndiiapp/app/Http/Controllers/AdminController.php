@@ -14,15 +14,17 @@ class AdminController extends Controller
 {
 
     protected $userRepo;
+    protected $logger;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(UserRepositoryInterface $userRepo)
+    public function __construct(UserRepositoryInterface $userRepo, Log $logger)
     {
         $this->middleware('auth:admin');
         $this->userRepo = $userRepo;
+        $this->logger = $logger;
     }
 
 
@@ -33,7 +35,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        Log::info("User " . Auth::user()->email . " is viewing the admin home page.");
+        $this->logger::info("User " . Auth::user()->email . " is viewing the admin home page.");
         return view('admin.admin-home');
     }
 
@@ -70,19 +72,19 @@ class AdminController extends Controller
 
 
         if($ban_type=="Ban"){
-            Log::info('Ban user' . $email);
+            $this->logger::info('Ban user' . $email);
             $user->ban(['comment' => 'Enjoy your ban!',]);
             return redirect('/admin')->with('success','You banned '. $email);
         }
         else if($ban_type=="Unban"){
-            Log::info('Unban user' . $email);
+            $this->logger::info('Unban user' . $email);
             $user->unban();
 
             return redirect('/admin')->with('success','You unbanned '. $email);
         }
 
         else if($ban_type=="Suspension"){
-            Log::info('Ban user' . $email. ' for '.$suspension_time.' days');
+            $this->logger::info('Ban user' . $email. ' for '.$suspension_time.' days');
             $user->ban([
                 'comment' => 'You\'re banned for '.$suspension_time.' days',
                 'expired_at' => '+'.$suspension_time.' days',
@@ -93,21 +95,6 @@ class AdminController extends Controller
     }
 
     public function storeSupplier(Request $request){
-
-        /*
-        $table->increments('id');
-        $table->string('name');
-        $table->string('phone')->default("Enter a phone number");
-        $table->string('addressline1')->default("Enter an address line");
-        $table->string('addressline2')->nullable();
-        $table->string('postalcode')->default("Enter a postal code");
-        $table->string("city")->default("Enter a city");
-        $table->string('country')->default("Enter a country");
-        $table->string('email')->unique();
-        $table->string('password');
-        $table->rememberToken();
-        $table->timestamps();
-        */
 
         //Validate data
         $this->validate($request, array(

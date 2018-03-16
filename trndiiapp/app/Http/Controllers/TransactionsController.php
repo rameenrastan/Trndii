@@ -25,14 +25,16 @@ class TransactionsController extends Controller
     protected $experimentsRepo;
     protected $ab;
     protected $paymentManager;
+    protected $logger;
 
-    public function __construct(Ab $ab, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo, ExperimentsRepositoryInterface $experimentsRepo, PaymentManager $paymentManager){
+    public function __construct(Log $logger, Ab $ab, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo, ExperimentsRepositoryInterface $experimentsRepo, PaymentManager $paymentManager){
     
         $this->transactionRepo = $transactionRepo;
         $this->itemRepo = $itemRepo;
         $this->experimentsRepo = $experimentsRepo;
         $this->ab = $ab;
         $this->paymentManager = $paymentManager;
+        $this->logger = $logger;
         
     }
 
@@ -47,7 +49,7 @@ class TransactionsController extends Controller
         $items = $this->transactionRepo->index();
         $userEmail=Auth::user()->email;
 
-        Log::info("User " . $userEmail . " is viewing the purchase history page");
+        $this->logger::info("User " . $userEmail . " is viewing the purchase history page");
 
         return view('layouts.purchasehistory')
             ->with('items', $items);
@@ -124,7 +126,7 @@ class TransactionsController extends Controller
                 $this->itemRepo->setThresholdReached($item->id);
             }
 
-            Log::info('User ' . $user->email . ' successfully commited to purchasing ' . $item->Name);
+            $this->logger::info('User ' . $user->email . ' successfully commited to purchasing ' . $item->Name);
 
             if(Auth::user()->segment== "A"){
                 $this->experimentsRepo->incrementExperimentAPurchases();
@@ -139,7 +141,7 @@ class TransactionsController extends Controller
         
         else{
 
-            Log::info('User ' . $user->email . ' attempted to purchase item ' . $id . ' without a registered credit card.');
+            $this->logger::info('User ' . $user->email . ' attempted to purchase item ' . $id . ' without a registered credit card.');
             return back()->with('error', 'You do not have a Credit Card registered with this account. Please go to the Edit Account page and register a payment option.');
 
         }           

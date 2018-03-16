@@ -9,6 +9,15 @@ use Log;
 
 class PreregisteredUsersController extends Controller
 {
+
+    protected $logger;
+    
+        public function _construct(PdfRepositoryInterface $pdfRepo, Log $logger){
+    
+            $this->pdfRepo = $pdfRepo;
+            $this->logger = $logger;
+        }
+    
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +25,7 @@ class PreregisteredUsersController extends Controller
      */
     public function index()
     {
-        Log::info("A user is viewing the preregistration page");
+        $this->logger::info("A user is viewing the preregistration page");
         return view('preregistration');
     }
 
@@ -50,7 +59,7 @@ class PreregisteredUsersController extends Controller
         $preregisteredUser->email = $request->input('email');
         $preregisteredUser->save();
         
-        Log::info($preregisteredUser->email . " has preregistered an account.");
+        $this->logger::info($preregisteredUser->email . " has preregistered an account.");
         return redirect('/preregistration')->with('success', 'Thank you for your interest! You will be notified via email when the website goes live.');
     }
 

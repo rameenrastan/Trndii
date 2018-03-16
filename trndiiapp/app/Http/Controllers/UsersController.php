@@ -13,9 +13,10 @@ class UsersController extends Controller
 {
 
     protected $userRepo;
+    protected $logger;
 
-    public function __construct(UserRepositoryInterface $userRepo){
-
+    public function __construct(UserRepositoryInterface $userRepo, Log $logger){
+        $this->logger = $logger;
         $this->userRepo = $userRepo;
     }
 
@@ -71,7 +72,7 @@ class UsersController extends Controller
     public function edit()
     {
         $user = Auth::user();
-        Log::info('User ' . $user->email . ' is viewing their account details page.');
+        $this->logger::info('User ' . $user->email . ' is viewing their account details page.');
         return view('layouts.editAccount')->with('user', $user);
     }
 
@@ -107,28 +108,28 @@ class UsersController extends Controller
         if (Hash::check($curPassword, $user->password) && $confirmPassword == $newPassword && $confirmPassword != "" && $newPassword != "" && $curPasswordLenght > 0) {
 
             $this->userRepo->update($request, $id);
-            Log::info('User ' . $user->email . ' has updated their account details.');
+            $this->logger::info('User ' . $user->email . ' has updated their account details.');
             return redirect('/editDetails')->with('success', 'Account Details Updated!');
 
         }
         else if(($newPasswordLenght > 0 || $confirmPasswordLenght > 0) && $curPassword == ""){
-            Log::info('User ' . $user->email . ' attempted to change their password (missing  fields)');
+            $this->logger::info('User ' . $user->email . ' attempted to change their password (missing  fields)');
             return redirect('/editDetails')->with('error', "You must fill in all 3 password fields in order to change your password.");
         }
         else if(($newPassword == "" || $confirmPassword == "") && $curPasswordLenght > 0){
-            Log::info('User ' . $user->email . ' attempted to change their password (missing fields)');
+            $this->logger::info('User ' . $user->email . ' attempted to change their password (missing fields)');
             return redirect('/editDetails')->with('error', "New Password and Confirm Password fields can't be empty.");
         }
         else if(!Hash::check($curPassword, $user->password) && $curPasswordLenght > 0){
-            Log::info('User ' . $user->email . ' attempted to change their password (current password not correct)');
+            $this->logger::info('User ' . $user->email . ' attempted to change their password (current password not correct)');
             return redirect('/editDetails')->with('error', 'Wrong Current Password Entered.');
         }
         else if($confirmPassword != $newPassword && $curPasswordLenght > 0){
-            Log::info('User ' . $user->email . ' attempted to change their password (new password not confirmed correctly)');
+            $this->logger::info('User ' . $user->email . ' attempted to change their password (new password not confirmed correctly)');
             return redirect('/editDetails')->with('error', "New Password and Confirm Password don't match.");
         }
         else{
-            Log::info('User ' . $user->email . ' has updated their account details.');
+            $this->logger::info('User ' . $user->email . ' has updated their account details.');
             $this->userRepo->update($request, $id);
             return redirect('/editDetails')->with('success', 'Account Details Updated!');
         }

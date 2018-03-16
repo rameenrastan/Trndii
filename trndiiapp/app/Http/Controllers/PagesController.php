@@ -10,18 +10,25 @@ use Log;
 
 class PagesController extends Controller
 {
+    protected $logger;
+    
+    public function __construct(Log $logger)
+    {
+        $this->logger = $logger;
+    }
+
     public function getContact(){
-        Log::info("A user is viewing the contact page.");
+        $this->logger::info("A user is viewing the contact page.");
         return view('contact');
     }
 
     public function getFAQ(){
-        Log::info("A user is viewing the FAQ page.");
+        $this->logger::info("A user is viewing the FAQ page.");
         return view('help.faq');
     }
 
     public function getAboutUs(){
-        Log::info("A user is viewing the About Us page.");
+        $this->logger::info("A user is viewing the About Us page.");
         return view('help.aboutUs');
     }
 
@@ -44,7 +51,7 @@ class PagesController extends Controller
                     $message->subject($data['subject']);
         });
 
-        Log::info($request->email . " has sent a contact email.");
+        $this->logger::info($request->email . " has sent a contact email.");
         session()->flash('success','Email has been sent successfully!');
 
         if (Auth::check()) {

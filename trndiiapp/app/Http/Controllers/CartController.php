@@ -6,14 +6,17 @@ use App\item;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Repositories\Interfaces\CartRepositoryInterface as CartRepositoryInterface;
+use Log;
 
 class CartController extends Controller
 {
     protected $cartRepo;
+    protected $logger;
 
-    public function __construct(CartRepositoryInterface $cartRepo){
+    public function __construct(CartRepositoryInterface $cartRepo, Log $logger){
         
         $this->cartRepo=$cartRepo;
+        $this->logger=$logger;
     }
 
     /**

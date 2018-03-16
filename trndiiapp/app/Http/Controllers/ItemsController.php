@@ -11,10 +11,9 @@ use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterfa
 use App\Repositories\Interfaces\CategoryRepositoryInterface as CategoryRepositoryInterface;
 use App\Repositories\Interfaces\TransactionRepositoryInterface as TransactionRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface as UserRepositoryInterface;
-use Log;
+use Illuminate\Support\Facades\Log;
 use Auth;
 use Feature;
-
 
 class ItemsController extends Controller
 {
@@ -22,12 +21,14 @@ class ItemsController extends Controller
     protected $itemRepo;
     protected $transactionRepo;
     protected $userRepo;
+    protected $logger;
     
-    public function __construct(ItemRepositoryInterface $itemRepo, TransactionRepositoryInterface $transactionRepo, UserRepositoryInterface $userRepo)
+    public function __construct(Log $logger, ItemRepositoryInterface $itemRepo, TransactionRepositoryInterface $transactionRepo, UserRepositoryInterface $userRepo)
     {
         $this->itemRepo=$itemRepo;
         $this->transactionRepo = $transactionRepo;
         $this->userRepo = $userRepo;
+        $this->logger = new Log;
     }
 
     /**
@@ -39,8 +40,7 @@ class ItemsController extends Controller
     public function index(){
 
         $items=$this->itemRepo->index();
-        Log::info("User " . Auth::user()->email . " is viewing the item list");
-        Feature::add('textChanger', false); //Example to test if feature toggling works
+        $this->logger::info("User " . Auth::user()->email . " is viewing the item list");
         return view('item.index')->with('items',$items);
 
     }
@@ -63,7 +63,7 @@ class ItemsController extends Controller
 
         return view('item.create', compact('supplierNames'), compact('categories'));
 
-        Log::info("User " . Auth::user()->email . "is viewing the item creation page");
+        $this->logger::info("User " . Auth::user()->email . "is viewing the item creation page");
 
     }
 
@@ -97,8 +97,8 @@ class ItemsController extends Controller
         //Store in database
         $this->itemRepo->store($request);
 
-        //Log::info("User " . $user->email . " created new item ". $request->Name);
-        Log::info("Admin created new item " . $request->Name );
+        //$this->logger::info("User " . $user->email . " created new item ". $request->Name);
+        $this->logger::info("Admin created new item " . $request->Name );
         return redirect('/admin')->with('success', 'Item successfully created.');
     }
 
@@ -115,7 +115,7 @@ class ItemsController extends Controller
         $checkCommit = $this->itemRepo->checkCommit($item);
 
         if (Auth::user())
-            Log::info("User " . Auth::user()->email . " is viewing the page for " . $item->Name);
+            $this->logger::info("User " . Auth::user()->email . " is viewing the page for " . $item->Name);
         return view('item.show')->withitem($item)
             ->with('checkCommit', $checkCommit);
     }
@@ -163,7 +163,7 @@ class ItemsController extends Controller
         catch(Exception $e) 
         {
             return $e->getMessage();
-            Log::error('');
+            $this->logger::error('');
         }
     }
 
@@ -186,8 +186,8 @@ class ItemsController extends Controller
     public function viewAllItems()
     {
         $items=$this->itemRepo->viewAllItems();
-        //Log::info("User " . $user->email . " is viewing all items ");
-        Log::info("Admin is viewing all items.");
+        //$this->logger::info("User " . $user->email . " is viewing all items ");
+        $this->logger::info("Admin is viewing all items.");
         return view('item.viewAllItems')->with('items',$items);
     }
 
@@ -211,13 +211,13 @@ class ItemsController extends Controller
      */
     public function search(Request $request)
     {
-        try{
+        try {
         $items = $this->itemRepo->getSearchResults($request);
-        Log::info("A user is viewing search results of " . $request->search);
+        $this->logger::info("A user is viewing search results of " . $request->search);
         return view('item.search')->with('items', $items);
-        }catch(Exception $e)
-        {
-            Log::error("Username: " . Auth::user()->email . " Operation Code: " );
+        } catch(Exception $e) {
+            return $e->getMessage();
+            $this->logger::error("Username: " . Auth::user()->email . " Operation Code: " );
         }
     }
 
