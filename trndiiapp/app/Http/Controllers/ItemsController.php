@@ -245,4 +245,10 @@ class ItemsController extends Controller
         return view('item.search')->with('items', $items);
     }
 
+    //Get purchase confirmation page
+    public function getConfirm(){
+        Log::info("A user is at the purchase confirmation page.");
+        return view('item.confirm');
+    }
+
 }

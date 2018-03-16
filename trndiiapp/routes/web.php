@@ -58,6 +58,8 @@ Route::resource('item', 'ItemsController');
 
 Route::get('item.create', 'ItemsController@item.create');
 
+Route::get('/confirm', 'ItemsController@getConfirm'); 
+
 Route::resource('transactions', 'TransactionsController');
 
 Route::post('/send', 'EmailController@send');
