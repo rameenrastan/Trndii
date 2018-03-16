@@ -36,6 +36,9 @@ class ReviewRepository implements ReviewRepositoryInterface {
         $savedLikes = DB::table('review_likes')->where([['user_id', '=', Auth::user()->id], ['review_id', '=', $request->reviewId],])->get();
 
         if(count($savedLikes) == 0){
+
+            DB::table('review_dislikes')->where([['user_id', '=', Auth::user()->id], ['review_id', '=', $request->reviewId],])->delete();
+
             $reviewLike = new ReviewLike;
 
             $reviewLike->user_id = Auth::user()->id;
@@ -55,6 +58,9 @@ class ReviewRepository implements ReviewRepositoryInterface {
         $savedDislikes = DB::table('review_dislikes')->where([['user_id', '=', Auth::user()->id], ['review_id', '=', $request->reviewId],])->get();
 
         if(count($savedDislikes) == 0){
+
+            $savedLikes = DB::table('review_likes')->where([['user_id', '=', Auth::user()->id], ['review_id', '=', $request->reviewId],])->delete();
+
             $reviewDislike = new ReviewDislike;
 
             $reviewDislike->user_id = Auth::user()->id;
