@@ -32,6 +32,10 @@ class ItemManager {
      */
     public function setExpired()
     {
+        
+        try{
+        $this->logger::info(session()->getId() . ' | [Getting Expired Items Started]');
+
         $expiredItems = $this->itemRepo->getExpiredItems();
         
         if(!empty($expiredItems)){
@@ -47,14 +51,17 @@ class ItemManager {
             foreach($transactions as $transaction){
                                 
                 $user = $this->userRepo->findByEmail($transaction->email);
-                $this->logger::info("User " . $user->email . " has been sent an item expired email for " . $item->Name);
                 $this->mail::to($transaction->email)->send(new ItemExpired($item, $user));
                         
             }      
-        
         }
-        
         }
+
+        $this->logger::info(session()->getId() . ' | [Getting Expired Items Completed]');
+        } catch (Exception $e) {         
+        $this->logger::error(session()->getId() . ' | [Getting Expired Items Failed]');
+        return $e->getMessage();
+    }
     }
 
 }

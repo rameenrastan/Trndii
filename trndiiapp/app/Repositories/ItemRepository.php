@@ -138,8 +138,9 @@ class ItemRepository implements ItemRepositoryInterface{
      */
     public function setThresholdReached($id)
     {
-        Log::info('Database query: updating item ' . $id . ' status to threshold reached');
+        $this->logger::info(session()->getId() . ' | [Threshold Reached Started] | ' . $id);
         DB::table('items')->where('id', $id)->update(['status' => 'threshold reached']);
+        $this->logger::info(session()->getId() . ' | [Threshold Reached Finished] | ' . $id);
     }
 
     /**
@@ -149,7 +150,6 @@ class ItemRepository implements ItemRepositoryInterface{
      */
     public function getExpiredItems()
     {
-        Log::info('Database query: retrieving all items that expire today (on ' .  Carbon::today() . ')');
         return DB::table('items')->whereRaw('date(End_Date) = ?', [Carbon::today()])->get();
     }
 
@@ -160,7 +160,6 @@ class ItemRepository implements ItemRepositoryInterface{
      */
     public function setExpired($id)
     {
-        Log::info('Database query: changing status of item ' . $id . ' to expired.');
         DB::table('items')->where('id', $id)->update(['status' => 'expired']);
     }
 
@@ -182,7 +181,7 @@ class ItemRepository implements ItemRepositoryInterface{
     public function getSearchResults(Request $request)
     {
         $name = $request->search;
-        Log::info("Query: getting search results of " . $request->search);
+        $this->logger::info(session()->getId() . ' | [Search Query Started] | ' . $name);
         return item::search($name)->paginate(15);
     }
 }

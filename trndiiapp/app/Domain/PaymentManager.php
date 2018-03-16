@@ -21,12 +21,14 @@ class PaymentManager {
     protected $userRepo;
     protected $transactionRepo;
     protected $itemRepo;
+    protected $logger;
      
-    public function __construct(UserRepositoryInterface $userRepo, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo){
+    public function __construct(Log $logger, UserRepositoryInterface $userRepo, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo){
     
         $this->userRepo = $userRepo;
         $this->transactionRepo = $transactionRepo;
         $this->itemRepo = $itemRepo;
+        $this->logger = $logger;
     
     }
 
@@ -37,6 +39,8 @@ class PaymentManager {
      * @return void
      */
     public function charge($amount, $customerId){
+                try {
+                $this->logger::info(session()->getId() . ' | [Charge Customer Started] | ' . $customerId);
         
                 $amount = $amount * 100; 
                 
@@ -49,6 +53,12 @@ class PaymentManager {
                     "customer" => $customerId
         
                 ]);
+                $this->logger::info(session()->getId() . ' | [Charge Customer Finished] | ' . $customerId);
+                } catch (Exception $e)
+                {
+                    $this->logger::error(session()->getId() . ' | [Charge Failed] | ' . $customerId);
+                    return $e->getMessage();
+                }
         
             }
 
