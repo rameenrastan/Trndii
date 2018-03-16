@@ -17,6 +17,7 @@ use Auth;
 use Feature;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ItemExpired;
+use App\Comment;
 
 
 
@@ -251,23 +252,32 @@ class ItemsController extends Controller
 
         try {
             $item=$this->itemRepo->find($itemId);
+            $comments = $this->itemRepo->getCommentsForItem($itemId);
             if($item==null){
                 Log::info("Unable to retrieve item from database, needed to display its comment thread");
                 throw new Exception('Item not found on databae.');
             }else {
                 Log::info("Retrieving item to than display the comment thread assosiated to it.");
-                return view('item.viewItemCommentThread')->with('item', $item)->with('user', Auth::user());
+                return view('item.viewItemCommentThread')->with('item', $item)->with('user', Auth::user())->with('itemComments', $comments);
             }
         } catch (Exception $e) {
 
-            return view('item.viewItemCommentThread')->with('item', $item)->with('user', Auth::user());
+           // return view('item.viewItemCommentThread')->with('item', $item)->with('user', Auth::user());
         }
 
 
-//        $item=$this->itemRepo->find($itemId);
-//        Log::info("Retrieving item to than display the comment thread assosiated to it.");
-//        return view('item.viewItemCommentThread')->with('item',$item)->with('user', Auth::user());
+    }
 
+
+    public function addComment(Request $request, $itemId)
+    {
+        $this->validate($request, array(
+            'comment'   =>  'required|min:5|max:2000'
+        ));
+
+        $this->itemRepo->addCommentToItem($request,$itemId);
+
+        return redirect()->route('ItemController', [$itemId]);
     }
 
 
