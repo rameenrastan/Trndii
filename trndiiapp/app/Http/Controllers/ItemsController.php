@@ -246,9 +246,19 @@ class ItemsController extends Controller
     }
 
     //Get purchase confirmation page
-    public function getConfirm(){
-        Log::info("A user is at the purchase confirmation page.");
-        return view('item.confirm');
+    public function getConfirm($id)
+    {
+        $item = $this->itemRepo->find($id);
+        $checkCommit = $this->itemRepo->checkCommit($item);
+
+        if (Auth::user())
+            Log::info("User " . Auth::user()->email . " is viewing the purchase confirmation page after buying " . $item->Name);
+        return view('item.confirm')->withitem($item)
+            ->with('checkCommit', $checkCommit);
+
+
+        //Log::info("A user is at the purchase confirmation page.");
+        //return view('item.confirm');
     }
 
 }

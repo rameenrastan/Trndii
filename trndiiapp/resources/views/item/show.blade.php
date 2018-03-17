@@ -241,14 +241,20 @@
                     @endif
                 </div>
                 <div class="modal-footer">
+
+                    @if(Auth::user()->country != $item->Shipping_To && $item->Shipping_To != "Canada and United States")
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Return</button>
+                    @else    
                         @if($checkCommit == 0 && $item->Threshold > $item->Number_Transaction)
-                        <button type="button" class="btn btn-primary" onclick="location.href='{{ url('/confirm') }}'">Confirm</button>
+                        <button type="button" class="btn btn-primary" onclick="location.href='{{ url('/confirm/' .$item->id) }}'">Confirm</button>
+
                             <button type="button" class="btn btn-default" data-dismiss="modal">Return</button>
                         @elseif($item->Threshold <= $item->Number_Transactions)
                             <p>The threshold for this item has already been reached. Sorry!</p>
                         @else
                             <p>You have already commited to this item. Stay tuned!</p>
                         @endif
+                    @endif    
                 </div>
 
             @else

@@ -58,7 +58,7 @@ Route::resource('item', 'ItemsController');
 
 Route::get('item.create', 'ItemsController@item.create');
 
-Route::get('/confirm', 'ItemsController@getConfirm'); 
+Route::get('/confirm/{id}', 'ItemsController@getConfirm'); 
 
 Route::resource('transactions', 'TransactionsController');
 
