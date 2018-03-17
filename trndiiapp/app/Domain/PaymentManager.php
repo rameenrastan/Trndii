@@ -22,13 +22,15 @@ class PaymentManager {
     protected $transactionRepo;
     protected $itemRepo;
     protected $logger;
+    protected $mail;
      
-    public function __construct(Log $logger, UserRepositoryInterface $userRepo, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo){
+    public function __construct(Mail $mail, Log $logger, UserRepositoryInterface $userRepo, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo){
     
         $this->userRepo = $userRepo;
         $this->transactionRepo = $transactionRepo;
         $this->itemRepo = $itemRepo;
         $this->logger = $logger;
+        $this->mail = $mail;
     
     }
 
@@ -68,7 +70,8 @@ class PaymentManager {
      * @return void
      */
     public function chargeCustomers($id){
-        
+        try{
+        $this->logger::info(session()->getId() . ' | [Charging All Customers Started] | ' . $id);
         $item = $this->itemRepo->find($id);
                 
         $transactions = $this->transactionRepo->getAllByItemId($id);
@@ -87,9 +90,14 @@ class PaymentManager {
 
             app('App\Http\Controllers\TransactionsController')->updatePurchaseHistory($user->email, $id);
 
-            Log::info("User " . $user->email . " has been sent a transaction confirmation email for " . $item->Name);
-            Mail::to($transaction->email)->send(new PurchaseCompleted($item, $user));
+            $this->mail::to($transaction->email)->send(new PurchaseCompleted($item, $user));
         }
+        $this->logger::info(session()->getId() . ' | [Charging All Customers Completed] | ' . $id);
+
+        } catch (Exception $e) {
+        $this->logger::error(session()->getId() . ' | [Charging All Customers Failed] | ' . $id);
+        return $e->getMessage();
+    }
     }
 
 
