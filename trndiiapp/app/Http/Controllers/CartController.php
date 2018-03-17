@@ -12,12 +12,10 @@ use Auth;
 class CartController extends Controller
 {
     protected $cartRepo;
-    protected $logger;
 
-    public function __construct(CartRepositoryInterface $cartRepo, Log $logger){
+    public function __construct(CartRepositoryInterface $cartRepo){
         
         $this->cartRepo=$cartRepo;
-        $this->logger=$logger;
     }
 
     /**
@@ -27,7 +25,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        $this->logger::info(session()->getId() . ' | [Viewing Shopping Cart]');
+        Log::info(session()->getId() . ' | [Viewing Shopping Cart]');
         $this->cartRepo->removeNonPendingItems();
         return view('item.shoppingCart');
     }
@@ -50,7 +48,7 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        $this->logger::info(session()->getId() . ' | [Adding to Shopping Cart] | ' . Auth::user()->email);
+        Log::info(session()->getId() . ' | [Adding to Shopping Cart] | ' . Auth::user()->email);
         $this->cartRepo->store($request);
         $this->cartRepo->removeNonPendingItems();
         return redirect('/shoppingCart')->with('success', 'The item has been added to the cart');
@@ -98,7 +96,7 @@ class CartController extends Controller
      */
     public function destroy($id)
     {
-        $this->logger::info(session()->getId() . ' | [Removing from Shopping Cart] | ' . Auth::user()->email);
+        Log::info(session()->getId() . ' | [Removing from Shopping Cart] | ' . Auth::user()->email);
         $this->cartRepo->destroy($id);
         $this->cartRepo->removeNonPendingItems();
         return redirect('/shoppingCart')->with('success', 'The item has been removed from your shopping cart.');

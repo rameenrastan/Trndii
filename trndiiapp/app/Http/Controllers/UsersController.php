@@ -13,10 +13,8 @@ class UsersController extends Controller
 {
 
     protected $userRepo;
-    protected $logger;
 
-    public function __construct(UserRepositoryInterface $userRepo, Log $logger){
-        $this->logger = $logger;
+    public function __construct(UserRepositoryInterface $userRepo){
         $this->userRepo = $userRepo;
     }
 
@@ -72,7 +70,7 @@ class UsersController extends Controller
     public function edit()
     {
         $user = Auth::user();
-        $this->logger::info(session()->getId() . ' | [View Account Details] | ' . $user->email);
+        Log::info(session()->getId() . ' | [View Account Details] | ' . $user->email);
         return view('layouts.editAccount')->with('user', $user);
     }
 
@@ -87,7 +85,7 @@ class UsersController extends Controller
     {
         $user = Auth::user();
 
-        $this->logger::info(session()->getId() . ' | [Update Account Started] | ' . $user->email);
+        Log::info(session()->getId() . ' | [Update Account Started] | ' . $user->email);
 
         $this->validate($request, [
             'name' => 'required',
@@ -109,28 +107,28 @@ class UsersController extends Controller
         if (Hash::check($curPassword, $user->password) && $confirmPassword == $newPassword && $confirmPassword != "" && $newPassword != "" && $curPasswordLenght > 0) {
 
             $this->userRepo->update($request, $id);
-            $this->logger::info(session()->getId() . ' | [Update Account Successful] | ' . $user->email);
+            Log::info(session()->getId() . ' | [Update Account Successful] | ' . $user->email);
             return redirect('/editDetails')->with('success', 'Account Details Updated!');
 
         }
         else if(($newPasswordLenght > 0 || $confirmPasswordLenght > 0) && $curPassword == ""){
-            $this->logger::info(session()->getId() . ' | [Empty Password Fields] | ' . $user->email);
+            Log::info(session()->getId() . ' | [Empty Password Fields] | ' . $user->email);
             return redirect('/editDetails')->with('error', "You must fill in all 3 password fields in order to change your password.");
         }
         else if(($newPassword == "" || $confirmPassword == "") && $curPasswordLenght > 0){
-            $this->logger::info(session()->getId() . ' | [Empty Password Fields] | ' . $user->email);
+            Log::info(session()->getId() . ' | [Empty Password Fields] | ' . $user->email);
             return redirect('/editDetails')->with('error', "New Password and Confirm Password fields can't be empty.");
         }
         else if(!Hash::check($curPassword, $user->password) && $curPasswordLenght > 0){
-            $this->logger::info(session()->getId() . ' | [Wrong Current Password] | ' . $user->email);
+            Log::info(session()->getId() . ' | [Wrong Current Password] | ' . $user->email);
             return redirect('/editDetails')->with('error', 'Wrong Current Password Entered.');
         }
         else if($confirmPassword != $newPassword && $curPasswordLenght > 0){
-            $this->logger::info(session()->getId() . ' | [Password Not Matching] | ' . $user->email);
+            Log::info(session()->getId() . ' | [Password Not Matching] | ' . $user->email);
             return redirect('/editDetails')->with('error', "New Password and Confirm Password don't match.");
         }
         else{
-            $this->logger::info(session()->getId() . ' | [Update Account Successful] | ' . $user->email);
+            Log::info(session()->getId() . ' | [Update Account Successful] | ' . $user->email);
             $this->userRepo->update($request, $id);
             return redirect('/editDetails')->with('success', 'Account Details Updated!');
         }

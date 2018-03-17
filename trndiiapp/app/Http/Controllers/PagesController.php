@@ -10,26 +10,19 @@ use Log;
 
 class PagesController extends Controller
 {
-    protected $logger;
-    
-    public function __construct(Log $logger, Mail $mail)
-    {
-        $this->logger = $logger;
-        $this->mail = $mail;
-    }
 
     public function getContact(){
-        $this->logger::info("A user is viewing the contact page.");
+        Log::info("A user is viewing the contact page.");
         return view('contact');
     }
 
     public function getFAQ(){
-        $this->logger::info("A user is viewing the FAQ page.");
+        Log::info("A user is viewing the FAQ page.");
         return view('help.faq');
     }
 
     public function getAboutUs(){
-        $this->logger::info("A user is viewing the About Us page.");
+        Log::info("A user is viewing the About Us page.");
         return view('help.aboutUs');
     }
 
@@ -46,13 +39,13 @@ class PagesController extends Controller
             'bodyMessage'=>$request->message
         );
 
-        $this->mail::send('mail.contact',$data,function ($message) use($data){
+        Mail::send('mail.contact',$data,function ($message) use($data){
             $message->from($data['email']);
                 $message->to('asdasd-a126ef@inbox.mailtrap.io');
                     $message->subject($data['subject']);
         });
 
-        $this->logger::info($request->email . " has sent a contact email.");
+        Log::info($request->email . " has sent a contact email.");
         session()->flash('success','Email has been sent successfully!');
 
         if (Auth::check()) {

@@ -60,8 +60,9 @@ class TransacationRepistoryTest extends TestCase
 
         $test_item->save();
 
-        $log = new Log();
-        $repository = new Repositories\TransactionRepository(new Transaction, new Repositories\ItemRepository($log), $log);
+        Log::shouldReceive('info');
+
+        $repository = new Repositories\TransactionRepository(new Transaction, new Repositories\ItemRepository);
         $repository->insert($test_user->email, $test_item->id);
 
         $this->assertDatabaseHas('transactions', [

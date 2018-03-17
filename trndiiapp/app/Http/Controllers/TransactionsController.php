@@ -25,16 +25,14 @@ class TransactionsController extends Controller
     protected $experimentsRepo;
     protected $ab;
     protected $paymentManager;
-    protected $logger;
 
-    public function __construct(Log $logger, Ab $ab, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo, ExperimentsRepositoryInterface $experimentsRepo, PaymentManager $paymentManager){
+    public function __construct(Ab $ab, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo, ExperimentsRepositoryInterface $experimentsRepo, PaymentManager $paymentManager){
     
         $this->transactionRepo = $transactionRepo;
         $this->itemRepo = $itemRepo;
         $this->experimentsRepo = $experimentsRepo;
         $this->ab = $ab;
         $this->paymentManager = $paymentManager;
-        $this->logger = $logger;
         
     }
 
@@ -49,7 +47,7 @@ class TransactionsController extends Controller
         $items = $this->transactionRepo->index();
         $userEmail=Auth::user()->email;
 
-        $this->logger::info(session()->getId() . ' | [Viewing Purchase History] | ' . $userEmail);
+        Log::info(session()->getId() . ' | [Viewing Purchase History] | ' . $userEmail);
 
         return view('layouts.purchasehistory')
             ->with('items', $items);
@@ -112,7 +110,7 @@ class TransactionsController extends Controller
         $stripeId = Auth::user()->stripe_id;
         $user = Auth::user();
 
-        $this->logger::info(session()->getId() . ' | [Start Purchase Commitment] | ' . $user->email);
+        Log::info(session()->getId() . ' | [Start Purchase Commitment] | ' . $user->email);
 
         if($stripeId != ''){
 
@@ -124,7 +122,7 @@ class TransactionsController extends Controller
             try {
             Mail::to(Auth::user()->email)->send(new PurchaseConfirmation($item, Auth::user()));
             } catch (Exception $e) {
-                $this->logger::info(session()->getId() . ' | [Purchase Confirmation Failed] | ' . $user->email);
+                Log::info(session()->getId() . ' | [Purchase Confirmation Failed] | ' . $user->email);
                 return $e->getMessage();
             }
             if($item->Number_Transactions == $item->Threshold)
@@ -133,7 +131,7 @@ class TransactionsController extends Controller
                 $this->itemRepo->setThresholdReached($item->id);
             }
 
-            $this->logger::info(session()->getId() . ' | [Purchase Commitment Success] | ' . $user->email);
+            Log::info(session()->getId() . ' | [Purchase Commitment Success] | ' . $user->email);
 
             if(Auth::user()->segment== "A"){
                 $this->experimentsRepo->incrementExperimentAPurchases();
@@ -148,11 +146,11 @@ class TransactionsController extends Controller
         
         else{
 
-            $this->logger::info(session()->getId() . ' | [Purchase Commitment Failed (No Credit Card)] | ' . $user->email);
+            Log::info(session()->getId() . ' | [Purchase Commitment Failed (No Credit Card)] | ' . $user->email);
             return back()->with('error', 'You do not have a Credit Card registered with this account. Please go to the Edit Account page and register a payment option.');
         }     
         } catch (Exception $e) {
-            $this->logger::error(session()->getId() . ' | [Purchase Commitment Failed] | ' . $user->email);
+            Log::error(session()->getId() . ' | [Purchase Commitment Failed] | ' . $user->email);
             return $e->getMessage();
         }      
     }

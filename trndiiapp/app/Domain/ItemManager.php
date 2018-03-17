@@ -12,16 +12,12 @@ class ItemManager {
     protected $itemRepo;
     protected $transactionRepo;
     protected $userRepo;
-    protected $logger;
-    protected $mail;
 
-    public function __construct(ItemRepositoryInterface $itemRepo, TransactionRepositoryInterface $transactionRepo, UserRepositoryInterface $userRepo, Log $logger, Mail $mail)
+    public function __construct(ItemRepositoryInterface $itemRepo, TransactionRepositoryInterface $transactionRepo, UserRepositoryInterface $userRepo)
     {
         $this->itemRepo=$itemRepo;
         $this->transactionRepo = $transactionRepo;
         $this->userRepo = $userRepo;
-        $this->logger = $logger;
-        $this->mail = $mail;
     }
 
     /**
@@ -34,7 +30,8 @@ class ItemManager {
     {
         
         try{
-        $this->logger::info(session()->getId() . ' | [Getting Expired Items Started]');
+
+        Log::info(session()->getId() . ' | [Getting Expired Items Started]');
 
         $expiredItems = $this->itemRepo->getExpiredItems();
         
@@ -51,17 +48,19 @@ class ItemManager {
             foreach($transactions as $transaction){
                                 
                 $user = $this->userRepo->findByEmail($transaction->email);
-                $this->mail::to($transaction->email)->send(new ItemExpired($item, $user));
+                Mail::to($transaction->email)->send(new ItemExpired($item, $user));
                         
             }      
         }
         }
 
-        $this->logger::info(session()->getId() . ' | [Getting Expired Items Completed]');
-        } catch (Exception $e) {         
-        $this->logger::error(session()->getId() . ' | [Getting Expired Items Failed]');
+        Log::info(session()->getId() . ' | [Getting Expired Items Completed]');
+        } catch (Exception $e) { 
+
+        Log::error(session()->getId() . ' | [Getting Expired Items Failed]');
         return $e->getMessage();
-    }
+
+         }
     }
 
 }

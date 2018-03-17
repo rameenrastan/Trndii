@@ -17,10 +17,9 @@ class PDFController extends Controller
     protected $pdfRepo;
     protected $logger;
 
-    public function _construct(PdfRepositoryInterface $pdfRepo, Log $logger){
+    public function _construct(PdfRepositoryInterface $pdfRepo){
 
         $this->pdfRepo = $pdfRepo;
-        $this->logger = $logger;
     }
 
     public function makePDF()
@@ -37,7 +36,7 @@ class PDFController extends Controller
     public function getPdfByItem(PdfRepositoryInterface $pdfRepo , $itemId, $itemName)
     {
 
-        $this->logger::info(session()->getId() . ' | [Download PDF Started] | ' . $itemName);
+        Log::info(session()->getId() . ' | [Download PDF Started] | ' . $itemName);
 
         $data = ['data' => $pdfRepo->findAddressByItemId($itemId)];
 
@@ -45,7 +44,7 @@ class PDFController extends Controller
 
         $pdfName = $itemName . "_Addresses.pdf";
 
-        $this->logger::info(session()->getId() . ' | [Download PDF Finished] | ' . $itemName);
+        Log::info(session()->getId() . ' | [Download PDF Finished] | ' . $itemName);
 
         return $pdf->download($pdfName);
 

@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use Illuminate\Support\Facades\DB;
 use App\Repositories\Interfaces\ExperimentsRepositoryInterface;
-use Log;
 
 class ExperimentsRepository implements ExperimentsRepositoryInterface
 {

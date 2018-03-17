@@ -12,12 +12,6 @@ use Log;
 
 class ItemRepository implements ItemRepositoryInterface{
 
-    protected $logger;
-    
-    public function __construct(Log $logger){
-        $this->logger = $logger;
-    }
-
     /**
      * Inserts an item in the database.
      * @param  $request
@@ -26,7 +20,7 @@ class ItemRepository implements ItemRepositoryInterface{
     public function store(Request $request)
     {
 
-        $this->logger::info(session()->getId() . ' | [Database Query: Item Creation Started] | ' . $request->Name);
+        Log::info(session()->getId() . ' | [Database Query: Item Creation Started] | ' . $request->Name);
 
         //Store in database
         $item= new item;
@@ -47,7 +41,8 @@ class ItemRepository implements ItemRepositoryInterface{
         $item->Supplier=$request->Supplier;
 
         $item->save();
-        $this->logger::info(session()->getId() . ' | [Database Query: Item Creation Completed] | ' . $request->Name);
+        
+        Log::info(session()->getId() . ' | [Database Query: Item Creation Completed] | ' . $request->Name);
 
     }
 
@@ -58,7 +53,7 @@ class ItemRepository implements ItemRepositoryInterface{
      */
     public function index()
     {
-        $this->logger::info(session()->getId() . ' | [Database Query: Retrieving Active Items] | ' . Auth::user()->email);
+        Log::info(session()->getId() . ' | [Database Query: Retrieving Active Items] | ' . Auth::user()->email);
         return item::orderby('Name','asc')->where('Status', '!=', 'cancelled')->paginate(10);
     }
 
@@ -69,7 +64,7 @@ class ItemRepository implements ItemRepositoryInterface{
      */
     public function viewAllItems()
     {
-        $this->logger::info(session()->getId() . ' | [Database Query: Item Search Results]');
+        Log::info(session()->getId() . ' | [Database Query: Item Search Results]');
         return item::orderby('Name','asc')->paginate(12);
     }
 
@@ -80,12 +75,12 @@ class ItemRepository implements ItemRepositoryInterface{
      */
     public function update($id)
     {
-        $this->logger::info(session()->getId() . ' | [Started Database Query: Item Cancelled]');
+        Log::info(session()->getId() . ' | [Started Database Query: Item Cancelled]');
         $item = item::find($id);
 
         $item->Status = 'cancelled';
         $item->save();
-        $this->logger::info(session()->getId() . ' | [Finished Database Query: Item Cancelled]');
+        Log::info(session()->getId() . ' | [Finished Database Query: Item Cancelled]');
     }
 
     /**
@@ -96,14 +91,14 @@ class ItemRepository implements ItemRepositoryInterface{
     public function numTransactions($id)
     {
         
-        $this->logger::info(session()->getId() . ' | [Number Transactions Update Started] | ' . $id);
+        Log::info(session()->getId() . ' | [Number Transactions Update Started] | ' . $id);
         
         $numTransactions = DB::table('transactions')->where('item_fk', $id)->count();
         DB::table('items')
             ->where('id', $id)
             ->update(['Number_Transactions' => $numTransactions]);
             
-        $this->logger::info(session()->getId() . ' | [Number Transactions Update Finished] | ' . $id);
+        Log::info(session()->getId() . ' | [Number Transactions Update Finished] | ' . $id);
     }
 
     /**
@@ -113,7 +108,7 @@ class ItemRepository implements ItemRepositoryInterface{
      */
     public function find($id)
     {
-        $this->logger::info(session()->getId() . ' | [Number Transactions Update Started] | ' . $id);
+        Log::info(session()->getId() . ' | [Number Transactions Update Started] | ' . $id);
         return item::find($id);
     }
 
@@ -124,7 +119,7 @@ class ItemRepository implements ItemRepositoryInterface{
      */
     public function checkCommit($item)
     {
-        $this->logger::info(session()->getId() . ' | [Retrieving Number of Commits] | ' . $item->id);;
+        Log::info(session()->getId() . ' | [Retrieving Number of Commits] | ' . $item->id);;
         if (!Auth::user()) {
             return;
         } else
@@ -138,9 +133,9 @@ class ItemRepository implements ItemRepositoryInterface{
      */
     public function setThresholdReached($id)
     {
-        $this->logger::info(session()->getId() . ' | [Threshold Reached Started] | ' . $id);
+        Log::info(session()->getId() . ' | [Threshold Reached Started] | ' . $id);
         DB::table('items')->where('id', $id)->update(['status' => 'threshold reached']);
-        $this->logger::info(session()->getId() . ' | [Threshold Reached Finished] | ' . $id);
+        Log::info(session()->getId() . ' | [Threshold Reached Finished] | ' . $id);
     }
 
     /**
@@ -181,7 +176,7 @@ class ItemRepository implements ItemRepositoryInterface{
     public function getSearchResults(Request $request)
     {
         $name = $request->search;
-        $this->logger::info(session()->getId() . ' | [Search Query Started] | ' . $name);
+        Log::info(session()->getId() . ' | [Search Query Started] | ' . $name);
         return item::search($name)->paginate(15);
     }
 }

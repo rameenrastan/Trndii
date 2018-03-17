@@ -9,12 +9,10 @@ class UserRepository implements UserRepositoryInterface {
 
 
     protected $user;
-    protected $logger;
     
-    public function __construct(User $user, Log $logger){
+    public function __construct(User $user){
 
         $this->user = $user;
-        $this->logger = $logger;
 
     }
 
@@ -36,9 +34,13 @@ class UserRepository implements UserRepositoryInterface {
      */
     public function updateCreditCard($email, $customerId){
 
+        Log::info(session()->getId() . ' | [Query: Update Card Started] | ' . $this->user->email);
+
         $currentUser = $this->user->where('email', $email)->first();
         $currentUser->stripe_id = $customerId;
         $currentUser->save();
+
+        Log::info(session()->getId() . ' | [Query: Update Card Finished] | ' . $this->user->email);
 
     }
 
@@ -49,7 +51,7 @@ class UserRepository implements UserRepositoryInterface {
      */
     public function update($request, $id){
 
-        $this->logger::info(session()->getId() . ' | [Query: Information Update Started] | ' . $this->user->email);
+        Log::info(session()->getId() . ' | [Query: Information Update Started] | ' . $this->user->email);
 
         $newPassword = $request->input('newpassword');
         $currentUser = $this->user->find($id);
@@ -63,7 +65,7 @@ class UserRepository implements UserRepositoryInterface {
         $currentUser->city = $request->input("city");
         $currentUser->save();
 
-        $this->logger::info(session()->getId() . ' | [Query: Information Update Completed] | ' . $this->user->email);
+        Log::info(session()->getId() . ' | [Query: Information Update Completed] | ' . $this->user->email);
 
     }
 

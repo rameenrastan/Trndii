@@ -21,14 +21,12 @@ class ItemsController extends Controller
     protected $itemRepo;
     protected $transactionRepo;
     protected $userRepo;
-    protected $logger;
     
-    public function __construct(Log $logger, ItemRepositoryInterface $itemRepo, TransactionRepositoryInterface $transactionRepo, UserRepositoryInterface $userRepo)
+    public function __construct(ItemRepositoryInterface $itemRepo, TransactionRepositoryInterface $transactionRepo, UserRepositoryInterface $userRepo)
     {
         $this->itemRepo=$itemRepo;
         $this->transactionRepo = $transactionRepo;
         $this->userRepo = $userRepo;
-        $this->logger = new Log;
     }
 
     /**
@@ -40,7 +38,7 @@ class ItemsController extends Controller
     public function index(){
 
         $items=$this->itemRepo->index();
-        $this->logger::info(session()->getId() . ' | [Viewing Item List] | ' . Auth::user()->email);
+        Log::info(session()->getId() . ' | [Viewing Item List] | ' . Auth::user()->email);
         return view('item.index')->with('items',$items);
 
     }
@@ -61,7 +59,7 @@ class ItemsController extends Controller
 
         $categories = array_combine($categories,$categories);
 
-        $this->logger::info(session()->getId() . ' | [Create Item Page] | ' . 'Admin');
+        Log::info(session()->getId() . ' | [Create Item Page] | ' . 'Admin');
 
         return view('item.create', compact('supplierNames'), compact('categories'));
 
@@ -76,7 +74,7 @@ class ItemsController extends Controller
     public function store(Request $request)
     {
 
-        $this->logger::info(session()->getId() . ' | [Create Item Started] | ' . 'Admin');
+        Log::info(session()->getId() . ' | [Create Item Started] | ' . 'Admin');
 
         //Validate data
         $this->validate($request, array(
@@ -99,7 +97,7 @@ class ItemsController extends Controller
         //Store in database
         $this->itemRepo->store($request);
 
-        $this->logger::info(session()->getId() . ' | [Create Item Completed] | ' . 'Admin');
+        Log::info(session()->getId() . ' | [Create Item Completed] | ' . 'Admin');
         return redirect('/admin')->with('success', 'Item successfully created.');
     }
 
@@ -116,7 +114,7 @@ class ItemsController extends Controller
         $checkCommit = $this->itemRepo->checkCommit($item);
 
         if (Auth::user())
-            $this->logger::info(session()->getId() . ' | [Viewing Item Page] | ' . Auth::user()->email);
+            Log::info(session()->getId() . ' | [Viewing Item Page] | ' . Auth::user()->email);
         return view('item.show')->withitem($item)
             ->with('checkCommit', $checkCommit);
     }
@@ -158,13 +156,13 @@ class ItemsController extends Controller
     {
         try { 
         $this->itemRepo->update($id);
-        $this->logger::info(session()->getId() . ' | [Item Removed] | ' . 'Admin');
+        Log::info(session()->getId() . ' | [Item Removed] | ' . 'Admin');
         return redirect('/viewAllItems')->with('success', 'Item removed!');
         }
         catch(Exception $e) 
         {
             return $e->getMessage();
-            $this->logger::error(session()->getId() . ' | [Item Removed Failed] | ' . 'Admin');
+            Log::error(session()->getId() . ' | [Item Removed Failed] | ' . 'Admin');
         }
     }
 
@@ -187,7 +185,7 @@ class ItemsController extends Controller
     public function viewAllItems()
     {
         $items=$this->itemRepo->viewAllItems();
-        $this->logger::info(session()->getId() . ' | [Admin View Items] | ' . 'Admin');
+        Log::info(session()->getId() . ' | [Admin View Items] | ' . 'Admin');
         return view('item.viewAllItems')->with('items',$items);
     }
 
@@ -212,13 +210,13 @@ class ItemsController extends Controller
     public function search(Request $request)
     {
         try {
-        $this->logger::info(session()->getId() . ' | [Item Search Started]');
+        Log::info(session()->getId() . ' | [Item Search Started]');
         $items = $this->itemRepo->getSearchResults($request);
-        $this->logger::info(session()->getId() . ' | [Item Search Finished]');
+        Log::info(session()->getId() . ' | [Item Search Finished]');
         return view('item.search')->with('items', $items);
         } catch(Exception $e) {
             return $e->getMessage();
-            $this->logger::info(session()->getId() . ' | [Item Search Failed]');
+            Log::info(session()->getId() . ' | [Item Search Failed]');
         }
     }
 

@@ -14,17 +14,15 @@ class AdminController extends Controller
 {
 
     protected $userRepo;
-    protected $logger;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(UserRepositoryInterface $userRepo, Log $logger)
+    public function __construct(UserRepositoryInterface $userRepo)
     {
         $this->middleware('auth:admin');
         $this->userRepo = $userRepo;
-        $this->logger = $logger;
     }
 
 
@@ -35,18 +33,18 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $this->logger::info(session()->getId() . ' | [Admin Homepage Visit]');
+        Log::info(session()->getId() . ' | [Admin Homepage Visit]');
         return view('admin.admin-home');
     }
 
     public function createSupplier(){
-        $this->logger::info(session()->getId() . ' | [Admin Create Supplier Page]');
+        Log::info(session()->getId() . ' | [Admin Create Supplier Page]');
         return view('supplier.create');
     }
 
     public function banUserForm(){
 
-        $this->logger::info(session()->getId() . ' | [View User Emails]');
+        Log::info(session()->getId() . ' | [View User Emails]');
         $userEmails = User::pluck('email')->toArray();
 
         $userEmails=array_combine($userEmails,$userEmails);
@@ -57,7 +55,7 @@ class AdminController extends Controller
         return view('admin.banUserForm', compact('userEmails'));
     }
     public function banUser(Request $request){
-        $this->logger::info(session()->getId() . ' | [Ban User Started]');
+        Log::info(session()->getId() . ' | [Ban User Started]');
         //Validate data
         $this->validate($request, array(
 
@@ -74,19 +72,19 @@ class AdminController extends Controller
 
 
         if($ban_type=="Ban"){
-            $this->logger::info(session()->getId() . ' | [Ban User] | ' . $email);
+            Log::info(session()->getId() . ' | [Ban User] | ' . $email);
             $user->ban(['comment' => 'Enjoy your ban!',]);
             return redirect('/admin')->with('success','You banned '. $email);
         }
         else if($ban_type=="Unban"){
-            $this->logger::info(session()->getId() . ' | [Unban User] | ' . $email);
+            Log::info(session()->getId() . ' | [Unban User] | ' . $email);
             $user->unban();
 
             return redirect('/admin')->with('success','You unbanned '. $email);
         }
 
         else if($ban_type=="Suspension"){
-            $this->logger::info(session()->getId() . ' | [Suspend User] | ' . $email);
+            Log::info(session()->getId() . ' | [Suspend User] | ' . $email);
             $user->ban([
                 'comment' => 'You\'re banned for '.$suspension_time.' days',
                 'expired_at' => '+'.$suspension_time.' days',
@@ -97,7 +95,9 @@ class AdminController extends Controller
     }
 
     public function storeSupplier(Request $request){
-        $this->logger::info(session()->getId() . ' | [Create Supplier Started] | ' . $request->name);
+
+        Log::info(session()->getId() . ' | [Create Supplier Started] | ' . $request->name);
+        
         //Validate data
         $this->validate($request, array(
 
@@ -128,7 +128,7 @@ class AdminController extends Controller
         $supplier->password=$request->password;
         $supplier->save();
 
-        $this->logger::info(session()->getId() . ' | [Create Supplier Finished] | ' . $request->name);
+        Log::info(session()->getId() . ' | [Create Supplier Finished] | ' . $request->name);
 
         //Redirect
         return redirect('/admin')->with('success', 'Supplier successfully created.');

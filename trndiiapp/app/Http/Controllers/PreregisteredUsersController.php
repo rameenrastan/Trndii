@@ -12,10 +12,9 @@ class PreregisteredUsersController extends Controller
 
     protected $logger;
     
-        public function _construct(PdfRepositoryInterface $pdfRepo, Log $logger){
+        public function _construct(PdfRepositoryInterface $pdfRepo){
     
             $this->pdfRepo = $pdfRepo;
-            $this->logger = $logger;
         }
     
     /**
@@ -25,7 +24,7 @@ class PreregisteredUsersController extends Controller
      */
     public function index()
     {
-        $this->logger::info(session()->getId() . ' | [Viewing Preregistration Page]');
+        Log::info(session()->getId() . ' | [Viewing Preregistration Page]');
         return view('preregistration');
     }
 
@@ -48,7 +47,7 @@ class PreregisteredUsersController extends Controller
     public function store(Request $request)
     {
         try {
-        $this->logger::info(session()->getId() . ' | [Preregistration Started] | ' . $request->email);
+        Log::info(session()->getId() . ' | [Preregistration Started] | ' . $request->email);
 
         $this->validate($request, [
             'firstName' => 'required',
@@ -62,10 +61,10 @@ class PreregisteredUsersController extends Controller
         $preregisteredUser->email = $request->input('email');
         $preregisteredUser->save();
         
-        $this->logger::info(session()->getId() . ' | [Preregistration Finished] | ' . $request->email);
+        Log::info(session()->getId() . ' | [Preregistration Finished] | ' . $request->email);
         return redirect('/preregistration')->with('success', 'Thank you for your interest! You will be notified via email when the website goes live.');
         } catch (Exception $e) {
-            $this->logger::error(session()->getId() . ' | [Preregistration Failed] | ' . $request->email);
+            Log::error(session()->getId() . ' | [Preregistration Failed] | ' . $request->email);
             return $e->getMessage();
         }
     }

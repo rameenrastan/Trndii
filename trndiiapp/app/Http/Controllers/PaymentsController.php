@@ -26,9 +26,8 @@ class PaymentsController extends Controller
     protected $itemRepo;
     protected $logger;
      
-    public function __construct(Log $logger, UserRepositoryInterface $userRepo, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo){
+    public function __construct(UserRepositoryInterface $userRepo, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo){
         
-        $this->logger = $logger;
         $this->userRepo = $userRepo;
         $this->transactionRepo = $transactionRepo;
         $this->itemRepo = $itemRepo;
@@ -43,14 +42,14 @@ class PaymentsController extends Controller
     public function updateCard(){
 
         try {
-        $this->logger::info(session()->getId() . ' | [Update Credit Card Started] | ' . Auth::user()->email); 
+        Log::info(session()->getId() . ' | [Update Credit Card Started] | ' . Auth::user()->email); 
 
-       Stripe::setApiKey('sk_test_NT3PRUGQkLOj8cnPlp1X2APb');
+        Stripe::setApiKey('sk_test_NT3PRUGQkLOj8cnPlp1X2APb');
        
-       $auth = Auth::user();
-       $user = $this->userRepo->findByEmail($auth->email);
+        $auth = Auth::user();
+        $user = $this->userRepo->findByEmail($auth->email);
 
-       $customer = Customer::create([
+        $customer = Customer::create([
 
         'email' => request('stripeEmail'),
         'source' => request('stripeToken') 
@@ -58,11 +57,11 @@ class PaymentsController extends Controller
        ]);
 
         $this->userRepo->updateCreditCard($auth->email, $customer->id);
-        $this->logger::info(session()->getId() . ' | [Update Credit Card Finished] | ' . Auth::user()->email);
+        Log::info(session()->getId() . ' | [Update Credit Card Finished] | ' . Auth::user()->email);
         
         return redirect('/editDetails')->with('success', 'Credit Card Updated');
        } catch (Exception $e) { 
-            $this->logger::error(session()->getId() . ' | [Update Credit Card Failed] | ' . Auth::user()->email);
+            Log::error(session()->getId() . ' | [Update Credit Card Failed] | ' . Auth::user()->email);
             return $e->getMessage();
        }
 
