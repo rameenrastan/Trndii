@@ -118,11 +118,12 @@ class ItemsController extends Controller
 
         $item = $this->itemRepo->find($id);
         $checkCommit = $this->itemRepo->checkCommit($item);
+        $comments = $this->itemRepo->getCommentsForItem($id);
 
         if (Auth::user())
             Log::info("User " . Auth::user()->email . " is viewing the page for " . $item->Name);
         return view('item.show')->withitem($item)
-            ->with('checkCommit', $checkCommit);
+            ->with('checkCommit', $checkCommit)->with('itemComments', $comments);
     }
 
     
@@ -249,7 +250,6 @@ class ItemsController extends Controller
 
     public function getItemThread($itemId)
     {
-
         try {
             $item=$this->itemRepo->find($itemId);
             $comments = $this->itemRepo->getCommentsForItem($itemId);
@@ -261,15 +261,12 @@ class ItemsController extends Controller
                 return view('item.viewItemCommentThread')->with('item', $item)->with('user', Auth::user())->with('itemComments', $comments);
             }
         } catch (Exception $e) {
-
-           // return view('item.viewItemCommentThread')->with('item', $item)->with('user', Auth::user());
+            // return view('item.viewItemCommentThread')->with('item', $item)->with('user', Auth::user());
         }
-
-
     }
 
 
-    public function addComment(Request $request, $itemId)
+    public function addComment(Request $request, $itemId, $page)
     {
         $this->validate($request, array(
             'comment'   =>  'required|min:5|max:2000'
@@ -277,7 +274,14 @@ class ItemsController extends Controller
 
         $this->itemRepo->addCommentToItem($request,$itemId);
 
-        return redirect()->route('ItemController', [$itemId]);
+        if($page == "itemCommentThreadOnly") {
+            return redirect()->route('ItemController', [$itemId]);
+        }
+
+        if($page == "itemShow") {
+            return redirect()->route('showItem', [$itemId]);
+        }
+
     }
 
 
