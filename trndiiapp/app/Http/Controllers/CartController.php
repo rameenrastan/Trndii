@@ -27,7 +27,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        $this->logger::info(session()->getId() . ' | [Viewing Shopping Cart] | ' . Auth::user()->email);
+        $this->logger::info(session()->getId() . ' | [Viewing Shopping Cart]');
         $this->cartRepo->removeNonPendingItems();
         return view('item.shoppingCart');
     }

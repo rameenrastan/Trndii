@@ -22,6 +22,7 @@ class TransacationRepistoryTest extends TestCase
      */
     public function testInsertingNewTransaction()
     {
+        putenv('DB_CONNECTION=sqlite_testing');
 
         $test_user = new User([
             'name' => "Test User",
@@ -59,11 +60,9 @@ class TransacationRepistoryTest extends TestCase
 
         $test_item->save();
 
-        $log = $this->createMock('Log');
-        $repository = new Repositories\TransactionRepository(new Transaction, new Repositories\ItemRepository(new Log), new Log);
+        $log = new Log();
+        $repository = new Repositories\TransactionRepository(new Transaction, new Repositories\ItemRepository($log), $log);
         $repository->insert($test_user->email, $test_item->id);
-
-
 
         $this->assertDatabaseHas('transactions', [
             'email' => $test_user->email,

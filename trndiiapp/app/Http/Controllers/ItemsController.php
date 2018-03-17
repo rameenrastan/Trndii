@@ -212,13 +212,13 @@ class ItemsController extends Controller
     public function search(Request $request)
     {
         try {
-        $this->logger::info(session()->getId() . ' | [Item Search Started] | ' . Auth::user()->email);
+        $this->logger::info(session()->getId() . ' | [Item Search Started]');
         $items = $this->itemRepo->getSearchResults($request);
-        $this->logger::info(session()->getId() . ' | [Item Search Finished] | ' . Auth::user()->email);
+        $this->logger::info(session()->getId() . ' | [Item Search Finished]');
         return view('item.search')->with('items', $items);
         } catch(Exception $e) {
             return $e->getMessage();
-            $this->logger::info(session()->getId() . ' | [Item Search Failed] | ' . Auth::user()->email);
+            $this->logger::info(session()->getId() . ' | [Item Search Failed]');
         }
     }
 
