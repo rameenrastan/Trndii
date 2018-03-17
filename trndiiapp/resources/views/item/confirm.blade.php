@@ -21,13 +21,14 @@
                             <br> Tokens Gained: {{$item->Tokens_Given}}
                         </p>
                         <p>
-                            {!! Form::open(['route' => ['tokensUpdate', $item->id], 'method' => 'POST']) !!}
+
+                            {!! Form::open(['action' => ['TransactionsController@updateTokens', $item->id], 'method' => 'POST']) !!}
                             <div class="col-lg-4 col-lg-offset-4">
                                 <div class="form-group">
-                                    {{Form::label('Tokens Spent', 'Do you wish to spend any tokens?',array('class'=>'control-label'))}}
+                                    {{Form::label('Tokens To Spend', 'Do you wish to spend any tokens?',array('class'=>'control-label'))}}
                                     You have {{Auth::user()->tokens}} tokens.
 
-                                    {{Form::number('Tokens',null, array('placeholder'=>'0','class' => 'form-control'))}} 
+                                    {{Form::number('Tokens To Spend',null, array('placeholder'=>'0','class' => 'form-control'))}} 
                                 </div>
                             </div>
                         </p>

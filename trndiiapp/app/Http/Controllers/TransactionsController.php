@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use App\item; 
 use App\Repositories\Interfaces\TransactionRepositoryInterface as TransactionRepositoryInterface;
 use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterface;
+use App\Repositories\Interfaces\UserRepositoryInterface as UserRepositoryInterface;
 use Bart\Ab\Ab;
 use App\Repositories\Interfaces\ExperimentsRepositoryInterface;
 
@@ -22,13 +23,16 @@ class TransactionsController extends Controller
     protected $transactionRepo;
     protected $itemRepo;
     protected $experimentsRepo;
+    protected $userRepo;
     protected $ab;
 
-    public function __construct(Ab $ab, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo, ExperimentsRepositoryInterface $experimentsRepo){
+    public function __construct(Ab $ab, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo, ExperimentsRepositoryInterface $experimentsRepo,
+    UserRepositoryInterface $userRepo){
     
         $this->transactionRepo = $transactionRepo;
         $this->itemRepo = $itemRepo;
         $this->experimentsRepo = $experimentsRepo;
+        $this->userRepo = $userRepo;
         $this->ab = $ab;
         
     }
@@ -171,8 +175,12 @@ class TransactionsController extends Controller
         
         $stripeId = Auth::user()->stripe_id;
         $user = Auth::user();
+        $nbTokensSpent = $request->input('Tokens_To_Spend');
+
         if($stripeId != ''){
 
+            $this->itemRepo->addTotalTokens($nbTokensSpent,$id);
+            $this->userRepo->removeTokens($user,$nbTokensSpent);
             $this->transactionRepo->insert(Auth::user()->email, $id);    
 
             app('App\Http\Controllers\ItemsController')->numTransactions($id);    

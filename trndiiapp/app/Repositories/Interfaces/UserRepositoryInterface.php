@@ -8,5 +8,6 @@ interface UserRepositoryInterface {
     public function updateCreditCard($user, $customerId);
     public function update($request, $id);
     public function addTokens($tempUser, $nbTokens);
+    public function removeTokens($tempUser, $nbTokens);
 	
 }

@@ -71,4 +71,11 @@ class UserRepository implements UserRepositoryInterface {
 
     }
 
+    public function removeTokens($tempUser, $nbTokens){
+
+        Log::info('Removing ' . $nbTokens . ' tokens from ' . $tempUser->id);
+        $tempUser->decrement('Tokens',$nbTokens);
+
+    }
+
 }
