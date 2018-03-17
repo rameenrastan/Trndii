@@ -246,7 +246,7 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal">Return</button>
                     @else    
                         @if($checkCommit == 0 && $item->Threshold > $item->Number_Transaction)
-                        <button type="button" class="btn btn-primary" onclick="location.href='{{ url('/confirm/' .$item->id) }}'">Confirm</button>
+                        <button type="button" class="btn btn-primary" onclick="location.href='{{ url('/confirm/' .$item->id) }}'">Go to confirmation</button>
 
                             <button type="button" class="btn btn-default" data-dismiss="modal">Return</button>
                         @elseif($item->Threshold <= $item->Number_Transactions)

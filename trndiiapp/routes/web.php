@@ -62,6 +62,8 @@ Route::get('/confirm/{id}', 'ItemsController@getConfirm');
 
 Route::resource('transactions', 'TransactionsController');
 
+Route::get('tokensUpdate', 'TransactionsController@updateTokens'); //
+
 Route::post('/send', 'EmailController@send');
 
 Route::get('contact', 'PagesController@getContact');

@@ -165,4 +165,46 @@ class TransactionsController extends Controller
 
         return redirect('/purchaseHistory')->with('success', 'You have successfully deleted '.$itemName.' from your pending transactions!');
     }
+
+    public function updateTokens(Request $request, $id)
+    {
+        
+        $stripeId = Auth::user()->stripe_id;
+        $user = Auth::user();
+        if($stripeId != ''){
+
+            $this->transactionRepo->insert(Auth::user()->email, $id);    
+
+            app('App\Http\Controllers\ItemsController')->numTransactions($id);    
+            
+            $item = item::find($id);    
+            Mail::to(Auth::user()->email)->send(new PurchaseConfirmation($item, Auth::user()));
+
+            if($item->Number_Transactions == $item->Threshold)
+            {
+                app('App\Http\Controllers\PaymentsController')->chargeCustomers($item->id);
+                $this->itemRepo->setThresholdReached($item->id);
+            }
+
+            Log::info('User ' . $user->email . ' successfully commited to purchasing ' . $item->Name);
+
+            if(Auth::user()->segment== "A"){
+                $this->experimentsRepo->incrementExperimentAPurchases();
+            }
+            else if(Auth::user()->segment== "B"){
+                $this->experimentsRepo->incrementExperimentBPurchases();
+            };
+
+            return redirect('/')->with('success', 'You have successfully commited to this purchase. You will be notified if the item reaches its threshold. Thanks!');
+            
+        }
+        
+        else{
+
+            Log::info('User ' . $user->email . ' attempted to purchase item ' . $id . ' without a registered credit card.');
+            return back()->with('error', 'You do not have a Credit Card registered with this account. Please go to the Edit Account page and register a payment option.');
+
+        }           
+    }
+
 }
