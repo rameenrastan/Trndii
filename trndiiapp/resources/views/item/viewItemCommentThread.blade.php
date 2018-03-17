@@ -35,7 +35,7 @@
                     comment
                 @endif
             </p>
-                @foreach($itemComments as $com)
+                @foreach($itemComments->reverse() as $com)
                 <hr>
                     <div>
                         <p>
