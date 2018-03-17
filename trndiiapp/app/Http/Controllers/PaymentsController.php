@@ -42,6 +42,7 @@ class PaymentsController extends Controller
      */
     public function updateCard(){
 
+        try {
         $this->logger::info(session()->getId() . ' | [Update Credit Card Started] | ' . Auth::user()->email); 
 
        Stripe::setApiKey('sk_test_NT3PRUGQkLOj8cnPlp1X2APb');
@@ -60,6 +61,10 @@ class PaymentsController extends Controller
         $this->logger::info(session()->getId() . ' | [Update Credit Card Finished] | ' . Auth::user()->email);
         
         return redirect('/editDetails')->with('success', 'Credit Card Updated');
+       } catch (Exception $e) { 
+            $this->logger::error(session()->getId() . ' | [Update Credit Card Failed] | ' . Auth::user()->email);
+            return $e->getMessage();
+       }
 
     }
 

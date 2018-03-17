@@ -108,6 +108,7 @@ class TransactionsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        try {
         $stripeId = Auth::user()->stripe_id;
         $user = Auth::user();
 
@@ -120,8 +121,12 @@ class TransactionsController extends Controller
             app('App\Http\Controllers\ItemsController')->numTransactions($id);    
             
             $item = item::find($id);    
+            try {
             Mail::to(Auth::user()->email)->send(new PurchaseConfirmation($item, Auth::user()));
-
+            } catch (Exception $e) {
+                $this->logger::info(session()->getId() . ' | [Purchase Confirmation Failed] | ' . $user->email);
+                return $e->getMessage();
+            }
             if($item->Number_Transactions == $item->Threshold)
             {
                 $this->paymentManager->chargeCustomers($item->id);
@@ -145,8 +150,11 @@ class TransactionsController extends Controller
 
             $this->logger::info(session()->getId() . ' | [Purchase Commitment Failed (No Credit Card)] | ' . $user->email);
             return back()->with('error', 'You do not have a Credit Card registered with this account. Please go to the Edit Account page and register a payment option.');
-
-        }           
+        }     
+        } catch (Exception $e) {
+            $this->logger::error(session()->getId() . ' | [Purchase Commitment Failed] | ' . $user->email);
+            return $e->getMessage();
+        }      
     }
 
     public function updatePurchaseHistory($email, $itemId){

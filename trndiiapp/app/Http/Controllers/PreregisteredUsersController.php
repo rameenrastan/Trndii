@@ -47,6 +47,7 @@ class PreregisteredUsersController extends Controller
      */
     public function store(Request $request)
     {
+        try {
         $this->logger::info(session()->getId() . ' | [Preregistration Started] | ' . $request->email);
 
         $this->validate($request, [
@@ -63,6 +64,10 @@ class PreregisteredUsersController extends Controller
         
         $this->logger::info(session()->getId() . ' | [Preregistration Finished] | ' . $request->email);
         return redirect('/preregistration')->with('success', 'Thank you for your interest! You will be notified via email when the website goes live.');
+        } catch (Exception $e) {
+            $this->logger::error(session()->getId() . ' | [Preregistration Failed] | ' . $request->email);
+            return $e->getMessage();
+        }
     }
 
     /**
