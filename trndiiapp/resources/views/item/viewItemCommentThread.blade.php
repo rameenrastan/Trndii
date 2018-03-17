@@ -1,7 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+    {{--<div class="col-md-8 col-md-offset-2">--}}
 
+    {{--{{$item->Name }}--}}
+        {{--<br/>--}}
+
+    {{--</div>--}}
     <div class="col-md-8 col-md-offset-2">
     @foreach($itemComments as $com)
         <p>{{ $com->comment }} </p>
@@ -17,7 +22,7 @@
         <div id ="comment-form"  class="col-md-8 col-md-offset-2">
 
 
-            {{ Form::open(['route' => ['ItemController.addComment', $item->id], 'method' => 'POST']) }}
+            {{ Form::open(['route' => ['ItemController.addComment', $item->id, "itemCommentThreadOnly"], 'method' => 'POST']) }}
 
             <div class="row">
 
@@ -35,4 +40,10 @@
 
         </div>
     </div>
+
+
 @endsection
+
+{{--{{$item}}}--}}
+
+{{--{{$user}}--}}
