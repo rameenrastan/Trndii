@@ -121,7 +121,7 @@ class ItemsController extends Controller
         if (Auth::user())
             Log::info(session()->getId() . ' | [Viewing Item Page] | ' . Auth::user()->email);
         return view('item.show')->withitem($item)
-            ->with('checkCommit', $checkCommit);
+            ->with('checkCommit', $checkCommit)->with('itemComments', $comments);
         } catch (Exception $e) {
             Log::error(session()->getId() . ' | [Viewing Item Page Failed] | ' . Auth::user()->email);
         }
