@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    
+    <div class="container">
     <div class="col-md-12 text-center">
         <h3>
             Comments on <font color="#14A989"><strong>{{$item->Name}}</strong></font>
@@ -35,6 +35,7 @@
                     comment
                 @endif
             </p>
+
                 @foreach($itemComments->reverse() as $com)
                 <hr>
                     <div>
@@ -53,4 +54,5 @@
                 </h4>
             </div>
         @endif
+    </div>
 @endsection
