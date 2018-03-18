@@ -91,7 +91,9 @@ class PaymentsController extends Controller
     public function chargeCustomers($id){
         
         $item = $this->itemRepo->find($id);
-                
+
+
+
         $transactions = $this->transactionRepo->getAllByItemId($id);
 
         $transaction_log = new Logger('Transaction Logs');
@@ -102,7 +104,11 @@ class PaymentsController extends Controller
 
             $user = $this->userRepo->findByEmail($transaction->email);
 
+            //Add tokens to users
+            $this->userRepo->addTokens($user, $item->Tokens_Given);
+
             app('App\Http\Controllers\PaymentsController')->charge($item->Price, $user->stripe_id);
+
             $transaction_log->addInfo("User " . $user->email . " was charged $" . $item->Price);
 
             app('App\Http\Controllers\TransactionsController')->updatePurchaseHistory($user->email, $id);

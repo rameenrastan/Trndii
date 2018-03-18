@@ -246,6 +246,19 @@ class ItemsController extends Controller
         return view('item.search')->with('items', $items);
     }
 
+    //Get purchase confirmation page
+    public function getConfirm($id)
+    {
+        $item = $this->itemRepo->find($id);
+        $checkCommit = $this->itemRepo->checkCommit($item);
+
+        if (Auth::user())
+            Log::info("User " . Auth::user()->email . " is viewing the purchase confirmation page after buying " . $item->Name);
+        return view('item.confirm')->withitem($item)
+            ->with('checkCommit', $checkCommit);
+
+    }
+
     public function getItemThread($itemId)
     {
 
@@ -264,13 +277,8 @@ class ItemsController extends Controller
         }
 
 
-//        $item=$this->itemRepo->find($itemId);
-//        Log::info("Retrieving item to than display the comment thread assosiated to it.");
-//        return view('item.viewItemCommentThread')->with('item',$item)->with('user', Auth::user());
 
     }
-
-
 
 
 }

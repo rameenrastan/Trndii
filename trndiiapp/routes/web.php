@@ -58,7 +58,12 @@ Route::resource('item', 'ItemsController');
 
 Route::get('item.create', 'ItemsController@item.create');
 
+Route::get('/confirm/{id}', 'ItemsController@getConfirm'); 
+
 Route::resource('transactions', 'TransactionsController');
+
+//Route::get('tokensUpdate', 'TransactionsController@updateTokens'); //
+Route::put('updateTokens/{id}','TransactionsController@updateTokens');
 
 Route::post('/send', 'EmailController@send');
 

@@ -27,6 +27,7 @@ class ItemRepository implements ItemRepositoryInterface{
         $item->Price=$request->Price;
         $item->Bulk_Price=$request->Bulk_Price;
         $item->Tokens_Given=$request->Tokens_Given;
+        $item->Total_Tokens_Spent=$request->Total_Tokens_Spent;
         $item->Threshold=$request->Threshold;
         $item->Short_Description=$request->Short_Description;
         $item->Long_Description=$request->Long_Description;
@@ -171,5 +172,12 @@ class ItemRepository implements ItemRepositoryInterface{
         $name = $request->search;
         Log::info("Query: getting search results of " . $request->search);
         return item::search($name)->paginate(15);
+    }
+
+    public function addTotalTokens($nbTokens, $id)
+    {
+        Log::info('Database query: Adding ' . $nbTokens . ' tokens to total.'); 
+        DB::table('items')->where('id', $id)->increment('Total_Tokens_Spent', $nbTokens);
+
     }
 }

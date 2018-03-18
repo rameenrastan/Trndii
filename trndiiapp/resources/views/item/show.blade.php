@@ -79,6 +79,15 @@
             @if(Auth::user())
                 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#BuyModal">Purchase
                 </button>
+
+                <!--
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" onclick="location.href='{{ url('/confirm') }}'">PERRRchase
+                </button>
+                -->
+
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#BuyModalTokens">Token Purchase
+                </button>
+
             @else
                 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#BuyModal">Login To Purchase
                 </button>
@@ -202,4 +211,117 @@
     </div>
 </div>
 
+<!--Modal with tokens-->
+<div id="BuyModalTokens" class="modal fade" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @if(Auth::user())
+                <div class="modal-header">
+                    <h3 class="modal-title">Are you sure you want to commit to this purchase?</h3>
+                </div>
+                <div class="modal-body">
+
+                    @if(Auth::user()->country != $item->Shipping_To && $item->Shipping_To != "Canada and United States")
+                        <p>
+                            <strong> This item does not ship to {{Auth::user()->country}}! </strong>
+                            <!-- Remove this if/when we implement choosing shipping address-->
+                        </p>
+                    @else
+                        <p><strong>Item details: </strong></p>
+                        <p>
+                            {{$item->Name}}
+                            <br> Price: {{$item->Price}}$
+                            <br> Tokens Gained: {{$item->Tokens_Given}}
+                        <!--
+                    @if(Auth::user()->country != $item->Shipping_To)
+                            <br> <strong> Warning! This item does not ship to {{Auth::user()->country}} </strong>
+                    @endif
+                                -->
+                        </p>
+                    @endif
+                </div>
+                <div class="modal-footer">
+
+                    @if(Auth::user()->country != $item->Shipping_To && $item->Shipping_To != "Canada and United States")
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Return</button>
+                    @else    
+                        @if($checkCommit == 0 && $item->Threshold > $item->Number_Transaction)
+                        <button type="button" class="btn btn-primary" onclick="location.href='{{ url('/confirm/' .$item->id) }}'">Go to confirmation</button>
+
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Return</button>
+                        @elseif($item->Threshold <= $item->Number_Transactions)
+                            <p>The threshold for this item has already been reached. Sorry!</p>
+                        @else
+                            <p>You have already commited to this item. Stay tuned!</p>
+                        @endif
+                    @endif    
+                </div>
+
+            @else
+                <div class="modal-header">
+                    <h3 class="modal-title">Please login to continue.</h3>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" method="POST" action="{{ route('login') }}">
+                        {{ csrf_field() }}
+
+                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+
+                            <div class="col-md-6">
+                                <input id="email" type="email" class="form-control" name="email"
+                                       value="{{ old('email') }}" required autofocus>
+
+                                @if ($errors->has('email'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                            <label for="password" class="col-md-4 control-label">Password</label>
+
+                            <div class="col-md-6">
+                                <input id="password" type="password" class="form-control" name="password"
+                                       required>
+
+                                @if ($errors->has('password'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"
+                                               name="remember" {{ old('remember') ? 'checked' : '' }}>
+                                        Remember Me
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-8 col-md-offset-4">
+                                <button type="submit" class="btn btn-primary">
+                                    Login
+                                </button>
+
+                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                    Forgot Your Password?
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            @endif
+        </div>
+    </div>
+</div>
 @endsection
