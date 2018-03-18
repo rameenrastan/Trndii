@@ -16,6 +16,7 @@ use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterfa
 use App\Repositories\Interfaces\UserRepositoryInterface as UserRepositoryInterface;
 use Bart\Ab\Ab;
 use App\Repositories\Interfaces\ExperimentsRepositoryInterface;
+use App\Domain\PaymentManager;
 
 class TransactionsController extends Controller
 {
@@ -25,15 +26,17 @@ class TransactionsController extends Controller
     protected $experimentsRepo;
     protected $userRepo;
     protected $ab;
+    protected $paymentManager;
 
     public function __construct(Ab $ab, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo, ExperimentsRepositoryInterface $experimentsRepo,
-    UserRepositoryInterface $userRepo){
+    UserRepositoryInterface $userRepo, PaymentManager $paymentManager){
     
         $this->transactionRepo = $transactionRepo;
         $this->itemRepo = $itemRepo;
         $this->experimentsRepo = $experimentsRepo;
         $this->userRepo = $userRepo;
         $this->ab = $ab;
+        $this->paymentManager = $paymentManager;
         
     }
 
@@ -48,7 +51,7 @@ class TransactionsController extends Controller
         $items = $this->transactionRepo->index();
         $userEmail=Auth::user()->email;
 
-        Log::info("User " . $userEmail . " is viewing the purchase history page");
+        Log::info(session()->getId() . ' | [Viewing Purchase History] | ' . $userEmail);
 
         return view('layouts.purchasehistory')
             ->with('items', $items);
@@ -107,9 +110,12 @@ class TransactionsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        try {
         $stripeId = Auth::user()->stripe_id;
         $user = Auth::user();
+
+        Log::info(session()->getId() . ' | [Start Purchase Commitment] | ' . $user->email);
+
         if($stripeId != ''){
 
             $this->transactionRepo->insert(Auth::user()->email, $id);    
@@ -117,15 +123,19 @@ class TransactionsController extends Controller
             app('App\Http\Controllers\ItemsController')->numTransactions($id);    
             
             $item = item::find($id);    
+            try {
             Mail::to(Auth::user()->email)->send(new PurchaseConfirmation($item, Auth::user()));
-
+            } catch (Exception $e) {
+                Log::info(session()->getId() . ' | [Purchase Confirmation Failed] | ' . $user->email);
+                return $e->getMessage();
+            }
             if($item->Number_Transactions == $item->Threshold)
             {
-                app('App\Http\Controllers\PaymentsController')->chargeCustomers($item->id);
+                $this->paymentManager->chargeCustomers($item->id);
                 $this->itemRepo->setThresholdReached($item->id);
             }
 
-            Log::info('User ' . $user->email . ' successfully commited to purchasing ' . $item->Name);
+            Log::info(session()->getId() . ' | [Purchase Commitment Success] | ' . $user->email);
 
             if(Auth::user()->segment== "A"){
                 $this->experimentsRepo->incrementExperimentAPurchases();
@@ -140,10 +150,13 @@ class TransactionsController extends Controller
         
         else{
 
-            Log::info('User ' . $user->email . ' attempted to purchase item ' . $id . ' without a registered credit card.');
+            Log::info(session()->getId() . ' | [Purchase Commitment Failed (No Credit Card)] | ' . $user->email);
             return back()->with('error', 'You do not have a Credit Card registered with this account. Please go to the Edit Account page and register a payment option.');
-
-        }           
+        }     
+        } catch (Exception $e) {
+            Log::error(session()->getId() . ' | [Purchase Commitment Failed] | ' . $user->email);
+            return $e->getMessage();
+        }      
     }
 
     public function updatePurchaseHistory($email, $itemId){
@@ -164,7 +177,7 @@ class TransactionsController extends Controller
     public function destroy($itemId)
     {
         $this->transactionRepo->destroy($itemId);
-
+        $this->itemRepo->numTransactions($itemId);
         $itemName=$this->itemRepo->find($itemId)->Name;
 
         return redirect('/purchaseHistory')->with('success', 'You have successfully deleted '.$itemName.' from your pending transactions!');

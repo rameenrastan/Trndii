@@ -15,6 +15,7 @@ class PDFController extends Controller
 
 
     protected $pdfRepo;
+    protected $logger;
 
     public function _construct(PdfRepositoryInterface $pdfRepo){
 
@@ -35,13 +36,15 @@ class PDFController extends Controller
     public function getPdfByItem(PdfRepositoryInterface $pdfRepo , $itemId, $itemName)
     {
 
+        Log::info(session()->getId() . ' | [Download PDF Started] | ' . $itemName);
+
         $data = ['data' => $pdfRepo->findAddressByItemId($itemId)];
 
         $pdf = PDF::loadView('pdf.addresses', $data);
 
         $pdfName = $itemName . "_Addresses.pdf";
 
-        Log::info("A supplier downloaded a PDF of the shipping addresses of item " . $itemId);
+        Log::info(session()->getId() . ' | [Download PDF Finished] | ' . $itemName);
 
         return $pdf->download($pdfName);
 

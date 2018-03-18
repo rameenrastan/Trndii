@@ -4,24 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Log;
-use Bart\Ab\Ab;
 use Auth;
-use Feature;
-use App\Repositories\Interfaces\ExperimentsRepositoryInterface;
+use App\Domain\ExperimentHandler;
 
 class HomeController extends Controller
 {
 
-    protected $experimentsRepo;
+    protected $experimentHandler;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(Ab $ab, ExperimentsRepositoryInterface $experimentsRepo)
+    public function __construct(ExperimentHandler $experimentHandler)
     {
-        $this->experimentsRepo = $experimentsRepo;
-        $this->ab= $ab;
+        $this->experimentHandler = $experimentHandler;
         $this->middleware('auth');
     }
 
@@ -32,20 +29,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->segment == "")
-        {
-            Auth::user()->segment = $this->ab->getCurrentTest();
-            Auth::user()->save();
-        }
-        else if(Auth::user()->segment== "A"){
-            Feature::add('Cancel Purchase', false);
-            $this->experimentsRepo->incrementExperimentAFrontPageHits();
-        }
-        else if(Auth::user()->segment== "B"){
-            Feature::add('Cancel Purchase', true);
-            $this->experimentsRepo->incrementExperimentBFrontPageHits();
-        };
-        Log::info("User " . Auth::user()->email . " is viewing the home page.");
+        
+        $this->experimentHandler->handleExperiment(Auth::user(), Auth::user()->segment);
+        Log::info(session()->getId() . ' | [Homepage Visit] | ' . Auth::user()->email);
         return view('home');
     }
 

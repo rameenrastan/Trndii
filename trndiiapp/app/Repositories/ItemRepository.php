@@ -20,6 +20,8 @@ class ItemRepository implements ItemRepositoryInterface{
     public function store(Request $request)
     {
 
+        Log::info(session()->getId() . ' | [Database Query: Item Creation Started] | ' . $request->Name);
+
         //Store in database
         $item= new item;
 
@@ -40,7 +42,8 @@ class ItemRepository implements ItemRepositoryInterface{
         $item->Supplier=$request->Supplier;
 
         $item->save();
-        Log::info('Database query: item ' . $item->id . ' created');
+        
+        Log::info(session()->getId() . ' | [Database Query: Item Creation Completed] | ' . $request->Name);
 
     }
 
@@ -51,7 +54,7 @@ class ItemRepository implements ItemRepositoryInterface{
      */
     public function index()
     {
-        Log::info('Database query: getting all active items.');
+        Log::info(session()->getId() . ' | [Database Query: Retrieving Active Items] | ' . Auth::user()->email);
         return item::orderby('Name','asc')->where('Status', '!=', 'cancelled')->paginate(10);
     }
 
@@ -62,7 +65,7 @@ class ItemRepository implements ItemRepositoryInterface{
      */
     public function viewAllItems()
     {
-        Log::info('Database query: getting all items.');
+        Log::info(session()->getId() . ' | [Database Query: Item Search Results]');
         return item::orderby('Name','asc')->paginate(12);
     }
 
@@ -73,11 +76,12 @@ class ItemRepository implements ItemRepositoryInterface{
      */
     public function update($id)
     {
-        Log::info('Database query: Item ' . $id . ' status changed to cancelled.');
+        Log::info(session()->getId() . ' | [Started Database Query: Item Cancelled]');
         $item = item::find($id);
 
         $item->Status = 'cancelled';
         $item->save();
+        Log::info(session()->getId() . ' | [Finished Database Query: Item Cancelled]');
     }
 
     /**
@@ -87,11 +91,15 @@ class ItemRepository implements ItemRepositoryInterface{
      */
     public function numTransactions($id)
     {
+        
+        Log::info(session()->getId() . ' | [Number Transactions Update Started] | ' . $id);
+        
         $numTransactions = DB::table('transactions')->where('item_fk', $id)->count();
-        Log::info('Database query: Item ' . $id . ' number of transactions updated to : ' . $numTransactions);
         DB::table('items')
             ->where('id', $id)
             ->update(['Number_Transactions' => $numTransactions]);
+            
+        Log::info(session()->getId() . ' | [Number Transactions Update Finished] | ' . $id);
     }
 
     /**
@@ -101,7 +109,7 @@ class ItemRepository implements ItemRepositoryInterface{
      */
     public function find($id)
     {
-        Log::info('Database query: retrieving item ' . $id);
+        Log::info(session()->getId() . ' | [Number Transactions Update Started] | ' . $id);
         return item::find($id);
     }
 
@@ -112,7 +120,7 @@ class ItemRepository implements ItemRepositoryInterface{
      */
     public function checkCommit($item)
     {
-        Log::info('Database query: finding the number of users commited to item ' . $item->id);
+        Log::info(session()->getId() . ' | [Retrieving Number of Commits] | ' . $item->id);;
         if (!Auth::user()) {
             return;
         } else
@@ -126,8 +134,9 @@ class ItemRepository implements ItemRepositoryInterface{
      */
     public function setThresholdReached($id)
     {
-        Log::info('Database query: updating item ' . $id . ' status to threshold reached');
+        Log::info(session()->getId() . ' | [Threshold Reached Started] | ' . $id);
         DB::table('items')->where('id', $id)->update(['status' => 'threshold reached']);
+        Log::info(session()->getId() . ' | [Threshold Reached Finished] | ' . $id);
     }
 
     /**
@@ -137,7 +146,6 @@ class ItemRepository implements ItemRepositoryInterface{
      */
     public function getExpiredItems()
     {
-        Log::info('Database query: retrieving all items that expire today (on ' .  Carbon::today() . ')');
         return DB::table('items')->whereRaw('date(End_Date) = ?', [Carbon::today()])->get();
     }
 
@@ -148,7 +156,6 @@ class ItemRepository implements ItemRepositoryInterface{
      */
     public function setExpired($id)
     {
-        Log::info('Database query: changing status of item ' . $id . ' to expired.');
         DB::table('items')->where('id', $id)->update(['status' => 'expired']);
     }
 
@@ -170,7 +177,7 @@ class ItemRepository implements ItemRepositoryInterface{
     public function getSearchResults(Request $request)
     {
         $name = $request->search;
-        Log::info("Query: getting search results of " . $request->search);
+        Log::info(session()->getId() . ' | [Search Query Started] | ' . $name);
         return item::search($name)->paginate(15);
     }
 

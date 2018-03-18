@@ -18,7 +18,7 @@ class CategoryRepository implements CategoryRepositoryInterface{
      * @return Category[]
      */
     public function getCategories(){
-        Log::info("Database query: retrieving all item categories.");
+        Log::info(session()->getId() . ' | [Database Query: Retrieving Categories]');
         return Category::pluck('Name')->toArray();
     }
 }
