@@ -231,11 +231,13 @@ class ItemsController extends Controller
     //Get purchase confirmation page
     public function getConfirm($id)
     {
+        Log::info(session()->getId() . ' | [View Item Confirmation Started]' . $id);
+
         $item = $this->itemRepo->find($id);
         $checkCommit = $this->itemRepo->checkCommit($item);
 
         if (Auth::user())
-            Log::info("User " . Auth::user()->email . " is viewing the purchase confirmation page after buying " . $item->Name);
+            Log::info(session()->getId() . ' | [View Item Confirmation Finished]' . Auth::user()->email);
         return view('item.confirm')->withitem($item)
             ->with('checkCommit', $checkCommit);
 
@@ -247,14 +249,12 @@ class ItemsController extends Controller
             $item=$this->itemRepo->find($itemId);
             $comments = $this->itemRepo->getCommentsForItem($itemId);
             if($item==null){
-                Log::info("Unable to retrieve item from database, needed to display its comment thread");
                 throw new Exception('Item not found on databae.');
             }else {
-                Log::info("Retrieving item to than display the comment thread assosiated to it.");
                 return view('item.viewItemCommentThread')->with('item', $item)->with('user', Auth::user())->with('itemComments', $comments);
             }
         } catch (Exception $e) {
-            // return view('item.viewItemCommentThread')->with('item', $item)->with('user', Auth::user());
+            Log::error(session()->getId() . ' | [Item Thread Failed]' . $itemId);
         }
     }
 
