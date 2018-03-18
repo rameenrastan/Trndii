@@ -16,6 +16,8 @@ interface ItemRepositoryInterface{
     public function setExpired($id);
     public function getExpiredItems();
     public function getSupplierItems();
+    public function addCommentToItem(Request $request,$itemId);
+    public function getCommentsForItem($itemId);
     public function addTotalTokens($nbTokens,$id);
 
 

@@ -45,6 +45,9 @@
                                                                     <h3>
                                                                         ${{$item->Price}}
                                                                     </h3>
+                                                                    <form action="item/{{$item->id}}">
+                                                                        <input class="btn" type="submit" value="Go to page" style="color: white; background-color: #14A989;"/>
+                                                                    </form>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -63,13 +66,6 @@
                                                         <div><p align="left" style="padding-left:10px">Category:
                                                                 <b>{{$item->Category}}</b></p></div>
                                                     </div>
-                                                    <div class="display-group">
-                                                        <div>
-                                                            <a href="{!! route('ItemController', ['itemid'=>$item->id]) !!}">
-                                                               <p>Click view item thread!</p>
-                                                            </a>
-                                                        </div>
-                                                    </div>
                                                     <div class="progress" style="margin: 20px;">
                                                         <div class="progress-bar" role="progressbar"
                                                              aria-valuenow="70"
@@ -82,6 +78,14 @@
                                                             {{$item->Number_Transactions}} / {{$item->Threshold}}
                                                             Orders Placed
                                                             <br><br>
+                                                        </div>
+                                                    </div>
+                                                    <div class="display-group">
+                                                        <div>
+                                                            <form action="{!! route('ItemController', ['itemid'=>$item->id]) !!}">
+                                                                <input class="btn" type="submit" value="View comments for this item"/>
+                                                            </form>
+                                                            <br>
                                                         </div>
                                                     </div>
                                                     <div class="display-group">

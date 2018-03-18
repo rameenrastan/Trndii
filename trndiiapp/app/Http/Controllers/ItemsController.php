@@ -15,6 +15,9 @@ use App\Repositories\Interfaces\UserRepositoryInterface as UserRepositoryInterfa
 use Illuminate\Support\Facades\Log;
 use Auth;
 use Feature;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ItemExpired;
+use App\Comment;
 
 class ItemsController extends Controller
 {
@@ -113,11 +116,12 @@ class ItemsController extends Controller
 
         $item = $this->itemRepo->find($id);
         $checkCommit = $this->itemRepo->checkCommit($item);
+        $comments = $this->itemRepo->getCommentsForItem($id);
 
         if (Auth::user())
             Log::info(session()->getId() . ' | [Viewing Item Page] | ' . Auth::user()->email);
         return view('item.show')->withitem($item)
-            ->with('checkCommit', $checkCommit);
+            ->with('checkCommit', $checkCommit)->with('itemComments', $comments);
     }
 
     
@@ -236,21 +240,37 @@ class ItemsController extends Controller
 
     public function getItemThread($itemId)
     {
-
         try {
             $item=$this->itemRepo->find($itemId);
+            $comments = $this->itemRepo->getCommentsForItem($itemId);
             if($item==null){
                 Log::info("Unable to retrieve item from database, needed to display its comment thread");
                 throw new Exception('Item not found on databae.');
             }else {
                 Log::info("Retrieving item to than display the comment thread assosiated to it.");
-                return view('item.viewItemCommentThread')->with('item', $item)->with('user', Auth::user());
+                return view('item.viewItemCommentThread')->with('item', $item)->with('user', Auth::user())->with('itemComments', $comments);
             }
         } catch (Exception $e) {
+            // return view('item.viewItemCommentThread')->with('item', $item)->with('user', Auth::user());
+        }
+    }
 
-            return view('item.viewItemCommentThread')->with('item', $item)->with('user', Auth::user());
+
+    public function addComment(Request $request, $itemId, $page)
+    {
+        $this->validate($request, array(
+            'comment'   =>  'required|min:5|max:2000'
+        ));
+
+        $this->itemRepo->addCommentToItem($request,$itemId);
+
+        if($page == "itemCommentThreadOnly") {
+            return redirect()->route('ItemController', [$itemId]);
         }
 
+        if($page == "itemShow") {
+            return redirect()->route('showItem', [$itemId]);
+        }
 
 
     }

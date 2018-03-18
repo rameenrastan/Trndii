@@ -90,6 +90,10 @@ Route::get('/shoppingCart', 'CartController@index');
 
 Route::post('/shoppingCart', 'CartController@store')->name('cart.store');
 
+
+Route::post('/addcomment/{itemid}/{page}', ['uses' => 'ItemsController@addComment', 'as' => 'ItemController.addComment']);
+
+
 Route::delete('/shoppingCart/{id}', 'CartController@destroy')->name('cart.destroy');
 
 $router->get('/pdfInfo/{itemId}/{itemName}',[
@@ -100,6 +104,10 @@ $router->get('/pdfInfo/{itemId}/{itemName}',[
 $router->get('/itemThread/{itemId}',[
     'uses' => 'ItemsController@getItemThread',
     'as'   => 'ItemController'
+]);
+$router->get('/showItem/{itemId}',[
+    'uses' => 'ItemsController@show',
+    'as'   => 'showItem'
 ]);
 
 Route::get('emptyCart', function() { //temporary function to empty the shopping cart.
