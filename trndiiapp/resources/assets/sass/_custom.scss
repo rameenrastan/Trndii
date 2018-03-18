@@ -48,6 +48,10 @@ a {
   color: #14A989;
 }
 
+textarea {
+  resize: none;
+}
+
 .thumbnail {
   border: 2px solid darken($body-bg, 5%);
 }

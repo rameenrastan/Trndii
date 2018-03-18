@@ -9,7 +9,7 @@ use DB;
 use Auth;
 use Carbon\Carbon;
 use Log;
-
+use App\Comment;
 class ItemRepository implements ItemRepositoryInterface{
 
     /**
@@ -180,6 +180,29 @@ class ItemRepository implements ItemRepositoryInterface{
         Log::info(session()->getId() . ' | [Search Query Started] | ' . $name);
         return item::search($name)->paginate(15);
     }
+
+
+    public function addCommentToItem(Request $request, $itemId)
+    {
+
+        $comment = new Comment();
+        $comment->username = Auth::user()->name;
+        $comment->itemId = $itemId;
+        $comment->comment = $request->comment;
+
+        $comment->save();
+
+
+    }
+
+    public function getCommentsForItem($itemId)
+    {
+
+     return   DB::table('comments')->where('itemId', $itemId)->get();
+
+
+    }
+
 
     public function addTotalTokens($nbTokens, $id)
     {
