@@ -110,7 +110,7 @@ class ItemsController extends Controller
      */
     public function show($id)
     {
-
+        try {
         $item = $this->itemRepo->find($id);
         $checkCommit = $this->itemRepo->checkCommit($item);
 
@@ -118,6 +118,9 @@ class ItemsController extends Controller
             Log::info(session()->getId() . ' | [Viewing Item Page] | ' . Auth::user()->email);
         return view('item.show')->withitem($item)
             ->with('checkCommit', $checkCommit);
+        } catch (Exception $e) {
+            Log::error(session()->getId() . ' | [Viewing Item Page Failed] | ' . Auth::user()->email);
+        }
     }
 
     

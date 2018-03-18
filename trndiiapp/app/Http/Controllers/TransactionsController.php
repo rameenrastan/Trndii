@@ -185,9 +185,13 @@ class TransactionsController extends Controller
 
     public function updateTokens(Request $request, $id)
     {
-        
+        try {
+
         $stripeId = Auth::user()->stripe_id;
         $user = Auth::user();
+        
+        Log::info(session()->getId() . ' | [Start Purchase Commitment] | ' . $user->email);
+
         $nbTokensSpent = $request->input('Tokens_To_Spend');
 
         if($stripeId != ''){
@@ -198,16 +202,21 @@ class TransactionsController extends Controller
 
             app('App\Http\Controllers\ItemsController')->numTransactions($id);    
             
-            $item = item::find($id);    
+            $item = item::find($id);   
+
+            try {
             Mail::to(Auth::user()->email)->send(new PurchaseConfirmation($item, Auth::user()));
+            } catch (Exception $e) {
+            Log::info(session()->getId() . ' | [Purchase Confirmation Failed] | ' . $user->email);
+            }
 
             if($item->Number_Transactions == $item->Threshold)
             {
-                app('App\Http\Controllers\PaymentsController')->chargeCustomers($item->id);
+                $this->paymentManager->chargeCustomers($item->id);
                 $this->itemRepo->setThresholdReached($item->id);
             }
 
-            Log::info('User ' . $user->email . ' successfully commited to purchasing ' . $item->Name);
+            Log::info(session()->getId() . ' | [Purchase Commitment Success] | ' . $user->email);
 
             if(Auth::user()->segment== "A"){
                 $this->experimentsRepo->incrementExperimentAPurchases();
@@ -222,10 +231,14 @@ class TransactionsController extends Controller
         
         else{
 
-            Log::info('User ' . $user->email . ' attempted to purchase item ' . $id . ' without a registered credit card.');
+            Log::info(session()->getId() . ' | [Purchase Commitment Failed (No Credit Card)] | ' . $user->email);
             return back()->with('error', 'You do not have a Credit Card registered with this account. Please go to the Edit Account page and register a payment option.');
 
-        }           
+        } 
+        } catch (Exception $e) {
+            Log::error(session()->getId() . ' | [Purchase Commitment Failed] | ' . $user->email);
+            return $e->getMessage();
+        }       
     }
 
 }

@@ -86,6 +86,8 @@ class PaymentManager {
 
             $this->charge($item->Price, $user->stripe_id);
 
+            $this->userRepo->addTokens($user, $item->Tokens_Given);
+
             $transaction_log->addInfo("User " . $user->email . " was charged $" . $item->Price);
 
             app('App\Http\Controllers\TransactionsController')->updatePurchaseHistory($user->email, $id);

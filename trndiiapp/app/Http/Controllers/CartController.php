@@ -48,9 +48,10 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        Log::info(session()->getId() . ' | [Adding to Shopping Cart] | ' . Auth::user()->email);
+        Log::info(session()->getId() . ' | [Adding to Shopping Cart Started] | ' . Auth::user()->email);
         $this->cartRepo->store($request);
         $this->cartRepo->removeNonPendingItems();
+        Log::info(session()->getId() . ' | [Adding to Shopping Cart Completed] | ' . Auth::user()->email);
         return redirect('/shoppingCart')->with('success', 'The item has been added to the cart');
     }
 
@@ -96,9 +97,10 @@ class CartController extends Controller
      */
     public function destroy($id)
     {
-        Log::info(session()->getId() . ' | [Removing from Shopping Cart] | ' . Auth::user()->email);
+        Log::info(session()->getId() . ' | [Removing from Shopping Cart Started] | ' . Auth::user()->email);
         $this->cartRepo->destroy($id);
         $this->cartRepo->removeNonPendingItems();
+        Log::info(session()->getId() . ' | [Removing from Shopping Cart Completed] | ' . Auth::user()->email);
         return redirect('/shoppingCart')->with('success', 'The item has been removed from your shopping cart.');
     }
 }

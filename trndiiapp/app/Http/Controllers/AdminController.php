@@ -55,7 +55,8 @@ class AdminController extends Controller
         return view('admin.banUserForm', compact('userEmails'));
     }
     public function banUser(Request $request){
-        Log::info(session()->getId() . ' | [Ban User Started]');
+        try {
+        Log::info(session()->getId() . ' | [Moderation Action Started]');
         //Validate data
         $this->validate($request, array(
 
@@ -90,12 +91,16 @@ class AdminController extends Controller
                 'expired_at' => '+'.$suspension_time.' days',
             ]);
             return redirect('/admin')->with('success','You banned '. $email.  ' for '.$suspension_time.' days');
+        } } catch (Exception $e) {
+            Log::error(session()->getId() . ' | [Moderation Action Failed] | ' . $request->name);
+            return $e->getMessage();
         }
 
     }
 
     public function storeSupplier(Request $request){
 
+        try {
         Log::info(session()->getId() . ' | [Create Supplier Started] | ' . $request->name);
         
         //Validate data
@@ -132,6 +137,10 @@ class AdminController extends Controller
 
         //Redirect
         return redirect('/admin')->with('success', 'Supplier successfully created.');
+        } catch (Exception $e) {
+            Log::error(session()->getId() . ' | [Create Supplier Failed] | ' . $request->name);
+            return $e->getMessage();
+        } 
 
     }
 
