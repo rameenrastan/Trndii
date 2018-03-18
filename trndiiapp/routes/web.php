@@ -97,6 +97,11 @@ $router->get('/pdfInfo/{itemId}/{itemName}',[
     'as'   => 'PdfController'
 ]);
 
+$router->get('/itemThread/{itemId}',[
+    'uses' => 'ItemsController@getItemThread',
+    'as'   => 'ItemController'
+]);
+
 Route::get('emptyCart', function() { //temporary function to empty the shopping cart.
     Cart::destroy();
 });

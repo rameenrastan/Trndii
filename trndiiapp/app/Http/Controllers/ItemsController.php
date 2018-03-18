@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\item;
 use App\Supplier;
 use App\Category;
+use Dompdf\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterface;
@@ -256,9 +257,28 @@ class ItemsController extends Controller
         return view('item.confirm')->withitem($item)
             ->with('checkCommit', $checkCommit);
 
-
-        //Log::info("A user is at the purchase confirmation page.");
-        //return view('item.confirm');
     }
+
+    public function getItemThread($itemId)
+    {
+
+        try {
+            $item=$this->itemRepo->find($itemId);
+            if($item==null){
+                Log::info("Unable to retrieve item from database, needed to display its comment thread");
+                throw new Exception('Item not found on databae.');
+            }else {
+                Log::info("Retrieving item to than display the comment thread assosiated to it.");
+                return view('item.viewItemCommentThread')->with('item', $item)->with('user', Auth::user());
+            }
+        } catch (Exception $e) {
+
+            return view('item.viewItemCommentThread')->with('item', $item)->with('user', Auth::user());
+        }
+
+
+
+    }
+
 
 }
