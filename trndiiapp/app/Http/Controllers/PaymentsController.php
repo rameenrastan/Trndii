@@ -66,5 +66,37 @@ class PaymentsController extends Controller
        }
 
     }
+    
+    /**
+     * Charges all customers and sends confirmation if the threshold of the item has been reached.
+     * @param int $id
+     * @return void
+     */
+    public function chargeCustomers($id){
+        
+        $item = $this->itemRepo->find($id);
+
+
+
+        $transactions = $this->transactionRepo->getAllByItemId($id);
+
+        $transaction_log = new Logger('Transaction Logs');
+        $transaction_log->pushHandler(new StreamHandler('storage/logs/transactions/item_' . $item->id . '_transactions.log', Logger::INFO));
+        $transaction_log->addInfo("Item " . $item->id . " transactions: listing all users charged for the purchase of this item...");
+
+        foreach($transactions as $transaction){
+
+            $user = $this->userRepo->findByEmail($transaction->email);
+
+            //Add tokens to users
+            $this->userRepo->addTokens($user, $item->Tokens_Given);
+
+            app('App\Http\Controllers\PaymentsController')->charge($item->Price, $user->stripe_id);
+
+            $transaction_log->addInfo("User " . $user->email . " was charged $" . $item->Price);
+
+            app('App\Http\Controllers\TransactionsController')->updatePurchaseHistory($user->email, $id);
+
+    }
 
 }

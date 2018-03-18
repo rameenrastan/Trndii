@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\item;
 use App\Supplier;
 use App\Category;
+use Dompdf\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterface;
@@ -219,5 +220,40 @@ class ItemsController extends Controller
             Log::info(session()->getId() . ' | [Item Search Failed]');
         }
     }
+
+    //Get purchase confirmation page
+    public function getConfirm($id)
+    {
+        $item = $this->itemRepo->find($id);
+        $checkCommit = $this->itemRepo->checkCommit($item);
+
+        if (Auth::user())
+            Log::info("User " . Auth::user()->email . " is viewing the purchase confirmation page after buying " . $item->Name);
+        return view('item.confirm')->withitem($item)
+            ->with('checkCommit', $checkCommit);
+
+    }
+
+    public function getItemThread($itemId)
+    {
+
+        try {
+            $item=$this->itemRepo->find($itemId);
+            if($item==null){
+                Log::info("Unable to retrieve item from database, needed to display its comment thread");
+                throw new Exception('Item not found on databae.');
+            }else {
+                Log::info("Retrieving item to than display the comment thread assosiated to it.");
+                return view('item.viewItemCommentThread')->with('item', $item)->with('user', Auth::user());
+            }
+        } catch (Exception $e) {
+
+            return view('item.viewItemCommentThread')->with('item', $item)->with('user', Auth::user());
+        }
+
+
+
+    }
+
 
 }

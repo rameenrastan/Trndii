@@ -58,7 +58,12 @@ Route::resource('item', 'ItemsController');
 
 Route::get('item.create', 'ItemsController@item.create');
 
+Route::get('/confirm/{id}', 'ItemsController@getConfirm'); 
+
 Route::resource('transactions', 'TransactionsController');
+
+//Route::get('tokensUpdate', 'TransactionsController@updateTokens'); //
+Route::put('updateTokens/{id}','TransactionsController@updateTokens');
 
 Route::post('/send', 'EmailController@send');
 
@@ -90,6 +95,11 @@ Route::delete('/shoppingCart/{id}', 'CartController@destroy')->name('cart.destro
 $router->get('/pdfInfo/{itemId}/{itemName}',[
     'uses' => 'PDFController@getPdfByItem',
     'as'   => 'PdfController'
+]);
+
+$router->get('/itemThread/{itemId}',[
+    'uses' => 'ItemsController@getItemThread',
+    'as'   => 'ItemController'
 ]);
 
 Route::get('emptyCart', function() { //temporary function to empty the shopping cart.
