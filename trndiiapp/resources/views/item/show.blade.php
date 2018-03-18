@@ -243,20 +243,25 @@
         <!--Displaying all comments -->
         @if (count($itemComments) > 0)
             <div class="col-md-8 col-md-offset-2">
-                <p style="font-weight: bold; color: #14A989;">
-                    {{count($itemComments)}}
-                    @if (count($itemComments) > 1)
-                        comments
-                    @else
-                        comment
-                    @endif
-                </p>
-                @foreach($itemComments->reverse() as $com)
-                    <hr>
+            <p style="font-weight: bold; color: #14A989;">
+                Displaying 
+                {{1 + $itemComments->perPage() * ($itemComments->currentPage() - 1)}}
+                - 
+                {{($itemComments->currentPage() - 1) * $itemComments->perPage() + count($itemComments)}}
+                of 
+                {{$itemComments->total()}} 
+                @if (($itemComments->total()) > 1)
+                    comments
+                @else
+                    comment
+                @endif
+            </p>
+
+                @foreach($itemComments as $com)
+                <hr>
                     <div>
                         <p>
-                            <font style="font-weight: bold; line-height: 200%;">{{ $com->username }}</font>
-                            &nbsp {{ Carbon\Carbon::parse($com->created_at)->diffForHumans()}}
+                            <font style="font-weight: bold; line-height: 200%;">{{ $com->username }}</font> &nbsp {{ Carbon\Carbon::parse($com->created_at)->diffForHumans()}}                           
                         </p>
                         <p>{{ $com->comment }} </p>
                     </div>
@@ -269,7 +274,13 @@
                     No comments have been made for this item
                 </h4>
             </div>
-    @endif
+        @endif
+        @if($itemComments->count()>0)
+            <div>
+                {{ $itemComments->links() }}
+            </div>
+        @endif
+    </div>
 
     <!--Modal with tokens-->
         <div id="BuyModalTokens" class="modal fade" aria-labelledby="basicModal" aria-hidden="true">

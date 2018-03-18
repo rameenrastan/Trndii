@@ -197,10 +197,9 @@ class ItemRepository implements ItemRepositoryInterface{
 
     public function getCommentsForItem($itemId)
     {
-
-     return   DB::table('comments')->where('itemId', $itemId)->get();
-
-
+        $comments = DB::table('comments')->where('itemId', $itemId);
+        $comments->orderBy('created_at', 'desc');   //Reverses the order so that most recent comments appear first
+        return $comments->paginate(10);
     }
 
 
