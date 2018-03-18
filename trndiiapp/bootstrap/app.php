@@ -15,6 +15,23 @@ $app = new Illuminate\Foundation\Application(
     realpath(__DIR__.'/../')
 );
 
+
+/*
+|--------------------------------------------------------------------------
+| Loggly / Monolog
+|--------------------------------------------------------------------------
+|
+| Notifying Monolog that our logs are to be sent to Loggly
+|
+*/
+
+$app->configureMonologUsing(function($monolog) {
+    $handler = new      \Monolog\Handler\LogglyHandler(config('services.loggly.key'),\Monolog\Logger::DEBUG);
+    $handler->setTag(config('services.loggly.tag'));
+
+    $monolog->pushHandler($handler);
+});
+
 /*
 |--------------------------------------------------------------------------
 | Bind Important Interfaces
@@ -40,6 +57,7 @@ $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
     App\Exceptions\Handler::class
 );
+
 
 /*
 |--------------------------------------------------------------------------

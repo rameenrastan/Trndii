@@ -9,6 +9,14 @@ use Log;
 
 class PreregisteredUsersController extends Controller
 {
+
+    protected $logger;
+    
+        public function _construct(PdfRepositoryInterface $pdfRepo){
+    
+            $this->pdfRepo = $pdfRepo;
+        }
+    
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +24,7 @@ class PreregisteredUsersController extends Controller
      */
     public function index()
     {
-        Log::info("A user is viewing the preregistration page");
+        Log::info(session()->getId() . ' | [Viewing Preregistration Page]');
         return view('preregistration');
     }
 
@@ -38,6 +46,9 @@ class PreregisteredUsersController extends Controller
      */
     public function store(Request $request)
     {
+        try {
+        Log::info(session()->getId() . ' | [Preregistration Started] | ' . $request->email);
+
         $this->validate($request, [
             'firstName' => 'required',
             'lastName' => 'required',
@@ -50,8 +61,12 @@ class PreregisteredUsersController extends Controller
         $preregisteredUser->email = $request->input('email');
         $preregisteredUser->save();
         
-        Log::info($preregisteredUser->email . " has preregistered an account.");
+        Log::info(session()->getId() . ' | [Preregistration Finished] | ' . $request->email);
         return redirect('/preregistration')->with('success', 'Thank you for your interest! You will be notified via email when the website goes live.');
+        } catch (Exception $e) {
+            Log::error(session()->getId() . ' | [Preregistration Failed] | ' . $request->email);
+            return $e->getMessage();
+        }
     }
 
     /**

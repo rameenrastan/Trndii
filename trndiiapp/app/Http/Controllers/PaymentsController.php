@@ -24,9 +24,10 @@ class PaymentsController extends Controller
     protected $userRepo;
     protected $transactionRepo;
     protected $itemRepo;
+    protected $logger;
      
     public function __construct(UserRepositoryInterface $userRepo, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo){
-    
+        
         $this->userRepo = $userRepo;
         $this->transactionRepo = $transactionRepo;
         $this->itemRepo = $itemRepo;
@@ -40,46 +41,29 @@ class PaymentsController extends Controller
      */
     public function updateCard(){
 
+        try {
+        Log::info(session()->getId() . ' | [Update Credit Card Started] | ' . Auth::user()->email); 
 
-       Stripe::setApiKey('sk_test_NT3PRUGQkLOj8cnPlp1X2APb');
+        Stripe::setApiKey('sk_test_NT3PRUGQkLOj8cnPlp1X2APb');
        
-       $auth = Auth::user();
-       $user = $this->userRepo->findByEmail($auth->email);
+        $auth = Auth::user();
+        $user = $this->userRepo->findByEmail($auth->email);
 
-       $customer = Customer::create([
+        $customer = Customer::create([
 
         'email' => request('stripeEmail'),
         'source' => request('stripeToken') 
 
        ]);
 
-   
         $this->userRepo->updateCreditCard($auth->email, $customer->id);
-        Log::info("User " . $user->email . " has updated their credit card.");
-        return redirect('/editDetails')->with('success', 'Credit Card Updated');
-
-    }
-
-
-    /**
-     * Charges a user's credit card
-     *
-     * @param  $amount, $customer
-     * @return void
-     */
-    public function charge($amount, $customerId){
-
-        $amount = $amount * 100; 
+        Log::info(session()->getId() . ' | [Update Credit Card Finished] | ' . Auth::user()->email);
         
-        Stripe::setApiKey(env('STRIPE_SECRET'));    
-
-        $charge = Charge::create([
-
-            "amount" => $amount,
-            "currency" => "cad",
-            "customer" => $customerId
-
-        ]);
+        return redirect('/editDetails')->with('success', 'Credit Card Updated');
+       } catch (Exception $e) { 
+            Log::error(session()->getId() . ' | [Update Credit Card Failed] | ' . Auth::user()->email);
+            return $e->getMessage();
+       }
 
     }
     
@@ -91,7 +75,9 @@ class PaymentsController extends Controller
     public function chargeCustomers($id){
         
         $item = $this->itemRepo->find($id);
-                
+
+
+
         $transactions = $this->transactionRepo->getAllByItemId($id);
 
         $transaction_log = new Logger('Transaction Logs');
@@ -102,14 +88,15 @@ class PaymentsController extends Controller
 
             $user = $this->userRepo->findByEmail($transaction->email);
 
+            //Add tokens to users
+            $this->userRepo->addTokens($user, $item->Tokens_Given);
+
             app('App\Http\Controllers\PaymentsController')->charge($item->Price, $user->stripe_id);
+
             $transaction_log->addInfo("User " . $user->email . " was charged $" . $item->Price);
 
             app('App\Http\Controllers\TransactionsController')->updatePurchaseHistory($user->email, $id);
 
-            Log::info("User " . $user->email . " has been sent a transaction confirmation email for " . $item->Name);
-            Mail::to($transaction->email)->send(new PurchaseCompleted($item, $user));
-        }
     }
 
 }
