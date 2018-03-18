@@ -173,7 +173,7 @@ class TransactionsController extends Controller
     public function destroy($itemId)
     {
         $this->transactionRepo->destroy($itemId);
-
+        $this->itemRepo->numTransactions($itemId);
         $itemName=$this->itemRepo->find($itemId)->Name;
 
         return redirect('/purchaseHistory')->with('success', 'You have successfully deleted '.$itemName.' from your pending transactions!');

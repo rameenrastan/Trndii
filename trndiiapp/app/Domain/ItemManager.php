@@ -34,7 +34,7 @@ class ItemManager {
         Log::info(session()->getId() . ' | [Getting Expired Items Started]');
 
         $expiredItems = $this->itemRepo->getExpiredItems();
-        
+    
         if(!empty($expiredItems)){
         
             foreach($expiredItems as $expiredItem){
