@@ -12,6 +12,7 @@ use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterfa
 use App\Repositories\Interfaces\CategoryRepositoryInterface as CategoryRepositoryInterface;
 use App\Repositories\Interfaces\TransactionRepositoryInterface as TransactionRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface as UserRepositoryInterface;
+use App\Repositories\Interfaces\ReviewRepositoryInterface as ReviewRepositoryInterface;
 use Illuminate\Support\Facades\Log;
 use Auth;
 use Feature;
@@ -25,12 +26,14 @@ class ItemsController extends Controller
     protected $itemRepo;
     protected $transactionRepo;
     protected $userRepo;
+    protected $reviewRepo;
     
-    public function __construct(ItemRepositoryInterface $itemRepo, TransactionRepositoryInterface $transactionRepo, UserRepositoryInterface $userRepo)
+    public function __construct(ItemRepositoryInterface $itemRepo, TransactionRepositoryInterface $transactionRepo, UserRepositoryInterface $userRepo, ReviewRepositoryInterface $reviewRepo)
     {
         $this->itemRepo=$itemRepo;
         $this->transactionRepo = $transactionRepo;
         $this->userRepo = $userRepo;
+        $this->reviewRepo = $reviewRepo;
     }
 
     /**
@@ -116,11 +119,14 @@ class ItemsController extends Controller
         try {
         $item = $this->itemRepo->find($id);
         $checkCommit = $this->itemRepo->checkCommit($item);
+
+        $itemReviews = $this->reviewRepo->getItemReviews($id);
         $comments = $this->itemRepo->getCommentsForItem($id);
 
         if (Auth::user())
             Log::info(session()->getId() . ' | [Viewing Item Page] | ' . Auth::user()->email);
         return view('item.show')->withitem($item)
+            ->with('itemReviews', $itemReviews);
             ->with('checkCommit', $checkCommit)->with('itemComments', $comments);
         } catch (Exception $e) {
             Log::error(session()->getId() . ' | [Viewing Item Page Failed] | ' . Auth::user()->email);

@@ -45,6 +45,7 @@ Route::prefix('supplier')->group(function(){
     Route::get('/login', 'Auth\SupplierLoginController@showLoginForm')->name('supplier.login');
     Route::post('/login', 'Auth\SupplierLoginController@login')->name('supplier.login.submit');
     Route::get('/', 'SupplierController@index')->name('supplier.home');
+    Route::get('/reviews', 'SupplierController@viewReviews');
 });
 
 Route::resource('preregisteredusers', 'PreregisteredUsersController');
@@ -95,6 +96,10 @@ Route::post('/addcomment/{itemid}/{page}', ['uses' => 'ItemsController@addCommen
 
 
 Route::delete('/shoppingCart/{id}', 'CartController@destroy')->name('cart.destroy');
+
+Route::post('/purchaseHistory', 'ReviewController@store')->name('review.store');
+
+Route::post('/item', 'ReviewController@storeLikeDislike')->name('review.storeLikeDislike');
 
 $router->get('/pdfInfo/{itemId}/{itemName}',[
     'uses' => 'PDFController@getPdfByItem',
