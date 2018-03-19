@@ -11,6 +11,7 @@
         "bart/ab": "^1.1",
         "comocode/laravel-ab": "^0.3.0",
         "cybercog/laravel-ban": "^3.1",
+        "doctrine/dbal": "^2.6",
         "francescomalatesta/laravel-feature": "^0.1.0",
         "gloudemans/shoppingcart": "^2.5",
         "guzzlehttp/guzzle": "^6.3",
@@ -19,6 +20,7 @@
         "laravel/scout": "^3.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4.0",
+        "monolog/monolog": "^1.23",
         "stripe/stripe-php": "^5.2"
     },
     "require-dev": {

@@ -10,6 +10,7 @@ use Log;
 
 class PagesController extends Controller
 {
+
     public function getContact(){
         Log::info("A user is viewing the contact page.");
         return view('contact');

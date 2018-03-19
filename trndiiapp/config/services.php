@@ -35,4 +35,9 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'loggly' => array(
+        'key'   => env('LOGGLY_KEY'),
+        'tag'   => 'ProjectName_' .strtolower(env('APP_ENV')),
+    ),
+
 ];

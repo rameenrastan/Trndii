@@ -34,7 +34,7 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        Log::info("A supplier is viewing their home page.");
+        Log::info(session()->getId() . ' | [View Suppler Home Page]');
         return view('supplier-home');
     }
 
@@ -47,7 +47,7 @@ class SupplierController extends Controller
     public function viewItemsStatus(Request $request)
     {
         $supplierItems = $this->itemRepo->getSupplierItems();
-        Log::info("A supplier is viewing the progress and status of their items.");
+        Log::info(session()->getId() . ' | [View Item Status]');
         return view('supplier.viewItemsStatus', compact('supplierItems'));
     }
 }

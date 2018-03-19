@@ -23,7 +23,6 @@ class UserRepository implements UserRepositoryInterface {
      */
     public function findByEmail($email){
 
-        Log::info('Database query: retrieving user ' . $email);
         return $this->user->where('email', $email)->first();
 
     }
@@ -35,10 +34,13 @@ class UserRepository implements UserRepositoryInterface {
      */
     public function updateCreditCard($email, $customerId){
 
-        Log::info('Database query: updating credit card information of user ' . $email);
+        Log::info(session()->getId() . ' | [Query: Update Card Started] | ' . $this->user->email);
+
         $currentUser = $this->user->where('email', $email)->first();
         $currentUser->stripe_id = $customerId;
         $currentUser->save();
+
+        Log::info(session()->getId() . ' | [Query: Update Card Finished] | ' . $this->user->email);
 
     }
 
@@ -49,7 +51,8 @@ class UserRepository implements UserRepositoryInterface {
      */
     public function update($request, $id){
 
-        Log::info('Database query: updating account information of user ' . $id);
+        Log::info(session()->getId() . ' | [Query: Information Update Started] | ' . $this->user->email);
+
         $newPassword = $request->input('newpassword');
         $currentUser = $this->user->find($id);
         $currentUser->password = Hash::make($newPassword);
@@ -61,6 +64,22 @@ class UserRepository implements UserRepositoryInterface {
         $currentUser->addressline2 = $request->input("addressline2");
         $currentUser->city = $request->input("city");
         $currentUser->save();
+
+        Log::info(session()->getId() . ' | [Query: Information Update Completed] | ' . $this->user->email);
+
+    }
+
+    public function addTokens($tempUser, $nbTokens){
+
+        Log::info('Add tokens to ' . $tempUser->id);
+        $tempUser->increment('Tokens',$nbTokens);
+
+    }
+
+    public function removeTokens($tempUser, $nbTokens){
+
+        Log::info('Removing ' . $nbTokens . ' tokens from ' . $tempUser->id);
+        $tempUser->decrement('Tokens',$nbTokens);
 
     }
 

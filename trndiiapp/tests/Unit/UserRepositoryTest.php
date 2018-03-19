@@ -35,13 +35,12 @@ class UserRepositoryTest extends TestCase
 
 
         $repository = new Repositories\UserRepository();
-        $repository->updateCreditCard("test@test.com",123);
+        $repository->updateCreditCard("test@test.com", 123);
 
 
         $this->assertDatabaseHas('users', [
             'email' => 'test@test.com',
             'stripe_id'=>'123'
         ]);
-     //   $this->assertTrue(true);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\item;
 use App\Supplier;
 use App\Category;
+use Dompdf\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterface;
@@ -12,13 +13,12 @@ use App\Repositories\Interfaces\CategoryRepositoryInterface as CategoryRepositor
 use App\Repositories\Interfaces\TransactionRepositoryInterface as TransactionRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface as UserRepositoryInterface;
 use App\Repositories\Interfaces\ReviewRepositoryInterface as ReviewRepositoryInterface;
-use Log;
+use Illuminate\Support\Facades\Log;
 use Auth;
 use Feature;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ItemExpired;
-
-
+use App\Comment;
 
 class ItemsController extends Controller
 {
@@ -45,8 +45,7 @@ class ItemsController extends Controller
     public function index(){
 
         $items=$this->itemRepo->index();
-        Log::info("User " . Auth::user()->email . " is viewing the item list");
-        Feature::add('textChanger', false); //Example to test if feature toggling works
+        Log::info(session()->getId() . ' | [Viewing Item List] | ' . Auth::user()->email);
         return view('item.index')->with('items',$items);
 
     }
@@ -67,9 +66,9 @@ class ItemsController extends Controller
 
         $categories = array_combine($categories,$categories);
 
-        return view('item.create', compact('supplierNames'), compact('categories'));
+        Log::info(session()->getId() . ' | [Create Item Page] | ' . 'Admin');
 
-        Log::info("User " . Auth::user()->email . "is viewing the item creation page");
+        return view('item.create', compact('supplierNames'), compact('categories'));
 
     }
 
@@ -81,6 +80,8 @@ class ItemsController extends Controller
      */
     public function store(Request $request)
     {
+
+        Log::info(session()->getId() . ' | [Create Item Started] | ' . 'Admin');
 
         //Validate data
         $this->validate($request, array(
@@ -103,8 +104,7 @@ class ItemsController extends Controller
         //Store in database
         $this->itemRepo->store($request);
 
-        //Log::info("User " . $user->email . " created new item ". $request->Name);
-        Log::info("Admin created new item " . $request->Name );
+        Log::info(session()->getId() . ' | [Create Item Completed] | ' . 'Admin');
         return redirect('/admin')->with('success', 'Item successfully created.');
     }
 
@@ -116,16 +116,21 @@ class ItemsController extends Controller
      */
     public function show($id)
     {
-
+        try {
         $item = $this->itemRepo->find($id);
         $checkCommit = $this->itemRepo->checkCommit($item);
+
         $itemReviews = $this->reviewRepo->getItemReviews($id);
+        $comments = $this->itemRepo->getCommentsForItem($id);
 
         if (Auth::user())
-            Log::info("User " . Auth::user()->email . " is viewing the page for " . $item->Name);
+            Log::info(session()->getId() . ' | [Viewing Item Page] | ' . Auth::user()->email);
         return view('item.show')->withitem($item)
-            ->with('checkCommit', $checkCommit)
             ->with('itemReviews', $itemReviews);
+            ->with('checkCommit', $checkCommit)->with('itemComments', $comments);
+        } catch (Exception $e) {
+            Log::error(session()->getId() . ' | [Viewing Item Page Failed] | ' . Auth::user()->email);
+        }
     }
 
     
@@ -163,9 +168,16 @@ class ItemsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        try { 
         $this->itemRepo->update($id);
-
+        Log::info(session()->getId() . ' | [Item Removed] | ' . 'Admin');
         return redirect('/viewAllItems')->with('success', 'Item removed!');
+        }
+        catch(Exception $e) 
+        {
+            return $e->getMessage();
+            Log::error(session()->getId() . ' | [Item Removed Failed] | ' . 'Admin');
+        }
     }
 
     /**
@@ -187,8 +199,7 @@ class ItemsController extends Controller
     public function viewAllItems()
     {
         $items=$this->itemRepo->viewAllItems();
-        //Log::info("User " . $user->email . " is viewing all items ");
-        Log::info("Admin is viewing all items.");
+        Log::info(session()->getId() . ' | [Admin View Items] | ' . 'Admin');
         return view('item.viewAllItems')->with('items',$items);
     }
 
@@ -206,48 +217,72 @@ class ItemsController extends Controller
     }
 
     /**
-     * Gets all items that expire today, and sets their status to expired. 
-     * This method is ran by the task scheduler located in /app/Console/Kernel.php
-     * @param  null
-     * @return void
-     */
-    public function setExpired()
-    {
-        $expiredItems = $this->itemRepo->getExpiredItems();
-        
-        if(!empty($expiredItems)){
-        
-            foreach($expiredItems as $expiredItem){
-        
-            $item = $this->itemRepo->find($expiredItem->id);
-                        
-            $transactions = $this->transactionRepo->getAllByItemId($expiredItem->id);
-        
-            $this->itemRepo->setExpired($expiredItem->id);
-        
-            foreach($transactions as $transaction){
-                                
-                $user = $this->userRepo->findByEmail($transaction->email);
-                Log::info("User " . $user->email . " has been sent an item expired email for " . $item->Name);
-                Mail::to($transaction->email)->send(new ItemExpired($item, $user));
-                        
-            }      
-        
-        }
-        
-        }
-    }
-
-    /**
      * Gets search results of a user search bar input.
      * @param  $request
      * @return \Illuminate\Http\Response
      */
     public function search(Request $request)
     {
+        try {
+        Log::info(session()->getId() . ' | [Item Search Started]');
         $items = $this->itemRepo->getSearchResults($request);
-        Log::info("A user is viewing search results of " . $request->search);
+        Log::info(session()->getId() . ' | [Item Search Finished]');
         return view('item.search')->with('items', $items);
+        } catch(Exception $e) {
+            return $e->getMessage();
+            Log::info(session()->getId() . ' | [Item Search Failed]');
+        }
     }
+
+    //Get purchase confirmation page
+    public function getConfirm($id)
+    {
+        Log::info(session()->getId() . ' | [View Item Confirmation Started]' . $id);
+
+        $item = $this->itemRepo->find($id);
+        $checkCommit = $this->itemRepo->checkCommit($item);
+
+        if (Auth::user())
+            Log::info(session()->getId() . ' | [View Item Confirmation Finished]' . Auth::user()->email);
+        return view('item.confirm')->withitem($item)
+            ->with('checkCommit', $checkCommit);
+
+    }
+
+    public function getItemThread($itemId)
+    {
+        try {
+            $item=$this->itemRepo->find($itemId);
+            $comments = $this->itemRepo->getCommentsForItem($itemId);
+            if($item==null){
+                throw new Exception('Item not found on databae.');
+            }else {
+                return view('item.viewItemCommentThread')->with('item', $item)->with('user', Auth::user())->with('itemComments', $comments);
+            }
+        } catch (Exception $e) {
+            Log::error(session()->getId() . ' | [Item Thread Failed]' . $itemId);
+        }
+    }
+
+
+    public function addComment(Request $request, $itemId, $page)
+    {
+        $this->validate($request, array(
+            'comment'   =>  'required|min:5|max:2000'
+        ));
+
+        $this->itemRepo->addCommentToItem($request,$itemId);
+
+        if($page == "itemCommentThreadOnly") {
+            return redirect()->route('ItemController', [$itemId]);
+        }
+
+        if($page == "itemShow") {
+            return redirect()->route('showItem', [$itemId]);
+        }
+
+
+    }
+
 
 }

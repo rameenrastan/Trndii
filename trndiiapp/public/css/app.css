@@ -8396,6 +8396,10 @@ a {
   color: #14A989;
 }
 
+textarea {
+  resize: none;
+}
+
 .thumbnail {
   border: 2px solid #d9fff6;
 }
@@ -8522,3 +8526,13 @@ a {
   flex-direction: column;
 }
 
+
+/* Hide HTML5 Up and Down arrows. */
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+ 
+input[type="number"] {
+    -moz-appearance: textfield;
+}
