@@ -44,4 +44,14 @@ class ExperimentHandler {
         }
     }
 
+    public function incrementNumPurchases($userSegment)
+    {
+        if($userSegment == "A"){
+            $this->experimentsRepo->incrementExperimentAPurchases();
+        }
+        else if($userSegment == "B"){
+            $this->experimentsRepo->incrementExperimentBPurchases();
+        };
+    }
+
 }

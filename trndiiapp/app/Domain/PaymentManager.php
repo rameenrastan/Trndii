@@ -55,7 +55,13 @@ class PaymentManager {
                     "customer" => $customerId
         
                 ]);
+                
+                $chargeId = $charge->id;
+
                 $this->logger::info(session()->getId() . ' | [Charge Customer Finished] | ' . $customerId);
+                
+                return $chargeId;
+
                 } catch (Exception $e)
                 {
                     $this->logger::error(session()->getId() . ' | [Charge Failed] | ' . $customerId);

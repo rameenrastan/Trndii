@@ -22,7 +22,7 @@
                         </p>
                         <p>
 
-                            {!! Form::open(['action' => ['TransactionsController@updateTokens', $item->id], 'method' => 'POST']) !!}
+                            {!! Form::open(['action' => ['TransactionsController@createTransaction', $item->id], 'method' => 'POST']) !!}
                             <div class="col-lg-4 col-lg-offset-4">
                                 <div class="form-group">
                                     {{Form::label('Tokens To Spend', 'Do you wish to spend any tokens?',array('class'=>'control-label'))}}

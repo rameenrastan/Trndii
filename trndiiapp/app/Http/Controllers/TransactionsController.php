@@ -17,26 +17,25 @@ use App\Repositories\Interfaces\UserRepositoryInterface as UserRepositoryInterfa
 use Bart\Ab\Ab;
 use App\Repositories\Interfaces\ExperimentsRepositoryInterface;
 use App\Domain\PaymentManager;
+use App\Domain\ExperimentHandler;
 
 class TransactionsController extends Controller
 {
 
     protected $transactionRepo;
     protected $itemRepo;
-    protected $experimentsRepo;
     protected $userRepo;
-    protected $ab;
     protected $paymentManager;
+    protected $exp;
 
-    public function __construct(Ab $ab, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo, ExperimentsRepositoryInterface $experimentsRepo,
+    public function __construct(TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo, ExperimentHandler $exp,
     UserRepositoryInterface $userRepo, PaymentManager $paymentManager){
     
         $this->transactionRepo = $transactionRepo;
         $this->itemRepo = $itemRepo;
-        $this->experimentsRepo = $experimentsRepo;
         $this->userRepo = $userRepo;
-        $this->ab = $ab;
         $this->paymentManager = $paymentManager;
+        $this->exp = $exp;
         
     }
 
@@ -101,63 +100,6 @@ class TransactionsController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        try {
-        $stripeId = Auth::user()->stripe_id;
-        $user = Auth::user();
-
-        Log::info(session()->getId() . ' | [Start Purchase Commitment] | ' . $user->email);
-
-        if($stripeId != ''){
-
-            $this->transactionRepo->insert(Auth::user()->email, $id);    
-
-            app('App\Http\Controllers\ItemsController')->numTransactions($id);    
-            
-            $item = item::find($id);    
-            try {
-            Mail::to(Auth::user()->email)->send(new PurchaseConfirmation($item, Auth::user()));
-            } catch (Exception $e) {
-                Log::info(session()->getId() . ' | [Purchase Confirmation Failed] | ' . $user->email);
-                return $e->getMessage();
-            }
-            if($item->Number_Transactions == $item->Threshold)
-            {
-                $this->paymentManager->chargeCustomers($item->id);
-                $this->itemRepo->setThresholdReached($item->id);
-            }
-
-            Log::info(session()->getId() . ' | [Purchase Commitment Success] | ' . $user->email);
-
-            if(Auth::user()->segment== "A"){
-                $this->experimentsRepo->incrementExperimentAPurchases();
-            }
-            else if(Auth::user()->segment== "B"){
-                $this->experimentsRepo->incrementExperimentBPurchases();
-            };
-
-            return redirect('/')->with('success', 'You have successfully commited to this purchase. You will be notified if the item reaches its threshold. Thanks!');
-            
-        }
-        
-        else{
-
-            Log::info(session()->getId() . ' | [Purchase Commitment Failed (No Credit Card)] | ' . $user->email);
-            return back()->with('error', 'You do not have a Credit Card registered with this account. Please go to the Edit Account page and register a payment option.');
-        }     
-        } catch (Exception $e) {
-            Log::error(session()->getId() . ' | [Purchase Commitment Failed] | ' . $user->email);
-            return $e->getMessage();
-        }      
-    }
 
     public function updatePurchaseHistory($email, $itemId){
 
@@ -183,7 +125,7 @@ class TransactionsController extends Controller
         return redirect('/purchaseHistory')->with('success', 'You have successfully deleted '.$itemName.' from your pending transactions!');
     }
 
-    public function updateTokens(Request $request, $id)
+    public function createTransaction(Request $request, $id)
     {
         try {
 
@@ -192,17 +134,23 @@ class TransactionsController extends Controller
         
         Log::info(session()->getId() . ' | [Start Purchase Commitment] | ' . $user->email);
 
-        $nbTokensSpent = $request->input('Tokens_To_Spend');
+        
 
         if($stripeId != ''){
 
+            if($request->has('Tokens_To_Spend')){
+            $nbTokensSpent = $request->input('Tokens_To_Spend');
             $this->itemRepo->addTotalTokens($nbTokensSpent,$id);
-            $this->userRepo->removeTokens($user,$nbTokensSpent);
-            $this->transactionRepo->insert(Auth::user()->email, $id);    
+            $this->userRepo->removeTokens($user,$nbTokensSpent); 
+            }
 
             app('App\Http\Controllers\ItemsController')->numTransactions($id);    
             
             $item = item::find($id);   
+
+            $chargeId = $this->paymentManager->charge($item->Price, $stripeId);
+            
+            $this->transactionRepo->insert(Auth::user()->email, $id);
 
             try {
             Mail::to(Auth::user()->email)->send(new PurchaseConfirmation($item, Auth::user()));
@@ -212,18 +160,13 @@ class TransactionsController extends Controller
 
             if($item->Number_Transactions == $item->Threshold)
             {
-                $this->paymentManager->chargeCustomers($item->id);
+                //$this->paymentManager->chargeCustomers($item->id);
                 $this->itemRepo->setThresholdReached($item->id);
             }
 
             Log::info(session()->getId() . ' | [Purchase Commitment Success] | ' . $user->email);
 
-            if(Auth::user()->segment== "A"){
-                $this->experimentsRepo->incrementExperimentAPurchases();
-            }
-            else if(Auth::user()->segment== "B"){
-                $this->experimentsRepo->incrementExperimentBPurchases();
-            };
+            $this->exp->incrementNumPurchases(Auth::user()->segment);
 
             return redirect('/')->with('success', 'You have successfully commited to this purchase. You will be notified if the item reaches its threshold. Thanks!');
             

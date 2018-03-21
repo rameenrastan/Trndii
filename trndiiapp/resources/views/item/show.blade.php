@@ -168,7 +168,7 @@
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Return</button>
                             @else
                                 @if($checkCommit == 0 && $item->Threshold > $item->Number_Transaction)
-                                    {!! Form::open(['action' => ['TransactionsController@update', $item->id], 'method' => 'POST']) !!}
+                                    {!! Form::open(['action' => ['TransactionsController@createTransaction', $item->id], 'method' => 'POST']) !!}
                                     {{Form::hidden('_method', 'PUT')}}
                                     {{Form::submit('Confirm', ['class' => 'btn btn-primary'])}}
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Return</button>
