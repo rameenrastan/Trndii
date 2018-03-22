@@ -138,10 +138,14 @@ class TransactionsController extends Controller
 
         if($stripeId != ''){
 
-            if($request->has('Tokens_To_Spend')){
             $nbTokensSpent = $request->input('Tokens_To_Spend');
-            $this->itemRepo->addTotalTokens($nbTokensSpent,$id);
-            $this->userRepo->removeTokens($user,$nbTokensSpent); 
+            if($request->has('Tokens_To_Spend')&&$user->tokens>=$nbTokensSpent){
+
+                $this->itemRepo->addTotalTokens($nbTokensSpent,$id);
+                $this->userRepo->removeTokens($user,$nbTokensSpent);
+            }
+            else{
+                return back()->with('error', 'You do not have enough tokens to spend that amount');
             }
 
             app('App\Http\Controllers\ItemsController')->numTransactions($id);    
@@ -160,7 +164,7 @@ class TransactionsController extends Controller
 
             if($item->Number_Transactions == $item->Threshold)
             {
-                //$this->paymentManager->chargeCustomers($item->id);
+                $this->paymentManager->chargeCustomers($item->id);
                 $this->itemRepo->setThresholdReached($item->id);
             }
 
