@@ -99,7 +99,7 @@
                             <div class="form-group">
                                 {{Form::label('Shipping To','Shipping To',array('class'=>'col-md-4 control-label'))}}
                                 <div class="col-md-6">
-                                    {{ Form::select('Shipping_To', ['Canada and United States'=>'Canada, United States', 'Canada'=>'Canada', 'United States'=>'United States'], null, array('class' => 'form-control'))}}
+                                    {{ Form::select('Shipping_To', ['Canada/US'=>'Canada/US', 'Canada'=>'Canada', 'US'=>'US'], null, array('class' => 'form-control'))}}
                                 </div>
                             </div>
 
