@@ -43,8 +43,8 @@ class PaymentManager {
     /**
      * Charges a user's credit card
      *
-     * @param  $amount, $customer
-     * @return void
+     * @param  $amount, $customerId
+     * @return $chargeId
      */
     public function charge($amount, $customerId){
                 try {
@@ -70,7 +70,7 @@ class PaymentManager {
 
                 } catch (Exception $e)
                 {
-                    $this->logger::error(session()->getId() . ' | [Charge Failed] | ' . $customerId);
+                    $this->logger::error(session()->getId() . ' | [Charge Customer Failed] | ' . $customerId);
                     return $e->getMessage();
                 }
         

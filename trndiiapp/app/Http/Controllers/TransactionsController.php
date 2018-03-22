@@ -160,7 +160,7 @@ class TransactionsController extends Controller
 
             $chargeId = $this->paymentManager->charge($item->Price, $stripeId);
             
-            $this->transactionRepo->insert($user->email, $id,$nbTokensSpent);
+            $this->transactionRepo->insert($user->email, $id, $chargeId, $nbTokensSpent);
 
             try {
             Mail::to(Auth::user()->email)->send(new PurchaseConfirmation($item, Auth::user()));
