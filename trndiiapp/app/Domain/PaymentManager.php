@@ -2,7 +2,7 @@
 namespace App\Domain;
 use Auth;
 use DB;
-use Stripe\{Stripe, Charge, Customer};
+use Stripe\{Stripe, Charge, Customer, Refund};
 use App\Transaction;
 use Carbon\Carbon;
 use App\item;
@@ -38,6 +38,38 @@ class PaymentManager {
         $this->mail = $mail;
         $this->tokenManager=$tokenManager;
     
+    }
+
+    /**
+     * Refunds a charge by a given amount
+     *
+     * @param  $amount, $chargeId
+     * @return void
+     */
+    public function refund($amount, $chargeId){
+
+        try { 
+
+        $this->logger::error(session()->getId() . ' | [Refund Started] | ' . $chargeId);
+
+        Stripe::setApiKey(env('STRIPE_SECRET')); 
+
+        $amount = $amount * 100;
+        $amount = (int)$amount;
+
+        $refund = Refund::create([
+            "charge" => $chargeId,
+            "amount" => $amount,
+        ]);  
+
+        $this->logger::error(session()->getId() . ' | [Refund Complete] | ' . $chargeId);
+
+        } catch (Exception $e)
+        {
+            $this->logger::error(session()->getId() . ' | [Refund Failed] | ' . $chargeId);
+            return $e->getMessage();
+        }
+        
     }
 
     /**
