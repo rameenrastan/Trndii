@@ -86,6 +86,9 @@ class PaymentManager {
         $transaction_log->pushHandler(new StreamHandler('storage/logs/transactions/item_' . $item->id . '_transactions.log', Logger::INFO));
         $transaction_log->addInfo("Item " . $item->id . " transactions: listing all users charged for the purchase of this item...");
 
+        $noTokenUsers=new SplFixedArray(0);
+        $noTokenUsersCounter=0;
+
         foreach($transactions as $transaction){
 
             $user = $this->userRepo->findByEmail($transaction->email);
@@ -94,12 +97,21 @@ class PaymentManager {
 
             $this->userRepo->addTokens($user, $item->Tokens_Given);
 
+            if($transaction->tokens_spent==0){
+                $noTokenUsers->setSize($noTokenUsersCounter+1);
+                $noTokenUsers[$noTokenUsersCounter]=$user;
+                $noTokenUsersCounter=$noTokenUsersCounter+1;
+            }
+
             $transaction_log->addInfo("User " . $user->email . " was charged $" . $item->Price);
 
             app('App\Http\Controllers\TransactionsController')->updatePurchaseHistory($user->email, $id);
 
             $this->mail::to($transaction->email)->send(new PurchaseCompleted($item, $user));
         }
+
+        //Chose random winner from noTokenUsers
+
         $this->logger::info(session()->getId() . ' | [Charging All Customers Completed] | ' . $id);
 
         } catch (Exception $e) {

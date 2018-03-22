@@ -17,6 +17,7 @@ class CreateTransactionsTable extends Migration
             $table->increments('id');
             $table->string('email');
             $table->integer('item_fk');
+            $table->integer('tokens_spent');
             $table->timestamps();
         });
     }

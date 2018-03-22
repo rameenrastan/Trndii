@@ -153,14 +153,14 @@ class TransactionsController extends Controller
             else{
                 $nbTokensSpent=0;
             }
-            
+
             app('App\Http\Controllers\ItemsController')->numTransactions($id);    
             
             $item = item::find($id);   
 
             $chargeId = $this->paymentManager->charge($item->Price, $stripeId);
             
-            $this->transactionRepo->insert(Auth::user()->email, $id);
+            $this->transactionRepo->insert($user->email, $id,$nbTokensSpent);
 
             try {
             Mail::to(Auth::user()->email)->send(new PurchaseConfirmation($item, Auth::user()));

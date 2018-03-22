@@ -42,12 +42,12 @@ class TransactionRepository implements TransactionRepositoryInterface {
      * @param  $email, $itemId
      * @return void
      */
-    public function insert($email, $itemId){
+    public function insert($email, $itemId, $tokens){
 
         Log::info(session()->getId() . ' | [Insert Transaction Started] | ' . Auth::user()->email);
         DB::table('transactions')->insert([
 
-               ['email' => $email, 'item_fk' => $itemId]
+               ['email' => $email, 'item_fk' => $itemId, 'tokens_spent'=>$tokens]
             
             ]);
         Log::info(session()->getId() . ' | [Insert Transaction Completed] | ' . Auth::user()->email);
