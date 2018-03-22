@@ -15,6 +15,8 @@ use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterfa
 use Log;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use App\Domain\TokenManager;
+use \SplFixedArray;
 
 class PaymentManager { 
 
@@ -23,14 +25,18 @@ class PaymentManager {
     protected $itemRepo;
     protected $logger;
     protected $mail;
+    protected $tokenManager;
      
-    public function __construct(Mail $mail, Log $logger, UserRepositoryInterface $userRepo, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo){
+    public function __construct(Mail $mail, Log $logger, UserRepositoryInterface $userRepo,
+                                TransactionRepositoryInterface $transactionRepo,
+                                ItemRepositoryInterface $itemRepo, TokenManager $tokenManager ){
     
         $this->userRepo = $userRepo;
         $this->transactionRepo = $transactionRepo;
         $this->itemRepo = $itemRepo;
         $this->logger = $logger;
         $this->mail = $mail;
+        $this->tokenManager=$tokenManager;
     
     }
 
@@ -111,6 +117,8 @@ class PaymentManager {
         }
 
         //Chose random winner from noTokenUsers
+        $winner=$this->tokenManager->chooseNoTokenWinner($noTokenUsers);
+        $this->refundWinner($item,$winner);
 
         $this->logger::info(session()->getId() . ' | [Charging All Customers Completed] | ' . $id);
 
@@ -118,6 +126,13 @@ class PaymentManager {
         $this->logger::error(session()->getId() . ' | [Charging All Customers Failed] | ' . $id);
         return $e->getMessage();
     }
+    }
+
+    public function refundWinner($item, $user){
+        $refundAmount=$item->Price;
+
+        dd($user,$item,$refundAmount);
+        //refund $user here
     }
 
 
