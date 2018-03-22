@@ -90,7 +90,7 @@ class PaymentManager {
 
             $user = $this->userRepo->findByEmail($transaction->email);
 
-            $this->charge($item->Price, $user->stripe_id);
+            //$this->charge($item->Price, $user->stripe_id);
 
             $this->userRepo->addTokens($user, $item->Tokens_Given);
 
