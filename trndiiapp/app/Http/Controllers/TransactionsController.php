@@ -139,15 +139,21 @@ class TransactionsController extends Controller
         if($stripeId != ''){
 
             $nbTokensSpent = $request->input('Tokens_To_Spend');
-            if($request->has('Tokens_To_Spend')&&$user->tokens>=$nbTokensSpent&&$nbTokensSpent>0){
 
-                $this->itemRepo->addTotalTokens($nbTokensSpent,$id);
-                $this->userRepo->removeTokens($user,$nbTokensSpent);
+            if($request->has('Tokens_To_Spend')){
+
+                if($user->tokens>=$nbTokensSpent&&$nbTokensSpent>0){
+                    $this->itemRepo->addTotalTokens($nbTokensSpent,$id);
+                    $this->userRepo->removeTokens($user,$nbTokensSpent);
+                }
+                else{
+                    return back()->with('error', 'You cannot spend the amount of tokens you entered');
+                }
             }
             else{
-                return back()->with('error', 'You cannot spend the amount of tokens you entered');
+                $nbTokensSpent=0;
             }
-
+            
             app('App\Http\Controllers\ItemsController')->numTransactions($id);    
             
             $item = item::find($id);   
