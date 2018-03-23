@@ -49,4 +49,9 @@ class TokenManager {
         return $noTokenUsers[$winner];
 
     }
+
+    public function cashBackFromTokens(){
+
+        //$totalSavings = (item.Price - item.Bulk_Price)*item.Threshold; 
+    }
 }
