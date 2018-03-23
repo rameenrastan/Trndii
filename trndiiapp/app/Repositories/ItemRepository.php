@@ -178,7 +178,7 @@ class ItemRepository implements ItemRepositoryInterface{
     {
         $name = $request->search;
         Log::info(session()->getId() . ' | [Search Query Started] | ' . $name);
-        return item::search($name)->paginate(15);
+        return item::search($name)->paginate(16);
     }
 
 

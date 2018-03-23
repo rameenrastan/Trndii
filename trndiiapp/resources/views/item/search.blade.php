@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('scripts')
@@ -6,9 +5,9 @@
 @endsection
 
 @section('content')
-<div class="container">
+    <div class="container">
         <div class="row">
-            <div class="col-md-7 col-md-offset-3">
+            <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">Search Results</div>
                     <div class="panel-body">
@@ -21,45 +20,108 @@
                                 </h2>
                             </div>
                         </div>
+                        <br>
 
-                        @if(count($items)>0)
+                        <div class="panel-body" style="padding: 25px">
+                            @if(count($items) > 0)
+                                <?php $counter = 1 ?>
 
-                            @foreach($items as $item)
+                                @foreach($items as $item)
+                                    @if($counter % 4 == 1)
+                                        <div class="row is-flex">
+                                    @endif
 
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <a href="/item/{{$item->id}}">
-                                            <img alt="{{$item->Name}}" src="{{$item->Picture_URL}}" class="img-thumbnail"/>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-8" style="text-align: left">
+                                    <div class="col-md-3 col-sm-6"
+                                         style="border: 3px solid #ccfff0; padding: 15px;">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <h2 style="margin-top: 5px;">
-                                                    <a href="/item/{{$item->id}}"> {{$item->Name}}</a>
-                                                </h2>
-                                                {{$item->Short_Description}}
-                                                <h3>
-                                                    ${{$item->Price}}
-                                                </h3>
+                                                <a href="item/{{$item->id}}">
+                                                    <img alt="{{$item->Name}}" src="{{$item->Picture_URL}}"
+                                                         class="img-thumbnail"/>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-12" align="center">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <h2 style="margin-top: 5px;">
+                                                            <a href="item/{{$item->id}}"> {{$item->Name}}</a>
+                                                        </h2>
+                                                        {{$item->Short_Description}}
+                                                        <h3>
+                                                            ${{$item->Price}}
+                                                        </h3>
+                                                        <form action="item/{{$item->id}}">
+                                                            <input class="btn" type="submit" value="Go to page"
+                                                                   style="color: white; background-color: #14A989;"/>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <h4>
-                                                    Receive <strong>{{$item->Tokens_Given}}</strong> tokens upon purchase
-                                                </h4>
+                                        <br>
+                                        <div class="display-group">
+                                            <div><p align="left" style="padding-left:10px">Status:
+                                                    <b>{{$item->Status}}</b></p></div>
+                                        </div>
+                                        <div class="display-group">
+                                            <div><p align="left" style="padding-left:10px">Sale ends
+                                                    <b>{{\Carbon\Carbon::parse($item->End_Date)->format('d/m/Y')}}</b>
+                                                </p></div>
+                                        </div>
+                                        <div class="display-group">
+                                            <div><p align="left" style="padding-left:10px">Category:
+                                                    <b>{{$item->Category}}</b></p></div>
+                                        </div>
+                                        <div class="progress" style="margin: 20px;">
+                                            <div class="progress-bar" role="progressbar"
+                                                 aria-valuenow="70"
+                                                 aria-valuemin="0" aria-valuemax="100"
+                                                 style="width:{{$item->Number_Transactions/$item->Threshold*100}}%; background-color: #14A989;">
+                                            </div>
+                                        </div>
+                                        <div class="row" style="font-size: 16px;">
+                                            <div class="col-md-12 text-center">
+                                                {{$item->Number_Transactions}} / {{$item->Threshold}}
+                                                Orders Placed
+                                                <br><br>
+                                            </div>
+                                        </div>
+                                        <div class="display-group">
+                                            <div>
+                                                <form action="{!! route('ItemController', ['itemid'=>$item->id]) !!}">
+                                                    <input class="btn" type="submit"
+                                                           value="View comments for this item"/>
+                                                </form>
+                                                <br>
+                                            </div>
+                                        </div>
+                                        <div class="display-group">
+                                            <div>
+                                                <p align="left" style="padding-left:10px">Order placed
+                                                    on
+                                                    <b>{{\Carbon\Carbon::parse($item->created_at)->format('d/m/Y')}}</b>
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
+
+                                    @if(++$counter % 4 == 1)
+                                        </div>
+                                    @endif
+                                @endforeach
+
+                                @if($counter % 4 != 1)
+                                    </div>
+                                @endif
+                            @else
+                                <p>There are currently no items matching your search.</p>
+                            @endif
+
+                            @if($items->count()>0)
+                                <div>
+                                    {{ $items->links() }}
                                 </div>
-                                <br>
-                            @endforeach
-
-                                {{ $items->links() }}
-                        @else
-                            <p>There are no items that match your search.</p>
-                        @endif
+                            @endif
                     </div>
                 </div>
             </div>
