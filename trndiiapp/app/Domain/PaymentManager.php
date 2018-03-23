@@ -50,7 +50,7 @@ class PaymentManager {
 
         try { 
 
-        $this->logger::error(session()->getId() . ' | [Refund Started] | ' . $chargeId);
+        $this->logger::info(session()->getId() . ' | [Refund Started] | ' . $chargeId);
 
         Stripe::setApiKey(env('STRIPE_SECRET')); 
 
@@ -62,7 +62,7 @@ class PaymentManager {
             "amount" => $amount,
         ]);  
 
-        $this->logger::error(session()->getId() . ' | [Refund Complete] | ' . $chargeId);
+        $this->logger::info(session()->getId() . ' | [Refund Complete] | ' . $chargeId);
 
         } catch (Exception $e)
         {
@@ -109,13 +109,13 @@ class PaymentManager {
             }
 
     /**
-     * Charges all customers and sends confirmation if the threshold of the item has been reached.
+     * Handles all processing related to a purchase completion.
      * @param int $id
      * @return void
      */
-    public function chargeCustomers($id){
+    public function purchaseCompletion($id){
         try{
-        $this->logger::info(session()->getId() . ' | [Charging All Customers Started] | ' . $id);
+        $this->logger::info(session()->getId() . ' | [Purchase Completion Started] | ' . $id);
         $item = $this->itemRepo->find($id);
                 
         $transactions = $this->transactionRepo->getAllByItemId($id);
@@ -152,19 +152,18 @@ class PaymentManager {
         $winner=$this->tokenManager->chooseNoTokenWinner($noTokenUsers);
         $this->refundWinner($item,$winner);
 
-        $this->logger::info(session()->getId() . ' | [Charging All Customers Completed] | ' . $id);
+        $this->logger::info(session()->getId() . ' | [Purchase Completion Completed] | ' . $id);
 
         } catch (Exception $e) {
-        $this->logger::error(session()->getId() . ' | [Charging All Customers Failed] | ' . $id);
+        $this->logger::error(session()->getId() . ' | [Purchase Completion Failed] | ' . $id);
         return $e->getMessage();
     }
     }
 
     public function refundWinner($item, $user){
         $refundAmount=$item->Price;
-
-        dd($user,$item,$refundAmount);
-        //refund $user here
+        $transaction = $this->transactionRepo->get($user->email, $item->id);
+        $this->refund($refundAmount, $transaction->charge_id);
     }
 
 

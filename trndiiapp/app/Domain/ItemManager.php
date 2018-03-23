@@ -48,17 +48,16 @@ class ItemManager {
             $this->itemRepo->setExpired($expiredItem->id);
         
             foreach($transactions as $transaction){
-                Log::info('test test test test test test test test test ');
+                
                 $user = $this->userRepo->findByEmail($transaction->email);
-                Log::info("idddddddd" . $transaction->charge_id);
+                
                 $this->paymentManager->refund($item->Price, $transaction->charge_id);
-                Log::info($transaction->charge_id);
+                
                 Mail::to($transaction->email)->send(new ItemExpired($item, $user));
                         
             }      
         }
         }
-
         Log::info(session()->getId() . ' | [Getting Expired Items Completed]');
         } catch (Exception $e) { 
 

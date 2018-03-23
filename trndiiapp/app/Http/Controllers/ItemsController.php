@@ -133,20 +133,6 @@ class ItemsController extends Controller
         }
     }
 
-    
-    /**
-     * Displays the current number of users who are commmited to an item.
-     *
-     * @param  $id
-     * @return $numTransactions
-     */
-    public function numTransactions($id)
-    {
-
-        $this->itemRepo->numTransactions($id);
-    }
-
-
 
     /**
      * Show the form for editing the specified resource.

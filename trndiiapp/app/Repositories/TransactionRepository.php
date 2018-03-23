@@ -63,6 +63,13 @@ class TransactionRepository implements TransactionRepositoryInterface {
 
     }
 
+    public function get($email, $itemId){
+        return DB::table('transactions')->where([
+            ['item_fk', '=', $itemId],
+            ['email', '=', $email]
+            ])->first();
+    }
+
     /**
      * Deletes a transaction associated with a specific user and item.
      * @param  $itemId

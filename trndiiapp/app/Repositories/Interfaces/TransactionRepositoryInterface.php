@@ -8,5 +8,6 @@ interface TransactionRepositoryInterface{
     public function insert($email, $itemId, $chargeId, $tokens);
     public function getAllByItemId($id);
     public function destroy($itemId);
+    public function get($email, $itemId);
 
 }
