@@ -87,6 +87,10 @@ Route::post('/search', 'ItemsController@search');
 
 Route::get('/search', 'ItemsController@search');
 
+Route::post('/searchUsers', 'AdminController@searchUsers');
+
+Route::get('/searchUsers', 'AdminController@searchUsers');
+
 Route::get('/shoppingCart', 'CartController@index');
 
 Route::post('/shoppingCart', 'CartController@store')->name('cart.store');

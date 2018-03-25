@@ -7,13 +7,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Cashier\Billable;
 use Cog\Contracts\Ban\Bannable as BannableContract;
 use Cog\Laravel\Ban\Traits\Bannable;
+use Laravel\Scout\Searchable;
 
 class User extends Authenticatable implements BannableContract
 {
     use Notifiable;
     use Billable;
     use Bannable;
-
+    use Searchable;
     /**
      * Determine if BannedAtScope should be applied by default.
      *
@@ -41,4 +42,9 @@ class User extends Authenticatable implements BannableContract
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function searchableAs()
+    {
+        return 'users';
+    }
 }
