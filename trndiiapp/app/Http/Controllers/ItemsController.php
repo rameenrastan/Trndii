@@ -89,6 +89,7 @@ class ItemsController extends Controller
             'Name'=>'required|max:255',
             'Price'=>'required',
             'Bulk_Price'=>'required',
+            'Actual_Price'=>'required',
             'Tokens_Given'=>'required',
             'Threshold' => 'required| integer',
             'Short_Description' => 'required',

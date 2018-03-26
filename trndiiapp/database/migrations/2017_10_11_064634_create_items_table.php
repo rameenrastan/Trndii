@@ -18,6 +18,7 @@ class CreateItemsTable extends Migration
             $table->string('Name');
             $table->double('Price',15, 2);
             $table->double('Bulk_Price');
+            $table->double('Actual_Price');
             $table->integer('Threshold');
             $table->integer('Tokens_Given');
             $table->integer('Total_Tokens_Spent')->default(0);
