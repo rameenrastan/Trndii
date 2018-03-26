@@ -50,8 +50,33 @@ class TokenManager {
 
     }
 
-    public function cashBackFromTokens(){
+    /**
+     * Calculates how much cash a customer receives from using tokens
+     * @param $itemPrice, $totalTokens, $tokensSpent, $moneyPool
+     * @return $moneyBack
+     */
+    public function calculateCashBackFromTokens($itemPrice, $totalTokens, $tokensSpent, $moneyPool){
 
-        //$totalSavings = (item.Price - item.Bulk_Price)*item.Threshold; 
+        $moneyBack = ($tokensSpent/$totalTokens) * $moneyPool;
+        
+        //A customer may win at max 3x the item's base price
+        if($moneyBack > ($itemPrice*3)){
+            return (itemPrice*3);
+        }
+        else{
+            return $moneyback;
+        }
+    }
+
+    /**
+     * Calculates the total amount of money that can be redistributed to users
+     * @param $item
+     * @return $totalSavings
+     */
+    public function calculateMoneyPool($item){
+
+        $totalSavings = ($item.Price - $item.Bulk_Price) * $item.Threshold; 
+
+        return $totalSavings;
     }
 }

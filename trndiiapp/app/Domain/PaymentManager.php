@@ -127,9 +127,14 @@ class PaymentManager {
         $noTokenUsers=new SplFixedArray(0);
         $noTokenUsersCounter=0;
 
+        $moneyPool = $this->tokenManager->calculateMoneyPool($item);
+        $totalTokens = $item->Total_Tokens_Spent;
+        $itemPrice = $item->Price;
+
         foreach($transactions as $transaction){
 
             $user = $this->userRepo->findByEmail($transaction->email);
+            $tokensSpent = $treansaction->tokens_spent;
 
             //$this->charge($item->Price, $user->stripe_id);
 
@@ -142,6 +147,10 @@ class PaymentManager {
             }
 
             $transaction_log->addInfo("User " . $user->email . " was charged $" . $item->Price);
+
+            $moneyBack = $this->tokenManager->calculateCashBackFromTokens($itemPrice, $totalTokens, $tokensSpent, $moneyPool);
+            $this->refund($moneyBack,$transaction->charge_id);
+            $transaction_log->addInfo("User " . $user->email . " has gained $" . $moneyBack . " from spending tokens."); 
 
             app('App\Http\Controllers\TransactionsController')->updatePurchaseHistory($user->email, $id);
 
@@ -165,6 +174,5 @@ class PaymentManager {
         $transaction = $this->transactionRepo->get($user->email, $item->id);
         $this->refund($refundAmount, $transaction->charge_id);
     }
-
 
 }
