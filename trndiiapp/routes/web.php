@@ -74,7 +74,7 @@ Route::post('contact', 'PagesController@postContact');
 
 Route::get('/viewAllItems', 'ItemsController@viewAllItems');
 
-Route::get('/addresses', 'PDFController@makePDF');
+Route::get('/addresses', 'ExportController@makePDF');
 
 Route::get('/browseItemsByCategory', 'ItemsController@getItemsByCategory');
 
@@ -102,8 +102,12 @@ Route::post('/purchaseHistory', 'ReviewController@store')->name('review.store');
 Route::post('/item', 'ReviewController@storeLikeDislike')->name('review.storeLikeDislike');
 
 $router->get('/pdfInfo/{itemId}/{itemName}',[
-    'uses' => 'PDFController@getPdfByItem',
+    'uses' => 'ExportController@getPdfByItem',
     'as'   => 'PdfController'
+]);
+$router->get('/excelInfo/{itemId}/{itemName}',[
+    'uses' => 'ExportController@getExcelByItem',
+    'as'   => 'ExcelController'
 ]);
 
 $router->get('/itemThread/{itemId}',[
