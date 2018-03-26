@@ -41,13 +41,6 @@
                             </div>
 
                             <div class="form-group">
-                                 {{Form::label('Tokens Given','Tokens Given', array('class'=>'col-md-4 control-label'))}}
-                                  <div class="col-md-6">
-                                    {{Form::number('Tokens Given', null, array('class' => 'form-control'))}}
-                                  </div>
-                            </div>
-
-                            <div class="form-group">
                                 {{Form::label('Threshold','Threshold',array('class'=>'col-md-4 control-label'))}}
                                 <div class="col-md-6">
                                     {{Form::number('Threshold', null, array('class' => 'form-control'))}}

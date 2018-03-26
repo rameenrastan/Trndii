@@ -16,9 +16,9 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->increments('id');
             $table->string('Name');
-            $table->double('Price',15, 2);
-            $table->double('Bulk_Price');
-            $table->double('Actual_Price');
+            $table->double('Price', 15, 2);
+            $table->double('Bulk_Price', 15, 2);
+            $table->double('Actual_Price', 15, 2);
             $table->integer('Threshold');
             $table->integer('Tokens_Given');
             $table->integer('Total_Tokens_Spent')->default(0);

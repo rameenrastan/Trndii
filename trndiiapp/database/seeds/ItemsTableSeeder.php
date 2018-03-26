@@ -19,7 +19,7 @@ class ItemsTableSeeder extends Seeder
             'Bulk_Price'=>4,
             'Actual_Price'=>3,
             'Threshold'=>20,
-            'Tokens_Given'=>0,
+            'Tokens_Given'=>1,
             'Short_Description' => "test short description",
             'Long_Description' => "test long description",
             'Category'=>"Electronics",
