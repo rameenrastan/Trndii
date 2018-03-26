@@ -16,10 +16,11 @@
         "gloudemans/shoppingcart": "^2.5",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/cashier": "~7.0",
-        "laravel/framework": "5.4.*",
+        "laravel/framework": "5.5.*",
         "laravel/scout": "^3.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4.0",
+        "maatwebsite/excel": "^2.1.0",
         "monolog/monolog": "^1.23",
         "stripe/stripe-php": "^5.2"
     },
