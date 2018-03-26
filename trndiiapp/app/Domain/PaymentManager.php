@@ -48,7 +48,13 @@ class PaymentManager {
      */
     public function refund($amount, $chargeId){
 
-        try { 
+        try {
+            
+        if($amount == 0){
+
+            $this->logger::info(session()->getId() . ' | [Amount is 0, No Refund] | ' . $chargeId);
+            return;
+        }
 
         $this->logger::info(session()->getId() . ' | [Refund Started] | ' . $chargeId);
 
@@ -134,7 +140,7 @@ class PaymentManager {
         foreach($transactions as $transaction){
 
             $user = $this->userRepo->findByEmail($transaction->email);
-            $tokensSpent = $treansaction->tokens_spent;
+            $tokensSpent = $transaction->tokens_spent;
 
             //$this->charge($item->Price, $user->stripe_id);
 

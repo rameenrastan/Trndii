@@ -57,6 +57,10 @@ class TokenManager {
      */
     public function calculateCashBackFromTokens($itemPrice, $totalTokens, $tokensSpent, $moneyPool){
 
+        if($totalTokens == 0){
+            return 0;
+        }
+
         $moneyBack = ($tokensSpent/$totalTokens) * $moneyPool;
         
         //A customer may win at max 3x the item's base price
@@ -64,7 +68,7 @@ class TokenManager {
             return (itemPrice*3);
         }
         else{
-            return $moneyback;
+            return $moneyBack;
         }
     }
 
@@ -75,7 +79,7 @@ class TokenManager {
      */
     public function calculateMoneyPool($item){
 
-        $totalSavings = ($item.Price - $item.Bulk_Price) * $item.Threshold; 
+        $totalSavings = ($item->Price - $item->Bulk_Price) * $item->Threshold; 
 
         return $totalSavings;
     }
