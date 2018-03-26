@@ -9,9 +9,9 @@
 namespace App\Repositories;
 
 use Illuminate\Support\Facades\DB;
-use App\Repositories\Interfaces\PdfRepositoryInterface;
+use App\Repositories\Interfaces\ExportRepositoryInterface;
 
-class PdfRepository implements PdfRepositoryInterface
+class ExportRepository implements ExportRepositoryInterface
 {
 
     /**
