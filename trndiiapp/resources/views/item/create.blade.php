@@ -10,7 +10,7 @@
 
                         <div class="panel-body">
 
-                            {!! Form::open(['route' => 'item.store','class'=>'form-horizontal'])!!}
+                            {!! Form::open(['action' => ['ItemsController@store','class'=>'form-horizontal'], 'method' => 'POST']) !!}
 
                             <div class="form-group">
                                 {{Form::label('Name', 'Item Name',array('class'=>'col-md-4 control-label'))}}
