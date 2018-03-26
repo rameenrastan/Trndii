@@ -212,6 +212,6 @@ class ItemRepository implements ItemRepositoryInterface{
 
     public function getHomePageItems()
     {
-        return DB::table('items')->where('Status', '=', 'pending')->orderBy('Number_Transactions', 'desc')->get();
+        return DB::table('items')->where('Status', '=', 'pending')->orderBy('Number_Transactions', 'desc')->take(3)->get();
     }
 }

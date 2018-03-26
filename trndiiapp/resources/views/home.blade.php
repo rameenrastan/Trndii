@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+    <!-- Load non-dynamic html in case that the items table is empty. -->
+    @if(count($items) == 0)
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -92,4 +94,83 @@
             </div>
         </div>
     </div>
+    <!-- Load dynamic html when items table is populated. -->
+    @else
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <img src="images/logo_full.png" width="100%">
+
+                        @test('teaser1')
+                        <h3 align="center">
+                             Welcome to Trndii! If you're not sure where to start, click <a href="#"> here </a>
+                        </h3>
+                        @endtest
+
+                        @test('teaser2')
+                        <h3 align="center">
+                            Welcome to Trndii! Click here for more information <a href="#"> here </a>
+                        </h3>
+                        @endtest
+
+
+                    </div>
+
+                    <div class="panel-body" style="border:none;">
+                        @if (session('status'))
+                            <div class="alert alert-success">
+                                {{ session('status') }}
+                            </div>
+                        @endif
+                        <h2 align="center" style="margin-top: 0;">
+                            Featured Items
+                        </h2>
+                        <div class="col-md-12">
+                            <div class="thumbnail">
+                                <a href="item/{{$items[0]->id}}" target="_blank">
+                                    <img src="{{$items[0]->Picture_URL}}" alt="PLACEHOLDER" style="width:100%">
+                                </a>
+                                <div class="caption" style="position: relative">
+                                    <p>
+                                        {{$items[0]->Name}}<br>
+                                        Threshold: {{$items[0]->Threshold}}
+                                    </p>
+                                    <button type="button" class="btn btn-success" onclick="window.location.href='item/{{$items[0]->id}}'">More Info</button>
+                                </div>
+                                </a>
+                            </div>
+                        </div>
+                        @for($i = 1; $i < count($items); $i++)
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="thumbnail">
+                                    <a href="item/{{$items[$i]->id}}" target="_blank">
+                                        <img src="{{$items[$i]->Picture_URL}}" alt="PLACEHOLDER"
+                                             style="width:100%;">
+                                    </a>
+                                    <div class="caption" style="position: relative">
+                                        <p>
+                                            {{$items[$i]->Name}}<br>
+                                            Threshold: {{$items[$i]->Threshold}}
+                                        </p>
+                                        <button type="button" class="btn btn-success" href="window.location.href='item/{{$items[$i]->id}}'">More Info</button>
+                                    </div>
+                                    </a>
+                                </div>
+                            </div>
+                        @endfor
+                        <h4 align="left" style="margin-top: 0;">
+                            <a href="/item">
+                                See more items...
+                            </a>
+                        </h4>
+                    </div>
+                    <!-- END of class-panel-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
 @endsection
