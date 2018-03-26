@@ -27,6 +27,13 @@
                                                              class="img-thumbnail"/>
                                                     </a>
                                                 </div>
+                                                <div class="col-md-5">
+                                                    <a href="{!! route('ExcelController', ['item'=>$supplierItem->id,'name'=>$supplierItem->Name]) !!}">
+                                                        <img alt="{{$supplierItem->Name}}"
+                                                             src="{{$supplierItem->Picture_URL}}"
+                                                             class="img-thumbnail"/>
+                                                    </a>
+                                                </div>
                                                 <div class="col-md-7" align="left">
                                                     <div class="row">
                                                         <div class="col-md-12">
