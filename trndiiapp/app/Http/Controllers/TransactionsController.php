@@ -140,7 +140,7 @@ class TransactionsController extends Controller
 
             if($request->has('Tokens_To_Spend')){
 
-                if($user->tokens>=$nbTokensSpent&&$nbTokensSpent>0){
+                if($user->tokens>=$nbTokensSpent&&$nbTokensSpent>-1){
                     $this->itemRepo->addTotalTokens($nbTokensSpent,$id);
                     $this->userRepo->removeTokens($user,$nbTokensSpent);
                 }
