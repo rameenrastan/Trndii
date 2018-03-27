@@ -46,13 +46,35 @@ class PaymentManager {
      * @param  $amount, $chargeId
      * @return void
      */
-    public function refund($amount, $chargeId){
+    public function refund($amount, $priceMax, $chargeId){
 
         try {
             
         if($amount == 0){
 
             $this->logger::info(session()->getId() . ' | [Amount is 0, No Refund] | ' . $chargeId);
+            return;
+        }
+        else if($amount > $priceMax){
+
+            $this->logger::info(session()->getId() . ' | [Refund Started] | ' . $chargeId);
+
+            Stripe::setApiKey(env('STRIPE_SECRET')); 
+
+            $extraAmount = ($amount - $priceMax) * 100;
+            $extraAmount = (int)$extraAmount;
+
+            $priceMax = $priceMax * 100;
+            $priceMax = (int) $priceMax;
+
+            $refund = Refund::create([
+                "charge" => $chargeId,
+                "amount" => $priceMax,
+            ]);  
+
+            //Refund the extraAmount into wallet or however desired.
+
+            $this->logger::info(session()->getId() . ' | [Refund Complete] | ' . $chargeId);
             return;
         }
 
@@ -155,7 +177,7 @@ class PaymentManager {
             $transaction_log->addInfo("User " . $user->email . " was charged $" . $item->Price);
 
             $moneyBack = $this->tokenManager->calculateCashBackFromTokens($itemPrice, $totalTokens, $tokensSpent, $moneyPool);
-            $this->refund($moneyBack,$transaction->charge_id);
+            $this->refund($moneyBack, $itemPrice, $transaction->charge_id);
             $transaction_log->addInfo("User " . $user->email . " has gained $" . $moneyBack . " from spending tokens."); 
 
             app('App\Http\Controllers\TransactionsController')->updatePurchaseHistory($user->email, $id);
@@ -178,7 +200,7 @@ class PaymentManager {
     public function refundWinner($item, $user){
         $refundAmount=$item->Price;
         $transaction = $this->transactionRepo->get($user->email, $item->id);
-        $this->refund($refundAmount, $transaction->charge_id);
+        $this->refund($refundAmount, $item->Price, $transaction->charge_id);
     }
 
 }
