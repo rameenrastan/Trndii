@@ -66,7 +66,7 @@
                 <div class="row" style="font-size: 20px;">
                     <div class="col-md-12 text-center">
                         @if(Auth::user())
-                            @if(Auth::user()->country != $item->Shipping_To && $item->Shipping_To != "Canada and United States")
+                            @if(!(strpos($item->Shipping_To, Auth::user()->country)!==false))
                                 <p style="background-color:#ffb049; color:black">
                                     <strong> Warning! This item does not ship to your country! </strong>
                                 </p>
@@ -144,7 +144,7 @@
                         </div>
                         <div class="modal-body">
 
-                            @if(Auth::user()->country != $item->Shipping_To && $item->Shipping_To != "Canada and United States")
+                            @if(!(strpos($item->Shipping_To, Auth::user()->country)!==false))
                                 <p>
                                     <strong> This item does not ship to {{Auth::user()->country}}! </strong>
                                     <!-- Remove this if/when we implement choosing shipping address-->
@@ -156,7 +156,7 @@
                                     <br> Price: {{$item->Price}}$
                                     <br> Tokens Gained: {{$item->Tokens_Given}}
                                 <!--
-                    @if(Auth::user()->country != $item->Shipping_To)
+                    @if(!(strpos($item->Shipping_To, Auth::user()->country)!==false))
                                     <br> <strong> Warning! This item does not ship to {{Auth::user()->country}} </strong>
                     @endif
                                         -->
@@ -164,7 +164,7 @@
                             @endif
                         </div>
                         <div class="modal-footer">
-                            @if(Auth::user()->country != $item->Shipping_To && $item->Shipping_To != "Canada and United States")
+                            @if(strpos($item->Shipping_To, Auth::user()->country)!=false)
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Return</button>
                             @else
                                 @if($checkCommit == 0 && $item->Threshold > $item->Number_Transaction)
@@ -324,7 +324,7 @@
                         </div>
                         <div class="modal-body">
 
-                            @if(Auth::user()->country != $item->Shipping_To && $item->Shipping_To != "Canada and United States")
+                            @if(!(strpos($item->Shipping_To, Auth::user()->country)!==false))
                                 <p>
                                     <strong> This item does not ship to {{Auth::user()->country}}! </strong>
                                     <!-- Remove this if/when we implement choosing shipping address-->
@@ -336,7 +336,7 @@
                                     <br> Price: {{$item->Price}}$
                                     <br> Tokens Gained: {{$item->Tokens_Given}}
                                 <!--
-                    @if(Auth::user()->country != $item->Shipping_To)
+                    @if(!(strpos($item->Shipping_To, Auth::user()->country)!==false))
                                     <br> <strong> Warning! This item does not ship to {{Auth::user()->country}} </strong>
                     @endif
                                         -->
@@ -345,7 +345,7 @@
                         </div>
                         <div class="modal-footer">
 
-                            @if(Auth::user()->country != $item->Shipping_To && $item->Shipping_To != "Canada and United States")
+                            @if(!(strpos($item->Shipping_To, Auth::user()->country)!==false))
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Return</button>
                             @else
                                 @if($checkCommit == 0 && $item->Threshold > $item->Number_Transaction)
@@ -358,7 +358,7 @@
                                 @elseif($item->Threshold <= $item->Number_Transactions)
                                     <p>The threshold for this item has already been reached. Sorry!</p>
                                 @else
-                                    <p>You have already commited to this item. Stay tuned!</p>
+                                    <p>You have already committed to this item. Stay tuned!</p>
                                 @endif
                             @endif
                         </div>

@@ -58,6 +58,7 @@ Route::resource('preregisteredusers', 'PreregisteredUsersController');
 Route::resource('item', 'ItemsController');
 
 Route::get('item.create', 'ItemsController@item.create');
+Route::post('item.store','ItemsController@store');
 
 Route::get('/confirm/{id}', 'ItemsController@getConfirm'); 
 

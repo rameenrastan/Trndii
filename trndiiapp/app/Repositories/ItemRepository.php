@@ -28,8 +28,9 @@ class ItemRepository implements ItemRepositoryInterface{
         $item->Name=$request->Name;
         $item->Price=$request->Price;
         $item->Bulk_Price=$request->Bulk_Price;
-        $item->Tokens_Given=$request->Tokens_Given;
-        $item->Total_Tokens_Spent=$request->Total_Tokens_Spent;
+        $item->Actual_Price=$request->Actual_Price;
+        $item->Tokens_Given=($request->Price - $request->Bulk_Price);
+        $item->Total_Tokens_Spent=0;
         $item->Threshold=$request->Threshold;
         $item->Short_Description=$request->Short_Description;
         $item->Long_Description=$request->Long_Description;

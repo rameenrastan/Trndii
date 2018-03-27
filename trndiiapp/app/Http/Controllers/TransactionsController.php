@@ -134,23 +134,33 @@ class TransactionsController extends Controller
         
         Log::info(session()->getId() . ' | [Start Purchase Commitment] | ' . $user->email);
 
-        
-
         if($stripeId != ''){
 
-            if($request->has('Tokens_To_Spend')){
             $nbTokensSpent = $request->input('Tokens_To_Spend');
-            $this->itemRepo->addTotalTokens($nbTokensSpent,$id);
-            $this->userRepo->removeTokens($user,$nbTokensSpent); 
+
+            if($request->has('Tokens_To_Spend')){
+
+                if($user->tokens>=$nbTokensSpent&&$nbTokensSpent>-1){
+                    $this->itemRepo->addTotalTokens($nbTokensSpent,$id);
+                    $this->userRepo->removeTokens($user,$nbTokensSpent);
+                }
+                else{
+                    return back()->with('error', 'You cannot spend the amount of tokens you entered');
+                }
             }
-
-            app('App\Http\Controllers\ItemsController')->numTransactions($id);    
+            else{
+                $nbTokensSpent=0;
+            }   
             
-            $item = item::find($id);   
-
+            $item = item::find($id);
+            
             $chargeId = $this->paymentManager->charge($item->Price, $stripeId);
-            
-            $this->transactionRepo->insert(Auth::user()->email, $id);
+
+            $this->transactionRepo->insert($user->email, $id, $chargeId, $nbTokensSpent);
+
+            $this->itemRepo->numTransactions($id);
+
+            $item = item::find($id);  
 
             try {
             Mail::to(Auth::user()->email)->send(new PurchaseConfirmation($item, Auth::user()));
@@ -160,8 +170,8 @@ class TransactionsController extends Controller
 
             if($item->Number_Transactions == $item->Threshold)
             {
-                //$this->paymentManager->chargeCustomers($item->id);
                 $this->itemRepo->setThresholdReached($item->id);
+                $this->paymentManager->purchaseCompletion($item->id);
             }
 
             Log::info(session()->getId() . ' | [Purchase Commitment Success] | ' . $user->email);

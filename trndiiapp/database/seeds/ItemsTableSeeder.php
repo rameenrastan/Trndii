@@ -15,10 +15,11 @@ class ItemsTableSeeder extends Seeder
 
         $test_item = new \App\item([
             'Name'=> "testItem",
-            'Price'=> 1,
-            'Bulk_Price'=>1,
+            'Price'=> 5,
+            'Bulk_Price'=>4,
+            'Actual_Price'=>3,
             'Threshold'=>20,
-            'Tokens_Given'=>0,
+            'Tokens_Given'=>1,
             'Short_Description' => "test short description",
             'Long_Description' => "test long description",
             'Category'=>"Electronics",
