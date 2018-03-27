@@ -5,6 +5,7 @@
         <th>Address</th>
         <th>Postal Code</th>
         <th>Country</th>
+        <th>Email</th>
     </tr>
     </thead>
     <tbody>
@@ -14,6 +15,7 @@
             <td>{{ $user->addressline1 }}</td>
             <td>{{ $user->postalcode }}</td>
             <td>{{ $user->country }}</td>
+            <td>{{ $user->email }}</td>
 
         </tr>
     @endforeach
