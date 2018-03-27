@@ -155,7 +155,9 @@
                                             {{$items[$i]->Name}}<br>
                                             Threshold: {{$items[$i]->Threshold}}
                                         </p>
-                                        <button type="button" class="btn btn-success" href="window.location.href='item/{{$items[$i]->id}}'">More Info</button>
+                                        <a href="item/{{$items[$i]->id}}">
+                                        <button type="button" class="btn btn-success">More Info</button>
+                                        </a>
                                     </div>
                                     </a>
                                 </div>
