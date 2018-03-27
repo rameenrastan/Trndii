@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Repositories\Interfaces\ExportRepositoryInterface as ExportRepositoryInterface;
 use Psy\Util\Json;
 use Excel;
+use App\Repositories\Interfaces\ExperimentsRepositoryInterface as ExperimentsRepositoryInterface;
 
 class ExportController extends Controller
 {
@@ -61,12 +62,31 @@ class ExportController extends Controller
         $data = ['data' => $exportRepo->findAddressByItemId($itemId)];
 
 
+
         return Excel::create($itemName . "_Addresses", function ($excel) use ($data) {
             $excel->sheet('stuff', function ($sheet) use ($data) {
-                $sheet->loadView('excel.itemAddresses', $data);
+                $sheet->loadView('excel.itemAddresses')->with($data);
             });
         })->download('csv');
 
+    }
+
+    public function getExcelMetrics(ExperimentsRepositoryInterface $experimentsRepository)
+    {
+
+
+        $data = ['data' => $experimentsRepository->getExperiments(),'total_pop' => $experimentsRepository->getTotalPopulation()];
+
+
+
+
+
+        return Excel::create("Metrics", function ($excel) use ($data) {
+            $excel->sheet('stuff', function ($sheet) use ($data) {
+                $sheet->loadView('excel.expirementMetrics', $data);
+            });
+        })->download('csv');
+//
     }
 
 
