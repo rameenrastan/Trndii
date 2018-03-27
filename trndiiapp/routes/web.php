@@ -102,6 +102,9 @@ Route::post('/purchaseHistory', 'ReviewController@store')->name('review.store');
 
 Route::post('/item', 'ReviewController@storeLikeDislike')->name('review.storeLikeDislike');
 
+Route::get('/getMetrics', 'ExportController@getExcelMetrics');
+
+
 $router->get('/pdfInfo/{itemId}/{itemName}',[
     'uses' => 'ExportController@getPdfByItem',
     'as'   => 'PdfController'
