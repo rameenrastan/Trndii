@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Repositories\Interfaces\ExportRepositoryInterface as ExportRepositoryInterface;
 use Psy\Util\Json;
 use Excel;
+
 class ExportController extends Controller
 {
 
@@ -18,7 +19,8 @@ class ExportController extends Controller
     protected $exportRepo;
     protected $logger;
 
-    public function _construct(ExportRepositoryInterface $exportRepo){
+    public function _construct(ExportRepositoryInterface $exportRepo)
+    {
 
         $this->exportRepo = $exportRepo;
     }
@@ -35,7 +37,7 @@ class ExportController extends Controller
     }
 
 
-    public function getPdfByItem(ExportRepositoryInterface $exportRepo , $itemId, $itemName)
+    public function getPdfByItem(ExportRepositoryInterface $exportRepo, $itemId, $itemName)
     {
 
         Log::info(session()->getId() . ' | [Download PDF Started] | ' . $itemName);
@@ -52,19 +54,15 @@ class ExportController extends Controller
 
     }
 
-      public function getExcelByItem(ExportRepositoryInterface $exportRepo, $itemId, $itemName)
+    public function getExcelByItem(ExportRepositoryInterface $exportRepo, $itemId, $itemName)
     {
-
-
 
 
         $data = ['data' => $exportRepo->findAddressByItemId($itemId)];
 
 
-
-
-     return   Excel::create($itemName . "_Addresses.pdf", function($excel) use ($data){
-            $excel->sheet('stuff', function($sheet) use ($data) {
+        return Excel::create($itemName . "_Addresses", function ($excel) use ($data) {
+            $excel->sheet('stuff', function ($sheet) use ($data) {
                 $sheet->loadView('excel.itemAddresses', $data);
             });
         })->download('csv');
