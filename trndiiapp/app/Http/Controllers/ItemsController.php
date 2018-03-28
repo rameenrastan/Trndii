@@ -34,6 +34,8 @@ class ItemsController extends Controller
         $this->transactionRepo = $transactionRepo;
         $this->userRepo = $userRepo;
         $this->reviewRepo = $reviewRepo;
+
+        $this->middleware('auth:admin', ['only'=>['viewAllItems' , 'create']]);
     }
 
     /**
