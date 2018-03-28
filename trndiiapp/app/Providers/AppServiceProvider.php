@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
         }
         $this->app->bind('App\Repositories\Interfaces\UserRepositoryInterface', 'App\Repositories\UserRepository');
         $this->app->bind('App\Repositories\Interfaces\ItemRepositoryInterface', 'App\Repositories\ItemRepository');
-        $this->app->bind('App\Repositories\Interfaces\PdfRepositoryInterface', 'App\Repositories\PdfRepository');
+        $this->app->bind('App\Repositories\Interfaces\ExportRepositoryInterface', 'App\Repositories\ExportRepository');
         $this->app->bind('App\Repositories\Interfaces\TransactionRepositoryInterface', 'App\Repositories\TransactionRepository');
         $this->app->bind('App\Repositories\Interfaces\CategoryRepositoryInterface', 'App\Repositories\CategoryRepository');
         $this->app->bind('App\Repositories\Interfaces\ExperimentsRepositoryInterface', 'App\Repositories\ExperimentsRepository');

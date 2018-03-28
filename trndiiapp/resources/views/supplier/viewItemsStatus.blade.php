@@ -21,12 +21,19 @@
                                         <div style="border: 3px solid #ccfff0;">
                                             <div class="row">
                                                 <div class="col-md-5">
-                                                    <a href="{!! route('PdfController', ['item'=>$supplierItem->id,'name'=>$supplierItem->Name]) !!}">
-                                                        <img alt="{{$supplierItem->Name}}"
-                                                             src="{{$supplierItem->Picture_URL}}"
-                                                             class="img-thumbnail"/>
-                                                    </a>
+                                                    {{--<a href="{!! route('PdfController', ['item'=>$supplierItem->id,'name'=>$supplierItem->Name]) !!}">--}}
+                                                    <img alt="{{$supplierItem->Name}}"
+                                                         src="{{$supplierItem->Picture_URL}}"
+                                                         class="img-thumbnail"/>
+                                                    {{--</a>--}}
                                                 </div>
+                                                {{--<div class="col-md-5">--}}
+                                                {{--<a href="{!! route('ExcelController', ['item'=>$supplierItem->id,'name'=>$supplierItem->Name]) !!}">--}}
+                                                {{--<img alt="{{$supplierItem->Name}}"--}}
+                                                {{--src="{{$supplierItem->Picture_URL}}"--}}
+                                                {{--class="img-thumbnail"/>--}}
+                                                {{--</a>--}}
+                                                {{--</div>--}}
                                                 <div class="col-md-7" align="left">
                                                     <div class="row">
                                                         <div class="col-md-12">
@@ -69,6 +76,19 @@
                                                         <b>{{\Carbon\Carbon::parse($supplierItem->created_at)->format('d/m/Y')}}</b>
                                                     </p></div>
                                             </div>
+                                            <div class="display-group" align="right" style="margin: 20px;" >
+
+                                                <a href="{!! route('ExcelController', ['item'=>$supplierItem->id,'name'=>$supplierItem->Name]) !!}"
+                                                   class="btn btn-info" role="button">
+                                                    CVS
+                                                </a>
+                                                <a href="{!! route('PdfController', ['item'=>$supplierItem->id,'name'=>$supplierItem->Name]) !!}"
+                                                   class="btn btn-info" role="button">
+                                                    PDF
+                                                </a>
+
+                                            </div>
+
                                         </div>
                                         <br/>
                                     @endforeach
@@ -140,6 +160,18 @@
                                                     <div><p align="left" style="padding-left:10px">Order placed on
                                                             <b>{{\Carbon\Carbon::parse($supplierItem->created_at)->format('d/m/Y')}}</b>
                                                         </p></div>
+                                                </div>
+                                                <div class="display-group" align="right" style="margin: 20px;" >
+
+                                                    <a href="{!! route('ExcelController', ['item'=>$supplierItem->id,'name'=>$supplierItem->Name]) !!}"
+                                                       class="btn btn-info" role="button">
+                                                        CVS
+                                                    </a>
+                                                    <a href="{!! route('PdfController', ['item'=>$supplierItem->id,'name'=>$supplierItem->Name]) !!}"
+                                                       class="btn btn-info" role="button">
+                                                        PDF
+                                                    </a>
+
                                                 </div>
                                             </div>
                                             <br/>
@@ -214,6 +246,18 @@
                                                     <div><p align="left" style="padding-left:10px">Order placed on
                                                             <b>{{\Carbon\Carbon::parse($supplierItem->created_at)->format('d/m/Y')}}</b>
                                                         </p></div>
+                                                </div>
+                                                <div class="display-group" align="right" style="margin: 20px;" >
+
+                                                    <a href="{!! route('ExcelController', ['item'=>$supplierItem->id,'name'=>$supplierItem->Name]) !!}"
+                                                       class="btn btn-info" role="button">
+                                                        CVS
+                                                    </a>
+                                                    <a href="{!! route('PdfController', ['item'=>$supplierItem->id,'name'=>$supplierItem->Name]) !!}"
+                                                       class="btn btn-info" role="button">
+                                                        PDF
+                                                    </a>
+
                                                 </div>
                                                 <div class="display-group">
                                                     <div>

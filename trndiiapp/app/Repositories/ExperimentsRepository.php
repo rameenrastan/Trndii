@@ -40,11 +40,24 @@ class ExperimentsRepository implements ExperimentsRepositoryInterface
     public function incrementExperimentBPopulation(){
         DB::table('experiments')->where("name", $this->experimentB)->increment('population_size');
     }
+
+
+
                                                           
+    public function getExperiments(){
+        $experiments =  DB::table('experiments')->get();
+        return $experiments;
+    }
+
+    public function getTotalPopulation(){
+        $total_pop =  DB::table('experiments')->sum('population_size');
+        return $total_pop;
+    }
+
     public function getExperimentAFrontPageHits(){
         $frontPageHits =  DB::table('experiments')->where('name', $this->experimentA)->value('front_page_hits');
-        return $frontPageHits;                            
-    }                                                       
+        return $frontPageHits;
+    }
                                                                
     public function getExperimentBFrontPageHits(){
         $frontPageHits =  DB::table('experiments')->where('name', $this->experimentB)->value('front_page_hits');
