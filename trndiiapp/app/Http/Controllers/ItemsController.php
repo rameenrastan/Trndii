@@ -34,6 +34,8 @@ class ItemsController extends Controller
         $this->transactionRepo = $transactionRepo;
         $this->userRepo = $userRepo;
         $this->reviewRepo = $reviewRepo;
+
+        $this->middleware('auth:admin', ['only'=>['viewAllItems' , 'create']]);
     }
 
     /**
@@ -89,7 +91,7 @@ class ItemsController extends Controller
             'Name'=>'required|max:255',
             'Price'=>'required',
             'Bulk_Price'=>'required',
-            'Tokens_Given'=>'required',
+            'Actual_Price'=>'required',
             'Threshold' => 'required| integer',
             'Short_Description' => 'required',
             'Long_Description' => 'required| string',
@@ -132,20 +134,6 @@ class ItemsController extends Controller
             Log::error(session()->getId() . ' | [Viewing Item Page Failed] | ' . Auth::user()->email);
         }
     }
-
-    
-    /**
-     * Displays the current number of users who are commmited to an item.
-     *
-     * @param  $id
-     * @return $numTransactions
-     */
-    public function numTransactions($id)
-    {
-
-        $this->itemRepo->numTransactions($id);
-    }
-
 
 
     /**

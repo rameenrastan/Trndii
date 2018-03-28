@@ -36,7 +36,7 @@ class TransactionRepositoryTest extends TestCase
         Log::shouldReceive('info');
 
         $repository = new Repositories\TransactionRepository(new Transaction, new Repositories\ItemRepository);
-        $repository->insert($user->email, $item->id);
+        $repository->insert($user->email, $item->id, 0);
 
         $this->assertDatabaseHas('transactions', [
             'email' => $user->email,

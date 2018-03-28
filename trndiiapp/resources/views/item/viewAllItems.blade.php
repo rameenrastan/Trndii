@@ -52,6 +52,7 @@
                 </div>
                 <br>
             @endforeach
+            {{$items->links()}}
         @else
             <p>No items in database</p>
         @endif

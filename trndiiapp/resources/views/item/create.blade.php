@@ -10,7 +10,7 @@
 
                         <div class="panel-body">
 
-                            {!! Form::open(['route' => 'item.store','class'=>'form-horizontal'])!!}
+                            {!! Form::open(['action' => ['ItemsController@store','class'=>'form-horizontal'], 'method' => 'POST']) !!}
 
                             <div class="form-group">
                                 {{Form::label('Name', 'Item Name',array('class'=>'col-md-4 control-label'))}}
@@ -34,10 +34,10 @@
                             </div>
 
                             <div class="form-group">
-                                 {{Form::label('Tokens Given','Tokens Given', array('class'=>'col-md-4 control-label'))}}
-                                  <div class="col-md-6">
-                                    {{Form::number('Tokens Given', null, array('class' => 'form-control'))}}
-                                  </div>
+                                {{Form::label('Actual Price','Actual Price',array('class'=>'col-md-4 control-label'))}}
+                                <div class="col-md-6">
+                                    {{Form::number('Actual Price',null, array('placeholder'=>'0.00','step'=>'0.01','class' => 'form-control'))}}
+                                </div>
                             </div>
 
                             <div class="form-group">
@@ -99,7 +99,7 @@
                             <div class="form-group">
                                 {{Form::label('Shipping To','Shipping To',array('class'=>'col-md-4 control-label'))}}
                                 <div class="col-md-6">
-                                    {{ Form::select('Shipping_To', ['Canada and United States'=>'Canada, United States', 'Canada'=>'Canada', 'United States'=>'United States'], null, array('class' => 'form-control'))}}
+                                    {{ Form::select('Shipping_To', ['Canada/US'=>'Canada/US', 'Canada'=>'Canada', 'US'=>'US'], null, array('class' => 'form-control'))}}
                                 </div>
                             </div>
 
