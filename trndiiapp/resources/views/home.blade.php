@@ -43,7 +43,6 @@
                                     </p>
                                     <button type="button" class="btn btn-success" href="#">More Info</button>
                                 </div>
-                                </a>
                             </div>
                         </div>
                         <div class="row">
@@ -60,7 +59,7 @@
                                         </p>
                                         <button type="button" class="btn btn-success" href="#">More Info</button>
                                     </div>
-                                    </a>
+
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -74,9 +73,10 @@
                                             iPhone X.<br>
                                             Threshold: 40
                                         </p>
+                                        <a href = "">
                                         <button type="button" class="btn btn-success" href="#">More Info</button>
+                                        </a>
                                     </div>
-                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -136,7 +136,6 @@
                                     </p>
                                     <button type="button" class="btn btn-success" onclick="window.location.href='item/{{$items[0]->id}}'">More Info</button>
                                 </div>
-                                </a>
                             </div>
                         </div>
                         <div class="row">
@@ -156,10 +155,10 @@
                                         <button type="button" class="btn btn-success">More Info</button>
                                         </a>
                                     </div>
-                                    </a>
                                 </div>
                             </div>
                         @endfor
+                        </div>
                         <h4 align="left" style="margin-top: 0;">
                             <a href="/item">
                                 See more items...
