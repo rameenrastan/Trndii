@@ -23,8 +23,10 @@
                         Price: ${{$item->Price}}
                     </div>
                     <div class="col-md-4 text-center">
+                        @if(Auth::user())
                         @if(Auth::user()->segment == "Token")
                             Tokens gained: {{$item->Tokens_Given}}
+                        @endif
                         @endif
                     </div>
                     @if((\Carbon\Carbon::parse($item->End_Date))->diffInHours(\Carbon\Carbon::now()) > 48)
