@@ -8,29 +8,30 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Domain\TokenManager;
 use Mockery;
 
-class ChooseFreeRefundWinnerTest extends TestCase
+class NoTokenCashBackTest extends TestCase
 {
     /**
-     * Tests that a user is properly selected for a free refund from the pool of users who spent 0 tokens on an item. 
+     * Tests that the a user will not receive any cash back if no tokens were spent on the item.
      *
      * @return void
      */
-    public function testChooseFreeRefundWinner()
+    public function testNoTokenCashBack()
     {
         $userRepoMock = Mockery::mock('App\Repositories\UserRepository');
         $itemRepoMock = Mockery::mock('App\Repositories\ItemRepository');
         $transactionRepoMock = Mockery::mock('App\Repositories\TransactionRepository');
-
-        //makes 10 users
-        $users = factory(\App\User::class, 10)->make();
         
         $tokenManager = new TokenManager($userRepoMock, $transactionRepoMock, $itemRepoMock);
 
-        $winner = $tokenManager->chooseNoTokenWinner($users);
+        $itemPrice = 100;
+        $totalTokens = 0;
+        $tokensSpent = 0;
+        $moneyPool = 1000;
 
-        $winnerName = $winner->name;
+        $moneyBack = $tokenManager->calculateCashBackFromTokens($itemPrice, $totalTokens, $tokensSpent, $moneyPool);
 
-        $this->assertNotNull($winner);
-        $this->assertEquals($winnerName, $winner->name);
+        $expectedMoneyBack = 0;
+
+        $this->assertEquals($moneyBack, $expectedMoneyBack);
     }
 }

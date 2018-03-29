@@ -8,18 +8,20 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Domain\TokenManager;
 use Mockery;
 
-class CalculateMoneyPoolTest extends TestCase
+class NoTokenCashBackTest extends TestCase
 {
     /**
-     * Tests that the token money pool (total savings) is calculated properly. 
+     * Tests that the a user will not receive any cash back if no tokens were spent on the item.
      *
      * @return void
      */
-    public function testCalculateTokenMoneyPool()
+    public function testNoTokenCashBack()
     {
         $userRepoMock = Mockery::mock('App\Repositories\UserRepository');
         $itemRepoMock = Mockery::mock('App\Repositories\ItemRepository');
         $transactionRepoMock = Mockery::mock('App\Repositories\TransactionRepository');
+        
+        $tokenManager = new TokenManager($userRepoMock, $transactionRepoMock, $itemRepoMock);
 
         //makes item with specified price, bulk price and threshold (used in money pool calculation)
         //(500 - 450) * 25 = 1250
@@ -31,10 +33,15 @@ class CalculateMoneyPoolTest extends TestCase
         
         $tokenManager = new TokenManager($userRepoMock, $transactionRepoMock, $itemRepoMock);
 
-        $totalSavings = $tokenManager->calculateMoneyPool($item);
+        $moneyPool = $tokenManager->calculateMoneyPool($item);
+        $itemPrice = $item->Price;
+        $totalTokens = 200;
+        $tokensSpent = 30;
 
-        $expectedTotalSavings = ($item->Price - $item->Bulk_Price) * $item->Threshold;
+        $expectedMoneyBack = ($tokensSpent / $totalTokens) * $moneyPool; 
 
-        $this->assertEquals($totalSavings, $expectedTotalSavings);
+        $moneyBack = $tokenManager->calculateCashBackFromTokens($itemPrice, $totalTokens, $tokensSpent, $moneyPool);
+
+        $this->assertEquals($moneyBack, $expectedMoneyBack);
     }
 }
