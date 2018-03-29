@@ -31,13 +31,15 @@
                                                 </h3>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <h4>
-                                                    Receive <strong>{{$item->model->Tokens_Given}}</strong> tokens upon purchase
-                                                </h4>
+                                        @if(Auth::user()->segment == "Token")
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <h4>
+                                                        Receive <strong>{{$item->model->Tokens_Given}}</strong> tokens upon purchase
+                                                    </h4>
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endif
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <form action="{{ route('cart.destroy', $item->rowId) }}" method="POST">
