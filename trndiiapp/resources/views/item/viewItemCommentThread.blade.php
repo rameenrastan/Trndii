@@ -50,6 +50,9 @@
                         <p>{{ $com->comment }} </p>
                     </div>
                 @endforeach
+            <div>
+                &nbsp;
+            </div>
             </div>
         @else
             <div class="col-md-12 text-center">
@@ -64,5 +67,8 @@
                 {{ $itemComments->links() }}
             </div>
         @endif
+        <div>
+            &nbsp;
+        </div>
     </div>
 @endsection

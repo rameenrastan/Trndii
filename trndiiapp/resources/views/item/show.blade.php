@@ -23,7 +23,9 @@
                         Price: ${{$item->Price}}
                     </div>
                     <div class="col-md-4 text-center">
-                        Tokens gained: {{$item->Tokens_Given}}
+                        @if(Auth::user()->segment == "Token")
+                            Tokens gained: {{$item->Tokens_Given}}
+                        @endif
                     </div>
                     @if((\Carbon\Carbon::parse($item->End_Date))->diffInHours(\Carbon\Carbon::now()) > 48)
                         <div class="col-md-4 text-center">
@@ -80,18 +82,15 @@
         <div class="row">
             <div class="col-md-12" style="text-align: center; margin-bottom: 30px; margin-top: 10px;">
                 @if(Auth::user())
-                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#BuyModal">
-                        Purchase
-                    </button>
-
-                <!--
-                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" onclick="location.href='{{ url('/confirm') }}'">PERRRchase
-                </button>
-                -->
-
-                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#BuyModalTokens">
-                        Token Purchase
-                    </button>
+                    @if(Auth::user()->segment == "Basic")
+                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#BuyModal">
+                            Purchase
+                        </button>
+                    @elseif(Auth::user()->segment == "Token")
+                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#BuyModalTokens">
+                            Token Purchase
+                        </button>
+                    @endif
 
                 @else
                     <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#BuyModal">Login
@@ -298,6 +297,9 @@
                         <p>{{ $com->comment }} </p>
                     </div>
                 @endforeach
+                <div>
+                    &nbsp;
+                </div>
             </div>
         @else
             <div class="col-md-12 text-center">
@@ -307,13 +309,13 @@
                 </h4>
             </div>
         @endif
+
         @if($itemComments->count()>0)
             <div>
                 {{ $itemComments->links() }}
             </div>
         @endif
     </div>
-
     <!--Modal with tokens-->
         <div id="BuyModalTokens" class="modal fade" aria-labelledby="basicModal" aria-hidden="true">
             <div class="modal-dialog">
@@ -429,6 +431,9 @@
                     @endif
                 </div>
             </div>
+        </div>
+        <div>
+            &nbsp;
         </div>
     </div>
 @endsection

@@ -100,9 +100,10 @@
                                     </li>
                                 </ul>
                             </li>
-                                <!--displaying tokens-->
-                            <li><a href="#" style="font-size: 18px; color: #FDE706;"><img src="images/token.png" alt="Tokens" height="22">&nbsp; {{ Auth::user()->tokens }}</a></li>
-                            
+                            <!--displaying tokens-->
+                            @feature('Token System')
+                                <li><a href="#" style="font-size: 18px; color: #FDE706;"><img src="images/token.png" alt="Tokens" height="22">&nbsp; {{ Auth::user()->tokens }}</a></li>
+                            @endfeature
                         @endif
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
