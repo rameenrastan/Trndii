@@ -129,6 +129,9 @@ class TransactionsController extends Controller
     {
         try {
 
+        //starting point of DB transactions (all transactions after this point will be rolled back if threshold is exceeded)
+        DB::beginTransaction();
+
         $stripeId = Auth::user()->stripe_id;
         $user = Auth::user();
         
@@ -174,12 +177,23 @@ class TransactionsController extends Controller
                 $this->paymentManager->purchaseCompletion($item->id);
             }
 
-            Log::info(session()->getId() . ' | [Purchase Commitment Success] | ' . $user->email);
+            $item = item::find($id);
 
-            $this->exp->incrementNumPurchases(Auth::user()->segment);
+            if($item->Number_Transactions > $item->Threshold)
+            {
+                //roll back all DB transactions if threshold was exceeded (result of concurrency issue)
+                DB::rollBack();
+                Log::info(session()->getId() . ' | [Rollback : Threshold Exceeded] | ' . $user->email);
+            }
+            else
+            {
+                DB::commit();
+                Log::info(session()->getId() . ' | [Purchase Commitment Success] | ' . $user->email);
 
-            return redirect('/')->with('success', 'You have successfully commited to this purchase. You will be notified if the item reaches its threshold. Thanks!');
-            
+                $this->exp->incrementNumPurchases(Auth::user()->segment);
+
+                return redirect('/')->with('success', 'You have successfully commited to this purchase. You will be notified if the item reaches its threshold. Thanks!');
+            }
         }
         
         else{
