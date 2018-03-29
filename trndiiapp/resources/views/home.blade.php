@@ -21,10 +21,7 @@
                             Welcome to Trndii! Click here for more information <a href="#"> here </a>
                         </h3>
                         @endtest
-
-
                     </div>
-
                     <div class="panel-body" style="border:none;">
                         @if (session('status'))
                             <div class="alert alert-success">
@@ -142,8 +139,8 @@
                                 </a>
                             </div>
                         </div>
-                        @for($i = 1; $i < count($items); $i++)
                         <div class="row">
+                        @for($i = 1; $i < count($items); $i++)
                             <div class="col-md-6">
                                 <div class="thumbnail">
                                     <a href="item/{{$items[$i]->id}}" target="_blank">
