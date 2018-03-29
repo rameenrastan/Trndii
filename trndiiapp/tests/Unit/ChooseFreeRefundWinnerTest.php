@@ -8,31 +8,30 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Domain\TokenManager;
 use Mockery;
 
-class CalculateMoneyPoolTest extends TestCase
+class ChooseFreeRefundWinnerTest extends TestCase
 {
     /**
-     * Tests that the token money pool (total savings) is calculated properly. 
+     * Tests that a user is properly selected for a free refund from the pool of users who spent 0 tokens on an item. 
      *
      * @return void
      */
-    public function testCalculateTokenMoneyPool()
+    public function testChooseFreeRefundWinner()
     {
         $userRepoMock = Mockery::mock('App\Repositories\UserRepository');
         $itemRepoMock = Mockery::mock('App\Repositories\ItemRepository');
         $transactionRepoMock = Mockery::mock('App\Repositories\TransactionRepository');
 
-        //makes item with specified price, bulk price and threshold (used in money pool calculation)
-        //(500 - 450) * 25 = 1250
-        $item = factory(\App\item::class)->make([
-            'Price' => 500,
-            'Bulk_Price' => 450,
-            'Threshold' => 25 
-        ]);
+        //makes 10 users
+        $users = factory(\App\User::class, 10)->make();
         
         $tokenManager = new TokenManager($userRepoMock, $transactionRepoMock, $itemRepoMock);
 
-        $totalSavings = $tokenManager->calculateMoneyPool($item);
+        $winner = $tokenManager->chooseNoTokenWinner($users);
 
-        $this->assertEquals($totalSavings, 1250);
+        $winnerName = $winner->name;
+
+        $this->assertNotNull($winner);
+        $this->assertEquals($winnerName, $winner->name);
+
     }
 }
