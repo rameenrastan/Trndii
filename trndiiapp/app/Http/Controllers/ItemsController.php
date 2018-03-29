@@ -237,6 +237,19 @@ class ItemsController extends Controller
         return view('item.search')->with('items', $items)->with('search', $search);
     }
 
+    public function sortItemsNewestToOldest(Request $request)
+    {
+        $items = $this->itemRepo->getNewestToOldestItems($request);
+        $search = $request->search;
+        return view('item.search')->with('items', $items)->with('search', $search);
+    }
+
+    public function sortItemsOldestToNewest(Request $request)
+    {
+        $items = $this->itemRepo->getOldestToNewestItems($request);
+        $search = $request->search;
+        return view('item.search')->with('items', $items)->with('search', $search);
+    }
     //Get purchase confirmation page
     public function getConfirm($id)
     {

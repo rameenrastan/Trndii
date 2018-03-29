@@ -22,6 +22,16 @@
                             <input type="hidden" name="search" value="{{$search}}">
                             <input type="submit" value="DescendingPrice Price">
                         </form>
+                        <form action="{{ route('items.newestToOldest') }}" method="POST">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="search" value="{{$search}}">
+                            <input type="submit" value="Newest Items">
+                        </form>
+                        <form action="{{ route('items.oldestToNewest') }}" method="POST">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="search" value="{{$search}}">
+                            <input type="submit" value="Oldest Items">
+                        </form>
                     </div>
                     @endif
                     <div class="panel-body">

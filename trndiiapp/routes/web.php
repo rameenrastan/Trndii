@@ -96,6 +96,14 @@ Route::post('/search/descendingPrice', 'ItemsController@sortItemsPriceDescending
 
 Route::get('/search/descendingPrice', 'ItemsController@sortItemsPriceDescending')->name('items.descendingPrice');
 
+Route::get('/search/newestToOldest', 'ItemsController@sortItemsNewestToOldest')->name('items.newestToOldest');
+
+Route::post('/search/newestToOldest', 'ItemsController@sortItemsNewestToOldest')->name('items.newestToOldest');
+
+Route::get('/search/oldestToNewest', 'ItemsController@sortItemsOldestToNewest')->name('items.oldestToNewest');
+
+Route::post('/search/oldestToNewest', 'ItemsController@sortItemsOldestToNewest')->name('items.oldestToNewest');
+
 Route::get('/shoppingCart', 'CartController@index');
 
 Route::post('/shoppingCart', 'CartController@store')->name('cart.store');
