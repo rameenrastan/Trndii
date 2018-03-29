@@ -210,4 +210,9 @@ class ItemRepository implements ItemRepositoryInterface{
         DB::table('items')->where('id', $id)->increment('Total_Tokens_Spent', $nbTokens);
 
     }
+
+    public function getHomePageItems()
+    {
+        return DB::table('items')->where('Status', '=', 'pending')->orderBy('Number_Transactions', 'desc')->take(3)->get();
+    }
 }
