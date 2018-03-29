@@ -312,7 +312,6 @@
             </div>
         @endif
     </div>
-
     <!--Modal with tokens-->
         <div id="BuyModalTokens" class="modal fade" aria-labelledby="basicModal" aria-hidden="true">
             <div class="modal-dialog">
@@ -428,6 +427,9 @@
                     @endif
                 </div>
             </div>
+        </div>
+        <div>
+            &nbsp;
         </div>
     </div>
 @endsection
