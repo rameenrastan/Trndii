@@ -182,6 +182,17 @@ class ItemRepository implements ItemRepositoryInterface{
         return item::search($name)->paginate(16);
     }
 
+    public function getItemsAscendingPrice(Request $request)
+    {
+        $name = $request->search;
+        return item::search($name)->within('items_price_asc')->paginate(16);
+    }
+
+    public function getItemsDescengingPrice(Request $request)
+    {
+        $name = $request->search;
+        return item::search($name)->within('items_price_desc')->paginate(16);
+    }
 
     public function addCommentToItem(Request $request, $itemId)
     {

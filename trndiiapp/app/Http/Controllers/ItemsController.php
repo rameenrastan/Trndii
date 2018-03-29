@@ -214,12 +214,27 @@ class ItemsController extends Controller
         try {
         Log::info(session()->getId() . ' | [Item Search Started]');
         $items = $this->itemRepo->getSearchResults($request);
+        $search = $request->search;
         Log::info(session()->getId() . ' | [Item Search Finished]');
-        return view('item.search')->with('items', $items);
+        return view('item.search')->with('items', $items)->with('search', $search);
         } catch(Exception $e) {
             return $e->getMessage();
             Log::info(session()->getId() . ' | [Item Search Failed]');
         }
+    }
+
+    public function sortItemsPriceAscending(Request $request)
+    {
+        $items = $this->itemRepo->getItemsAscendingPrice($request);
+        $search = $request->search;
+        return view('item.search')->with('items', $items)->with('search', $search);
+    }
+
+    public function sortItemsPriceDescending(Request $request)
+    {
+        $items = $this->itemRepo->getItemsDescengingPrice($request);
+        $search = $request->search;
+        return view('item.search')->with('items', $items)->with('search', $search);
     }
 
     //Get purchase confirmation page

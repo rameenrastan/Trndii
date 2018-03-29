@@ -9,7 +9,21 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Search Results</div>
+                    <div class="panel-heading">Search Results for <b>{{$search}}</b></div>
+                    @if(count($items) > 0)
+                    <div class="panel-heading"><b>Filters</b>
+                        <form action="{{ route('items.ascendingPrice') }}" method="POST">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="search" value="{{$search}}">
+                            <input type="submit" value="Ascending Price">
+                        </form>
+                        <form action="{{ route('items.descendingPrice') }}" method="POST">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="search" value="{{$search}}">
+                            <input type="submit" value="DescendingPrice Price">
+                        </form>
+                    </div>
+                    @endif
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
