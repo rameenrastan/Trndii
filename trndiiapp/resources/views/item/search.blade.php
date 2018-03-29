@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Search Results for <b>{{$search}}</b></div>
+                    <div class="panel-heading">Search Results</b></div>
                     @if(count($items) > 0)
                     <div class="panel-heading"><b>Filters</b>
                         <form action="{{ route('items.ascendingPrice') }}" method="POST">
@@ -20,7 +20,7 @@
                         <form action="{{ route('items.descendingPrice') }}" method="POST">
                             {{ csrf_field() }}
                             <input type="hidden" name="search" value="{{$search}}">
-                            <input type="submit" value="DescendingPrice Price">
+                            <input type="submit" value="Descending Price">
                         </form>
                         <form action="{{ route('items.newestToOldest') }}" method="POST">
                             {{ csrf_field() }}
@@ -31,6 +31,16 @@
                             {{ csrf_field() }}
                             <input type="hidden" name="search" value="{{$search}}">
                             <input type="submit" value="Oldest Items">
+                        </form>
+                        <form action="{{ route('items.highestRatings') }}" method="POST">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="search" value="{{$search}}">
+                            <input type="submit" value="Highest Ratings">
+                        </form>
+                        <form action="{{ route('items.lowestRatings') }}" method="POST">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="search" value="{{$search}}">
+                            <input type="submit" value="Lowest Ratings">
                         </form>
                     </div>
                     @endif
@@ -95,6 +105,14 @@
                                         <div class="display-group">
                                             <div><p align="left" style="padding-left:10px">Category:
                                                     <b>{{$item->Category}}</b></p></div>
+                                        </div>
+                                        <div class="display-group">
+                                            <div><p align="left" style="padding-left:10px">Ratings:
+                                                    @if($item->Rating > 0)
+                                                    <b>{{$item->Rating}} / 5</b></p></div>
+                                                    @else
+                                                    <b>No Ratings</b></p></div>
+                                                    @endif
                                         </div>
                                         <div class="progress" style="margin: 20px;">
                                             <div class="progress-bar" role="progressbar"

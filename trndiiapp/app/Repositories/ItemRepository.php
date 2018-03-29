@@ -206,6 +206,18 @@ class ItemRepository implements ItemRepositoryInterface{
         return item::search($name)->within('items_oldest_to_newest')->paginate(16);
     }
 
+    public function getHighestToLowestRatingItems(Request $request)
+    {
+        $name = $request->search;
+        return item::search($name)->within('items_highest_to_lowest_ratings')->paginate(16);
+    }
+
+    public function getLowestToHighestRatingItems(Request $request)
+    {
+        $name = $request->search;
+        return item::search($name)->within('items_lowest_to_highest_ratings')->paginate(16);
+    }
+
     public function addCommentToItem(Request $request, $itemId)
     {
 

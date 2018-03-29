@@ -88,21 +88,29 @@ Route::post('/search', 'ItemsController@search');
 
 Route::get('/search', 'ItemsController@search');
 
-Route::post('/search/ascendingPrice', 'ItemsController@sortItemsPriceAscending')->name('items.ascendingPrice');
+Route::post('/ascendingPrice', 'ItemsController@sortItemsPriceAscending')->name('items.ascendingPrice');
 
-Route::get('/search/ascendingPrice', 'ItemsController@sortItemsPriceAscending')->name('items.ascendingPrice');
+Route::get('/ascendingPrice', 'ItemsController@sortItemsPriceAscending')->name('items.ascendingPrice');
 
-Route::post('/search/descendingPrice', 'ItemsController@sortItemsPriceDescending')->name('items.descendingPrice');
+Route::post('/descendingPrice', 'ItemsController@sortItemsPriceDescending')->name('items.descendingPrice');
 
-Route::get('/search/descendingPrice', 'ItemsController@sortItemsPriceDescending')->name('items.descendingPrice');
+Route::get('/descendingPrice', 'ItemsController@sortItemsPriceDescending')->name('items.descendingPrice');
 
-Route::get('/search/newestToOldest', 'ItemsController@sortItemsNewestToOldest')->name('items.newestToOldest');
+Route::get('/newestToOldest', 'ItemsController@sortItemsNewestToOldest')->name('items.newestToOldest');
 
-Route::post('/search/newestToOldest', 'ItemsController@sortItemsNewestToOldest')->name('items.newestToOldest');
+Route::post('/newestToOldest', 'ItemsController@sortItemsNewestToOldest')->name('items.newestToOldest');
 
-Route::get('/search/oldestToNewest', 'ItemsController@sortItemsOldestToNewest')->name('items.oldestToNewest');
+Route::get('/oldestToNewest', 'ItemsController@sortItemsOldestToNewest')->name('items.oldestToNewest');
 
-Route::post('/search/oldestToNewest', 'ItemsController@sortItemsOldestToNewest')->name('items.oldestToNewest');
+Route::post('/oldestToNewest', 'ItemsController@sortItemsOldestToNewest')->name('items.oldestToNewest');
+
+Route::get('/highestRatings', 'ItemsController@sortItemsHighestToLowestReviews')->name('items.highestRatings');
+
+Route::post('/highestRatings', 'ItemsController@sortItemsHighestToLowestReviews')->name('items.highestRatings');
+
+Route::get('/lowestRatings', 'ItemsController@sortItemsLowestToHighestReviews')->name('items.lowestRatings');
+
+Route::post('/lowestRatings', 'ItemsController@sortItemsLowestToHighestReviews')->name('items.lowestRatings');
 
 Route::get('/shoppingCart', 'CartController@index');
 
