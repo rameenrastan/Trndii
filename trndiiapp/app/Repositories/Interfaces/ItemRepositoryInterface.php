@@ -25,4 +25,6 @@ interface ItemRepositoryInterface{
     public function getOldestToNewestItems(Request $request);
     public function getHighestToLowestRatingItems(Request $request);
     public function getLowestToHighestRatingItems(Request $request);
+    public function getMostToLeastPopularItems(Request $request);
+    public function getLeastToMostPopularItems(Request $request);
 }

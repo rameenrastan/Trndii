@@ -42,6 +42,16 @@
                             <input type="hidden" name="search" value="{{$search}}">
                             <input type="submit" value="Lowest Ratings">
                         </form>
+                        <form action="{{ route('items.mostPopular') }}" method="POST">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="search" value="{{$search}}">
+                            <input type="submit" value="Most Popular">
+                        </form>
+                        <form action="{{ route('items.leastPopular') }}" method="POST">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="search" value="{{$search}}">
+                            <input type="submit" value="Least Popular">
+                        </form>
                     </div>
                     @endif
                     <div class="panel-body">

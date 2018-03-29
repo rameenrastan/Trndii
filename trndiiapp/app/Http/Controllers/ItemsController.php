@@ -265,6 +265,20 @@ class ItemsController extends Controller
         return view('item.search')->with('items', $items)->with('search', $search);
     }
 
+    public function sortItemsMostToLeastPopular(Request $request)
+    {
+        $items = $this->itemRepo->getMostToLeastPopularItems($request);
+        $search = $request->search;
+        return view('item.search')->with('items', $items)->with('search', $search);
+    }
+
+    public function sortItemsLeastToMostPopular(Request $request)
+    {
+        $items = $this->itemRepo->getLeastToMostPopularItems($request);
+        $search = $request->search;
+        return view('item.search')->with('items', $items)->with('search', $search);
+    }
+
     //Get purchase confirmation page
     public function getConfirm($id)
     {

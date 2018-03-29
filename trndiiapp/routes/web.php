@@ -112,6 +112,14 @@ Route::get('/lowestRatings', 'ItemsController@sortItemsLowestToHighestReviews')-
 
 Route::post('/lowestRatings', 'ItemsController@sortItemsLowestToHighestReviews')->name('items.lowestRatings');
 
+Route::get('/mostPopular', 'ItemsController@sortItemsMostToLeastPopular')->name('items.mostPopular');
+
+Route::post('/mostPopular', 'ItemsController@sortItemsMostToLeastPopular')->name('items.mostPopular');
+
+Route::get('/leastPopular', 'ItemsController@sortItemsLeastToMostPopular')->name('items.leastPopular');
+
+Route::post('/leastPopular', 'ItemsController@sortItemsLeastToMostPopular')->name('items.leastPopular');
+
 Route::get('/shoppingCart', 'CartController@index');
 
 Route::post('/shoppingCart', 'CartController@store')->name('cart.store');
