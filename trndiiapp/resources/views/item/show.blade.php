@@ -297,6 +297,9 @@
                         <p>{{ $com->comment }} </p>
                     </div>
                 @endforeach
+                <div>
+                    &nbsp;
+                </div>
             </div>
         @else
             <div class="col-md-12 text-center">
@@ -306,6 +309,7 @@
                 </h4>
             </div>
         @endif
+
         @if($itemComments->count()>0)
             <div>
                 {{ $itemComments->links() }}
