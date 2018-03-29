@@ -31,7 +31,7 @@
                                                 </h3>
                                             </div>
                                         </div>
-                                        @if(Auth::user()->segment == "Token")
+                                        @feature('Token System')
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <h4>
@@ -39,7 +39,7 @@
                                                     </h4>
                                                 </div>
                                             </div>
-                                        @endif
+                                        @endfeature
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <form action="{{ route('cart.destroy', $item->rowId) }}" method="POST">

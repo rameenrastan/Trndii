@@ -101,9 +101,9 @@
                                 </ul>
                             </li>
                             <!--displaying tokens-->
-                            @if(Auth::user()->segment == "Token")
+                            @feature('Token System')
                                 <li><a href="#" style="font-size: 18px; color: #FDE706;"><img src="images/token.png" alt="Tokens" height="22">&nbsp; {{ Auth::user()->tokens }}</a></li>
-                            @endif
+                            @endfeature
                         @endif
                     </ul>
                     <ul class="nav navbar-nav navbar-right">

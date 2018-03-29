@@ -44,13 +44,13 @@ class ExperimentHandler {
         }
         else if($userSegment == $this->experimentA){
             //turn  off token system here
-            //Feature::add('Token System', false);
+            Feature::add('Token System', false);
             Feature::add('Cancel Purchase', false);
             $this->experimentsRepo->incrementExperimentAFrontPageHits();
         }
         else if($userSegment == $this->experimentB){
             //turn on token system here
-            //Feature::add('Token System', true);
+            Feature::add('Token System', true);
             Feature::add('Cancel Purchase', true);
             $this->experimentsRepo->incrementExperimentBFrontPageHits();
         };
