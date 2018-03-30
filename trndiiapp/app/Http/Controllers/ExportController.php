@@ -62,7 +62,6 @@ class ExportController extends Controller
         $data = ['data' => $exportRepo->findAddressByItemId($itemId)];
 
 
-
         return Excel::create($itemName . "_Addresses", function ($excel) use ($data) {
             $excel->sheet('stuff', function ($sheet) use ($data) {
                 $sheet->loadView('excel.itemAddresses')->with($data);
@@ -73,13 +72,8 @@ class ExportController extends Controller
 
     public function getExcelMetrics(ExperimentsRepositoryInterface $experimentsRepository)
     {
-
-
-        $data = ['data' => $experimentsRepository->getExperiments(),'total_pop' => $experimentsRepository->getTotalPopulation()];
-
-
-
-
+        
+        $data = ['data' => $experimentsRepository->getExperiments(), 'total_pop' => $experimentsRepository->getTotalPopulation()];
 
         return Excel::create("Metrics", function ($excel) use ($data) {
             $excel->sheet('stuff', function ($sheet) use ($data) {
