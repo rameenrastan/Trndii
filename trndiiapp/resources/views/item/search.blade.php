@@ -6,61 +6,79 @@
 
 @section('content')
     <div class="container">
+        <h2>Search Results</h2>
+        @if(count($items) > 0)
+            <div class="panel-heading"><b>Filters</b>
+            <ul class="nav nav-pills">
+                <li>
+                    <form action="{{ route('items.ascendingPrice') }}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="search" value="{{$search}}">
+                        <input class="btn" type="submit" value="Ascending Price">
+                    </form>
+                </li>
+                <li>
+                    <form action="{{ route('items.descendingPrice') }}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="search" value="{{$search}}">
+                        <input class="btn" type="submit" value="Descending Price">
+                    </form>
+                </li>
+                <li>
+                    <form action="{{ route('items.newestToOldest') }}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="search" value="{{$search}}">
+                        <input class="btn" type="submit" value="Newest Items">
+                    </form>
+                </li>
+                <li>
+                    <form action="{{ route('items.oldestToNewest') }}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="search" value="{{$search}}">
+                        <input class="btn" type="submit" value="Oldest Items">
+                    </form>
+                </li>
+                <li>
+                    <form action="{{ route('items.highestRatings') }}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="search" value="{{$search}}">
+                        <input class="btn" type="submit" value="Highest Ratings">
+                    </form>
+                </li>
+                <li>
+                    <form action="{{ route('items.lowestRatings') }}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="search" value="{{$search}}">
+                        <input class="btn" type="submit" value="Lowest Ratings">
+                    </form>
+                </li>
+                <li>
+                    <form action="{{ route('items.mostPopular') }}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="search" value="{{$search}}">
+                        <input class="btn" type="submit" value="Most Popular">
+                    </form>
+                </li>
+                <li>
+                    <form action="{{ route('items.leastPopular') }}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="search" value="{{$search}}">
+                        <input class="btn" type="submit" value="Least Popular">
+                    </form>
+                </li>
+            </ul>
+            @endif
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Search Results</b></div>
-                    @if(count($items) > 0)
-                    <div class="panel-heading"><b>Filters</b>
-                        <form action="{{ route('items.ascendingPrice') }}" method="POST">
-                            {{ csrf_field() }}
-                            <input type="hidden" name="search" value="{{$search}}">
-                            <input type="submit" value="Ascending Price">
-                        </form>
-                        <form action="{{ route('items.descendingPrice') }}" method="POST">
-                            {{ csrf_field() }}
-                            <input type="hidden" name="search" value="{{$search}}">
-                            <input type="submit" value="Descending Price">
-                        </form>
-                        <form action="{{ route('items.newestToOldest') }}" method="POST">
-                            {{ csrf_field() }}
-                            <input type="hidden" name="search" value="{{$search}}">
-                            <input type="submit" value="Newest Items">
-                        </form>
-                        <form action="{{ route('items.oldestToNewest') }}" method="POST">
-                            {{ csrf_field() }}
-                            <input type="hidden" name="search" value="{{$search}}">
-                            <input type="submit" value="Oldest Items">
-                        </form>
-                        <form action="{{ route('items.highestRatings') }}" method="POST">
-                            {{ csrf_field() }}
-                            <input type="hidden" name="search" value="{{$search}}">
-                            <input type="submit" value="Highest Ratings">
-                        </form>
-                        <form action="{{ route('items.lowestRatings') }}" method="POST">
-                            {{ csrf_field() }}
-                            <input type="hidden" name="search" value="{{$search}}">
-                            <input type="submit" value="Lowest Ratings">
-                        </form>
-                        <form action="{{ route('items.mostPopular') }}" method="POST">
-                            {{ csrf_field() }}
-                            <input type="hidden" name="search" value="{{$search}}">
-                            <input type="submit" value="Most Popular">
-                        </form>
-                        <form action="{{ route('items.leastPopular') }}" method="POST">
-                            {{ csrf_field() }}
-                            <input type="hidden" name="search" value="{{$search}}">
-                            <input type="submit" value="Least Popular">
-                        </form>
-                    </div>
-                    @endif
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
                                 <h2>
-                            <span style='font-weight: bold;'>
-                                Browsing Items <font style="font-size: 20px;">(Total: {{count($items)}})</font>
-                            </span>
+                                    <span style='font-weight: bold;'>
+                                        Browsing Items <font style="font-size: 20px;">(Total: {{$items->total()}})</font>
+                                    </span>
                                 </h2>
                             </div>
                         </div>
@@ -174,6 +192,7 @@
                                     {{ $items->links() }}
                                 </div>
                             @endif
+                        </div>
                     </div>
                 </div>
             </div>
