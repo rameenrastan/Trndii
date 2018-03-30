@@ -107,7 +107,7 @@ Route::post('/item', 'ReviewController@storeLikeDislike')->name('review.storeLik
 Route::get('/getMetrics', 'ExportController@getExcelMetrics')->middleware('auth:admin');
 
 $router->get('/pdfInfo/{itemId}/{itemName}',[
-    'uses' => 'PDFController@getPdfByItem',
+    'uses' => 'ExportController@getPdfByItem',
     'as'   => 'PdfController'
 ]);
 
