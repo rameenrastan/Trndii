@@ -58,9 +58,8 @@ Route::resource('preregisteredusers', 'PreregisteredUsersController');
 Route::resource('item', 'ItemsController');
 
 Route::get('item.create', 'ItemsController@item.create');
-Route::post('item.store','ItemsController@store');
 
-Route::get('/confirm/{id}', 'ItemsController@getConfirm'); 
+Route::get('/confirm/{id}', 'ItemsController@getConfirm');
 
 Route::resource('transactions', 'TransactionsController');
 
@@ -75,7 +74,7 @@ Route::post('contact', 'PagesController@postContact');
 
 Route::get('/viewAllItems', 'ItemsController@viewAllItems');
 
-Route::get('/addresses', 'ExportController@makePDF');
+Route::get('/addresses', 'PDFController@makePDF');
 
 Route::get('/browseItemsByCategory', 'ItemsController@getItemsByCategory');
 
@@ -90,6 +89,7 @@ Route::get('/search', 'ItemsController@search');
 
 Route::get('/shoppingCart', 'CartController@index');
 
+
 Route::post('/shoppingCart', 'CartController@store')->name('cart.store');
 
 
@@ -102,16 +102,11 @@ Route::post('/purchaseHistory', 'ReviewController@store')->name('review.store');
 
 Route::post('/item', 'ReviewController@storeLikeDislike')->name('review.storeLikeDislike');
 
-Route::get('/getMetrics', 'ExportController@getExcelMetrics');
-
+Route::get('/getMetrics', 'ExportController@getExcelMetrics')->middleware('auth:admin');
 
 $router->get('/pdfInfo/{itemId}/{itemName}',[
-    'uses' => 'ExportController@getPdfByItem',
+    'uses' => 'PDFController@getPdfByItem',
     'as'   => 'PdfController'
-]);
-$router->get('/excelInfo/{itemId}/{itemName}',[
-    'uses' => 'ExportController@getExcelByItem',
-    'as'   => 'ExcelController'
 ]);
 
 $router->get('/itemThread/{itemId}',[
