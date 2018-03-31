@@ -214,4 +214,8 @@ class ItemRepository implements ItemRepositoryInterface{
     {
         return DB::table('items')->where('Status', '=', 'pending')->orderBy('Number_Transactions', 'desc')->take(3)->get();
     }
+
+    public function getHomePageNewestItems(){
+        return DB::table('items')->where('Status', '=', 'pending')->orderBy('created_at', 'desc')->take(4)->get();
+    }
 }

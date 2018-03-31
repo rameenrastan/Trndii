@@ -33,9 +33,10 @@ class HomeController extends Controller
     public function index()
     {
         $items = $this->itemRepo->getHomePageItems();
+        $itemsNewest = $this->itemRepo->getHomePageNewestItems();
         $this->experimentHandler->handleExperiment(Auth::user(), Auth::user()->segment);
         Log::info(session()->getId() . ' | [Homepage Visit] | ' . Auth::user()->email);
-        return view('home')->with('items', $items);
+        return view('home')->with('items', $items)->with('itemsNewest', $itemsNewest);
     }
 
 }
