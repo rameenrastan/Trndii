@@ -108,23 +108,21 @@
         @if(count($itemReviews) > 0)
             @foreach($itemReviews as $itemReview)
                 <div class="col-md-12" style="text-align: left; margin-bottom: 30px; margin-top: 10px;">
-                
-                <h4>Rating: {{$itemReview->rating}}/5</h4>
-                <h4>By <font color="#14A989">{{$itemReview->user_name}}</font> on {{ Carbon\Carbon::parse($itemReview->created_at)->format('F d, Y')}}</h4>
-                <p>{{$itemReview->comment}}</p>
-                <p>Likes: {{$itemReview->likes}}</p>
-                <p>Dislikes: {{$itemReview->dislikes}}</p>
-                <form action="{{ route('review.storeLikeDislike') }}" method="POST">
-                    {{ csrf_field() }}
-                    <input type="hidden" name="reviewId" value="{{$itemReview->id}}">
-                    <input type="submit" value="Like" name="LikeSubmit">
-                </form>
-                <br>
-                <form action="{{ route('review.storeLikeDislike') }}" method="POST">
-                    {{ csrf_field() }}
-                    <input type="hidden" name="reviewId" value="{{$itemReview->id}}">
-                    <input type="submit" value="Dislike" name="DislikeSubmit">
-                </form>
+                    <h4>Rating: {{$itemReview->rating}}/5</h4>
+                    <h4>By <font color="#14A989">{{$itemReview->user_name}}</font> on {{ Carbon\Carbon::parse($itemReview->created_at)->format('F d, Y')}}</h4>
+                    <p>{{$itemReview->comment}}</p>
+
+                    <form action="{{ route('review.storeLikeDislike') }}" method="POST" style="display: inline; margin-right: 5px;">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="reviewId" value="{{$itemReview->id}}">
+                        <button type="submit" class="btn btn-default icon-submit-button" value="Like" name="LikeSubmit" style="color: green;"><span class="glyphicon glyphicon-thumbs-up"></span></button> {{$itemReview->likes}}
+                    </form>
+
+                    <form action="{{ route('review.storeLikeDislike') }}" method="POST" style="display: inline;">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="reviewId" value="{{$itemReview->id}}">
+                        <button type="submit" class="btn btn-default icon-submit-button" value="Dislike" name="DislikeSubmit" style="color: red;"><span class="glyphicon glyphicon-thumbs-down"></span></button> {{$itemReview->dislikes}}
+                    </form>
                 </div>
             @endforeach
         @else
