@@ -103,6 +103,7 @@
         </div>
 
     <div class="row">
+        <div class="col-md-8 col-md-offset-2">
         <div class="col-md-12" style="text-align: center; margin-bottom: 30px; margin-top: 10px;">
         <h3>User Reviews</h3>
         </div>
@@ -136,6 +137,7 @@
             <h4>No reviews have been made for this item.</h4>
         </div>
         @endif
+        </div>
     </div>
 
     <!--Purchase button. When it is pressed it pops up a modal where user confirms their purchase.-->
