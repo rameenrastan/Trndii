@@ -8544,3 +8544,12 @@ icon-submit-button {
   /*And other css to remove the default button property */
 }
 
+.glyphicon-star {
+  font-size: 18px;
+  color: #14A989;
+}
+
+.glyphicon-star-empty {
+  color: #14A989;
+}
+

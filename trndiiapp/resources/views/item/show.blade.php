@@ -108,7 +108,12 @@
         @if(count($itemReviews) > 0)
             @foreach($itemReviews as $itemReview)
                 <div class="col-md-12" style="text-align: left; margin-bottom: 30px; margin-top: 10px;">
-                    <h4>Rating: {{$itemReview->rating}}/5</h4>
+                    @for($i = 0; $i < $itemReview->rating; $i++)
+                        <span class="glyphicon glyphicon-star" value="1"><p hidden="hidden">1</p></span>
+                    @endfor
+                    @for($i = $itemReview->rating; $i < 5; $i++)
+                        <span class="glyphicon glyphicon-star-empty" value="1"><p hidden="hidden">1</p></span>
+                    @endfor
                     <h4>By <font color="#14A989">{{$itemReview->user_name}}</font> on {{ Carbon\Carbon::parse($itemReview->created_at)->format('F d, Y')}}</h4>
                     <p>{{$itemReview->comment}}</p>
 
