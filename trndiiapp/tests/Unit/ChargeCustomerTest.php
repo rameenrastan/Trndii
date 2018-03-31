@@ -17,7 +17,7 @@ class ChargeCustomerTest extends TestCase
 {
     use DatabaseMigrations;
     /**
-     * Tests that the token money pool (total savings) is calculated properly. 
+     * Tests that a customer is charged and an associated charge id is created.
      *
      * @return void
      */
@@ -30,8 +30,7 @@ class ChargeCustomerTest extends TestCase
         $userRepoMock = Mockery::mock('App\Repositories\UserRepository');
         $itemRepoMock = Mockery::mock('App\Repositories\ItemRepository');
         $transactionRepoMock = Mockery::mock('App\Repositories\TransactionRepository');
-        $tokenManager = Mockery::mock('App\Domain\TokenManager');
-    
+        $tokenManager = Mockery::mock('App\Domain\TokenManager');  
 
         $customer = Customer::create([
 

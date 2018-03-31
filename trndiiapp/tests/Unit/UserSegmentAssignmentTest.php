@@ -20,7 +20,7 @@ class UserSegmentAssignmentTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testUserSegmentAssignment()
     {
         putenv('DB_CONNECTION=sqlite_testing');
 
