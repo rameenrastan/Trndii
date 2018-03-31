@@ -27,6 +27,7 @@ class CreateItemsTable extends Migration
             $table->string('Category');
             $table->string('Status');
             $table->integer('Number_Transactions')->default(0);
+            $table->double('Rating', 15, 1)->default(0.0);
             $table->datetime('Start_Date');
             $table->datetime('End_Date');
             $table->string('Picture_URL');

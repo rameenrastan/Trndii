@@ -58,9 +58,10 @@ Route::resource('preregisteredusers', 'PreregisteredUsersController');
 Route::resource('item', 'ItemsController');
 
 Route::get('item.create', 'ItemsController@item.create');
+
 Route::post('item.store','ItemsController@store');
 
-Route::get('/confirm/{id}', 'ItemsController@getConfirm'); 
+Route::get('/confirm/{id}', 'ItemsController@getConfirm');
 
 Route::resource('transactions', 'TransactionsController');
 
@@ -88,7 +89,40 @@ Route::post('/search', 'ItemsController@search');
 
 Route::get('/search', 'ItemsController@search');
 
+Route::post('/ascendingPrice', 'ItemsController@sortItemsPriceAscending')->name('items.ascendingPrice');
+
+Route::get('/ascendingPrice', 'ItemsController@sortItemsPriceAscending')->name('items.ascendingPrice');
+
+Route::post('/descendingPrice', 'ItemsController@sortItemsPriceDescending')->name('items.descendingPrice');
+
+Route::get('/descendingPrice', 'ItemsController@sortItemsPriceDescending')->name('items.descendingPrice');
+
+Route::get('/newestToOldest', 'ItemsController@sortItemsNewestToOldest')->name('items.newestToOldest');
+
+Route::post('/newestToOldest', 'ItemsController@sortItemsNewestToOldest')->name('items.newestToOldest');
+
+Route::get('/oldestToNewest', 'ItemsController@sortItemsOldestToNewest')->name('items.oldestToNewest');
+
+Route::post('/oldestToNewest', 'ItemsController@sortItemsOldestToNewest')->name('items.oldestToNewest');
+
+Route::get('/highestRatings', 'ItemsController@sortItemsHighestToLowestReviews')->name('items.highestRatings');
+
+Route::post('/highestRatings', 'ItemsController@sortItemsHighestToLowestReviews')->name('items.highestRatings');
+
+Route::get('/lowestRatings', 'ItemsController@sortItemsLowestToHighestReviews')->name('items.lowestRatings');
+
+Route::post('/lowestRatings', 'ItemsController@sortItemsLowestToHighestReviews')->name('items.lowestRatings');
+
+Route::get('/mostPopular', 'ItemsController@sortItemsMostToLeastPopular')->name('items.mostPopular');
+
+Route::post('/mostPopular', 'ItemsController@sortItemsMostToLeastPopular')->name('items.mostPopular');
+
+Route::get('/leastPopular', 'ItemsController@sortItemsLeastToMostPopular')->name('items.leastPopular');
+
+Route::post('/leastPopular', 'ItemsController@sortItemsLeastToMostPopular')->name('items.leastPopular');
+
 Route::get('/shoppingCart', 'CartController@index');
+
 
 Route::post('/shoppingCart', 'CartController@store')->name('cart.store');
 
@@ -102,17 +136,17 @@ Route::post('/purchaseHistory', 'ReviewController@store')->name('review.store');
 
 Route::post('/item', 'ReviewController@storeLikeDislike')->name('review.storeLikeDislike');
 
-Route::get('/getMetrics', 'ExportController@getExcelMetrics');
-
+Route::get('/getMetrics', 'ExportController@getExcelMetrics')->middleware('auth:admin');
 
 $router->get('/pdfInfo/{itemId}/{itemName}',[
     'uses' => 'ExportController@getPdfByItem',
     'as'   => 'PdfController'
 ]);
+
 $router->get('/excelInfo/{itemId}/{itemName}',[
-    'uses' => 'ExportController@getExcelByItem',
-    'as'   => 'ExcelController'
-]);
+        'uses' => 'ExportController@getExcelByItem',
+        'as'   => 'ExcelController'
+        ]);
 
 $router->get('/itemThread/{itemId}',[
     'uses' => 'ItemsController@getItemThread',
