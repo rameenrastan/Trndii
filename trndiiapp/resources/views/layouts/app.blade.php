@@ -29,9 +29,19 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        <img src="{{ asset('images/logo_small_white.png') }}" alt="Trndii" height="100%">
-                    </a>
+                    @if(Auth::guard("admin")->check())
+                        <a class="navbar-brand" href="{{ url('/admin') }}">
+                            <img src="{{ asset('images/logo_small_white.png') }}" alt="Trndii" height="100%">
+                        </a>
+                    @elseif(Auth::guard("supplier")->check())
+                        <a class="navbar-brand" href="{{ url('/supplier') }}">
+                            <img src="{{ asset('images/logo_small_white.png') }}" alt="Trndii" height="100%">
+                        </a>
+                    @else
+                        <a class="navbar-brand" href="{{ url('/') }}">
+                            <img src="{{ asset('images/logo_small_white.png') }}" alt="Trndii" height="100%">
+                        </a>
+                    @endif    
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -42,6 +52,25 @@
                         @if (Auth::guest())
                             <li><a style="color: #ffffff;" href="{{ route('login') }}">Login</a></li>
                             <li><a style="color: #ffffff;" href="{{ route('register') }}">Register</a></li>
+                        @elseif(Auth::guard("admin")->check())
+                            <li class="dropdown">
+                                <a style="color: #ffffff;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                            Logout
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
                         @else
                             <li class="dropdown">
                                 <a style="color: #ffffff;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -71,14 +100,15 @@
                                     </li>
                                 </ul>
                             </li>
-                            <!-- Currently not implementing tokens
-                                <li><a href="#" style="font-size: 18px; color: #FDE706;"><img src="images/token.png" alt="Tokens" height="22">&nbsp; 100</a></li>
-                            -->
+                            <!--displaying tokens-->
+                            @feature('Token System')
+                                <li><a href="#" style="font-size: 18px; color: #FDE706;"><img src="images/token.png" alt="Tokens" height="22">&nbsp; {{ Auth::user()->tokens }}</a></li>
+                            @endfeature
                         @endif
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a style="color: #ffffff;" href="/browseItemsByCategory">Browse Categories</a></li>
-                        <li><a style="color: #ffffff;" href="/shoppingCart">Shopping Cart</a></li>
+                    <li><a style="color: #ffffff;" href="/browseItemsByCategory">Browse Categories</a></li>
+                    <li><a style="color: #ffffff;" href="/shoppingCart">Shopping Cart</a></li>
                     </ul>
                     <!-- Right Side Of Navbar -->
                     <form class="navbar-form navbar-right" action="{{ action ('ItemsController@search')}}", method="POST">

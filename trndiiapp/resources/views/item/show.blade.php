@@ -23,7 +23,11 @@
                         Price: ${{$item->Price}}
                     </div>
                     <div class="col-md-4 text-center">
-                        Tokens gained: {{$item->Tokens_Given}}
+                        @if(Auth::user())
+                        @if(Auth::user()->segment == "Token")
+                            Tokens gained: {{$item->Tokens_Given}}
+                        @endif
+                        @endif
                     </div>
                     @if((\Carbon\Carbon::parse($item->End_Date))->diffInHours(\Carbon\Carbon::now()) > 48)
                         <div class="col-md-4 text-center">
@@ -66,7 +70,7 @@
                 <div class="row" style="font-size: 20px;">
                     <div class="col-md-12 text-center">
                         @if(Auth::user())
-                            @if(Auth::user()->country != $item->Shipping_To && $item->Shipping_To != "Canada and United States")
+                            @if(!(strpos($item->Shipping_To, Auth::user()->country)!==false))
                                 <p style="background-color:#ffb049; color:black">
                                     <strong> Warning! This item does not ship to your country! </strong>
                                 </p>
@@ -80,18 +84,15 @@
         <div class="row">
             <div class="col-md-12" style="text-align: center; margin-bottom: 30px; margin-top: 10px;">
                 @if(Auth::user())
-                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#BuyModal">
-                        Purchase
-                    </button>
-
-                <!--
-                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" onclick="location.href='{{ url('/confirm') }}'">PERRRchase
-                </button>
-                -->
-
-                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#BuyModalTokens">
-                        Token Purchase
-                    </button>
+                    @if(Auth::user()->segment == "Basic")
+                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#BuyModal">
+                            Purchase
+                        </button>
+                    @elseif(Auth::user()->segment == "Token")
+                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#BuyModalTokens">
+                            Token Purchase
+                        </button>
+                    @endif
 
                 @else
                     <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#BuyModal">Login
@@ -147,7 +148,7 @@
                         </div>
                         <div class="modal-body">
 
-                            @if(Auth::user()->country != $item->Shipping_To && $item->Shipping_To != "Canada and United States")
+                            @if(!(strpos($item->Shipping_To, Auth::user()->country)!==false))
                                 <p>
                                     <strong> This item does not ship to {{Auth::user()->country}}! </strong>
                                     <!-- Remove this if/when we implement choosing shipping address-->
@@ -159,7 +160,7 @@
                                     <br> Price: {{$item->Price}}$
                                     <br> Tokens Gained: {{$item->Tokens_Given}}
                                 <!--
-                    @if(Auth::user()->country != $item->Shipping_To)
+                    @if(!(strpos($item->Shipping_To, Auth::user()->country)!==false))
                                     <br> <strong> Warning! This item does not ship to {{Auth::user()->country}} </strong>
                     @endif
                                         -->
@@ -167,7 +168,7 @@
                             @endif
                         </div>
                         <div class="modal-footer">
-                            @if(Auth::user()->country != $item->Shipping_To && $item->Shipping_To != "Canada and United States")
+                            @if(strpos($item->Shipping_To, Auth::user()->country)!=false)
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Return</button>
                             @else
                                 @if($checkCommit == 0 && $item->Threshold > $item->Number_Transaction)
@@ -301,6 +302,9 @@
                         <p>{{ $com->comment }} </p>
                     </div>
                 @endforeach
+                <div>
+                    &nbsp;
+                </div>
             </div>
         @else
             <div class="col-md-12 text-center">
@@ -310,13 +314,13 @@
                 </h4>
             </div>
         @endif
+
         @if($itemComments->count()>0)
             <div>
                 {{ $itemComments->links() }}
             </div>
         @endif
     </div>
-
     <!--Modal with tokens-->
         <div id="BuyModalTokens" class="modal fade" aria-labelledby="basicModal" aria-hidden="true">
             <div class="modal-dialog">
@@ -327,7 +331,7 @@
                         </div>
                         <div class="modal-body">
 
-                            @if(Auth::user()->country != $item->Shipping_To && $item->Shipping_To != "Canada and United States")
+                            @if(!(strpos($item->Shipping_To, Auth::user()->country)!==false))
                                 <p>
                                     <strong> This item does not ship to {{Auth::user()->country}}! </strong>
                                     <!-- Remove this if/when we implement choosing shipping address-->
@@ -339,7 +343,7 @@
                                     <br> Price: {{$item->Price}}$
                                     <br> Tokens Gained: {{$item->Tokens_Given}}
                                 <!--
-                    @if(Auth::user()->country != $item->Shipping_To)
+                    @if(!(strpos($item->Shipping_To, Auth::user()->country)!==false))
                                     <br> <strong> Warning! This item does not ship to {{Auth::user()->country}} </strong>
                     @endif
                                         -->
@@ -348,7 +352,7 @@
                         </div>
                         <div class="modal-footer">
 
-                            @if(Auth::user()->country != $item->Shipping_To && $item->Shipping_To != "Canada and United States")
+                            @if(!(strpos($item->Shipping_To, Auth::user()->country)!==false))
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Return</button>
                             @else
                                 @if($checkCommit == 0 && $item->Threshold > $item->Number_Transaction)
@@ -361,7 +365,7 @@
                                 @elseif($item->Threshold <= $item->Number_Transactions)
                                     <p>The threshold for this item has already been reached. Sorry!</p>
                                 @else
-                                    <p>You have already commited to this item. Stay tuned!</p>
+                                    <p>You have already committed to this item. Stay tuned!</p>
                                 @endif
                             @endif
                         </div>
@@ -432,6 +436,9 @@
                     @endif
                 </div>
             </div>
+        </div>
+        <div>
+            &nbsp;
         </div>
     </div>
 @endsection

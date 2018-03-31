@@ -8,5 +8,7 @@ interface ExperimentsRepositoryInterface {
     public function incrementExperimentAPurchases();
     public function incrementExperimentBFrontPageHits();
     public function incrementExperimentBPurchases();
-	
+    public function getExperiments();
+    public function getTotalPopulation();
+
 }

@@ -14,6 +14,8 @@
             <a href="/supplier/create">Click here to add supplier</a>
             <br>
             <a href="/banUserForm">Click here to moderate users</a>
+            <br>
+            <a href="/getMetrics">Click here to get Metrics</a>
         </div>
     </div>
 @endsection

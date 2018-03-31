@@ -16,8 +16,9 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->increments('id');
             $table->string('Name');
-            $table->double('Price',15, 2);
-            $table->double('Bulk_Price');
+            $table->double('Price', 15, 2);
+            $table->double('Bulk_Price', 15, 2);
+            $table->double('Actual_Price', 15, 2);
             $table->integer('Threshold');
             $table->integer('Tokens_Given');
             $table->integer('Total_Tokens_Spent')->default(0);
@@ -26,6 +27,7 @@ class CreateItemsTable extends Migration
             $table->string('Category');
             $table->string('Status');
             $table->integer('Number_Transactions')->default(0);
+            $table->double('Rating', 15, 1)->default(0.0);
             $table->datetime('Start_Date');
             $table->datetime('End_Date');
             $table->string('Picture_URL');

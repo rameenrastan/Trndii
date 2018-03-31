@@ -21,7 +21,8 @@ $factory->define(App\item::class, function (Faker $faker) {
     return [
         'Name' => $faker->domainName,
         'Price'=> $price = $faker->randomFloat(2, 10, 250),
-        'Bulk_Price'=> $bulk_price=number_format(max($price / $users = $faker->numberBetween(1, 50), $price / 10), 2),
+        'Bulk_Price'=> $bulk_price=number_format(max($price / $users = $faker->numberBetween(1, 50), $price / 1.4), 2),
+        'Actual_Price'=> $actual_price=number_format(max($bulk_price / $users = $faker->numberBetween(1, 50), $price /1.5 ), 2),
         'Threshold'=>max($users - 5, 5),
         'tokens_Given'=>intval($price-$bulk_price),
         'Short_Description'=>$faker->words(random_int(3, 5), true),

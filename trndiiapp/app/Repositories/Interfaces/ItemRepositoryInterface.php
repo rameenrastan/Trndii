@@ -19,6 +19,12 @@ interface ItemRepositoryInterface{
     public function addCommentToItem(Request $request,$itemId);
     public function getCommentsForItem($itemId);
     public function addTotalTokens($nbTokens,$id);
-
-
+    public function getItemsAscendingPrice(Request $request);
+    public function getItemsDescengingPrice(Request $request);
+    public function getNewestToOldestItems(Request $request);
+    public function getOldestToNewestItems(Request $request);
+    public function getHighestToLowestRatingItems(Request $request);
+    public function getLowestToHighestRatingItems(Request $request);
+    public function getMostToLeastPopularItems(Request $request);
+    public function getLeastToMostPopularItems(Request $request);
 }
