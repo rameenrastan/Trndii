@@ -99,7 +99,6 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <img src="images/logo_full.png" width="100%">
-
                         @test('teaser1')
                         <h3 align="center">
                              Welcome to Trndii! If you're not sure where to start, click <a href="#"> here </a>
@@ -111,8 +110,6 @@
                             Welcome to Trndii! Click here for more information <a href="#"> here </a>
                         </h3>
                         @endtest
-
-
                     </div>
 
                     <div class="panel-body" style="border:none;">
@@ -121,9 +118,12 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-                        <h2 align="center" style="margin-top: 0;">
-                            Featured Items
-                        </h2>
+                        <!-- Start of Featured Items (highest number of transactions) -->
+                        <div class="col-md-12" style="margin-bottom: 10px;">
+                            <h2 align="center" style="margin-top: 0;">
+                                Featured Items
+                            </h2>
+                        </div>
                         <div class="col-md-12">
                             <div class="thumbnail">
                                 <a href="item/{{$items[0]->id}}" target="_blank">
@@ -139,25 +139,75 @@
                             </div>
                         </div>
                         <div class="row">
-                        @for($i = 1; $i < count($items); $i++)
-                            <div class="col-md-6">
-                                <div class="thumbnail">
-                                    <a href="item/{{$items[$i]->id}}" target="_blank">
-                                        <img src="{{$items[$i]->Picture_URL}}" alt="PLACEHOLDER"
-                                             style="width:100%;">
-                                    </a>
-                                    <div class="caption" style="position: relative">
-                                        <p>
-                                            {{$items[$i]->Name}}<br>
-                                            Threshold: {{$items[$i]->Threshold}}
-                                        </p>
-                                        <a href="item/{{$items[$i]->id}}">
-                                        <button type="button" class="btn btn-success">More Info</button>
+                            @for($i = 1; $i < count($items); $i++)
+                                <div class="col-md-6">
+                                    <div class="thumbnail">
+                                        <a href="item/{{$items[$i]->id}}" target="_blank">
+                                            <img src="{{$items[$i]->Picture_URL}}" alt="PLACEHOLDER"
+                                                style="width:100%;">
                                         </a>
+                                        <div class="caption" style="position: relative">
+                                            <p>
+                                                {{$items[$i]->Name}}<br>
+                                                Threshold: {{$items[$i]->Threshold}}
+                                            </p>
+                                            <a href="item/{{$items[$i]->id}}">
+                                            <button type="button" class="btn btn-success">More Info</button>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endfor
+                            @endfor
+                        </div>
+                    </div>
+                    <div class="panel-body" style="border:none;">
+                        <!-- Start of Newest Items -->
+                        <div class="col-md-12" style="margin-bottom: 10px;">
+                            <h2 align="center" style="margin-top: 0;"><!-- Start of Featured Items (highest number of transactions) -->
+                                Check Out These New Additions!
+                            </h2>
+                        </div>
+                        <div class="row">
+                            @for($i = 0; $i < count($itemsNewest)-2; $i++)
+                                <div class="col-md-6">
+                                    <div class="thumbnail">
+                                        <a href="item/{{$itemsNewest[$i]->id}}" target="_blank">
+                                            <img src="{{$itemsNewest[$i]->Picture_URL}}" alt="PLACEHOLDER"
+                                                style="width:100%;">
+                                        </a>
+                                        <div class="caption" style="position: relative">
+                                            <p>
+                                                {{$itemsNewest[$i]->Name}}<br>
+                                                Threshold: {{$itemsNewest[$i]->Threshold}}
+                                            </p>
+                                            <a href="item/{{$itemsNewest[$i]->id}}">
+                                            <button type="button" class="btn btn-success">More Info</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endfor
+                        </div>
+                        <div class="row">
+                            @for($i = 2; $i < count($itemsNewest); $i++)
+                                <div class="col-md-6">
+                                    <div class="thumbnail">
+                                        <a href="item/{{$itemsNewest[$i]->id}}" target="_blank">
+                                            <img src="{{$itemsNewest[$i]->Picture_URL}}" alt="PLACEHOLDER"
+                                                style="width:100%;">
+                                        </a>
+                                        <div class="caption" style="position: relative">
+                                            <p>
+                                                {{$itemsNewest[$i]->Name}}<br>
+                                                Threshold: {{$itemsNewest[$i]->Threshold}}
+                                            </p>
+                                            <a href="item/{{$itemsNewest[$i]->id}}">
+                                            <button type="button" class="btn btn-success">More Info</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endfor
                         </div>
                         <h4 align="left" style="margin-top: 0;">
                             <a href="/item">
