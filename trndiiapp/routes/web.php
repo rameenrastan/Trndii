@@ -44,8 +44,8 @@ Route::post('/banUserForm', 'AdminController@banUser');
 Route::prefix('supplier')->group(function(){
     Route::get('/login', 'Auth\SupplierLoginController@showLoginForm')->name('supplier.login');
     Route::post('/login', 'Auth\SupplierLoginController@login')->name('supplier.login.submit');
-    Route::get('/', 'SupplierController@index')->name('supplier.home');
-    Route::get('/reviews', 'SupplierController@viewReviews');
+    Route::get('/', 'SupplierController@viewItemsStatus')->name('supplier.home');
+    Route::get('/reviews/{item_id}', 'SupplierController@viewReviews')->name('supplier.reviews');
 });
 
 Route::resource('preregisteredusers', 'PreregisteredUsersController');

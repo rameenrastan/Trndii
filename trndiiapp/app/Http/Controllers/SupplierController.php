@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\item;
 use Auth;
-use Illuminate\Support\Facades\DB;  
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Log;
 use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterface;
@@ -38,10 +38,11 @@ class SupplierController extends Controller
         return view('supplier-home');
     }
 
-    public function viewReviews()
+    public function viewReviews($item_id)
     {
-        $reviewsForSupplier = $this->reviewRepo->getReviewsForSupplier();
-        return view('supplier.viewReviews')->with('reviewsForSupplier', $reviewsForSupplier);
+        $reviewsForSupplier = $this->reviewRepo->getItemReviews($item_id);
+        $item = item::findOrFail($item_id);
+        return view('supplier.viewReviews')->with(['reviewsForSupplier' => $reviewsForSupplier, 'item' => $item]);
     }
 
     public function viewItemsStatus(Request $request)

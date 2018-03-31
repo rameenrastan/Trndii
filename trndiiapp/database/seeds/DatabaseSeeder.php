@@ -47,5 +47,8 @@ class DatabaseSeeder extends Seeder
         // admins
         $this->call(AdminsTableSeeder::class);
 
+        // transactions
+        $this->call(TransactionsTableSeeder::class);
+
     }
 }
