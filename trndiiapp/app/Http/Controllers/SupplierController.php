@@ -40,7 +40,7 @@ class SupplierController extends Controller
 
     public function viewReviews($item_id)
     {
-        $reviewsForSupplier = $this->reviewRepo->getReviewsForSupplier($item_id);
+        $reviewsForSupplier = $this->reviewRepo->getItemReviews($item_id);
         $item = item::findOrFail($item_id);
         return view('supplier.viewReviews')->with(['reviewsForSupplier' => $reviewsForSupplier, 'item' => $item]);
     }
