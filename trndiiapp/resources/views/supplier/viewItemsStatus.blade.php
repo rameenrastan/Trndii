@@ -77,7 +77,10 @@
                                                     </p></div>
                                             </div>
                                             <div class="display-group" align="right" style="margin: 20px;" >
-
+                                                <a href="{!! route('supplier.reviews', ['item_id'=>$supplierItem->id]) !!}"
+                                                   class="btn btn-info pull-left" role="button">
+                                                    View Reviews
+                                                </a>
                                                 <a href="{!! route('ExcelController', ['item'=>$supplierItem->id,'name'=>$supplierItem->Name]) !!}"
                                                    class="btn btn-info" role="button">
                                                     CVS
@@ -86,7 +89,6 @@
                                                    class="btn btn-info" role="button">
                                                     PDF
                                                 </a>
-
                                             </div>
 
                                         </div>
