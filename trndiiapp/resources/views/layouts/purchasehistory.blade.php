@@ -79,8 +79,11 @@
                                                 <p></p>
                                             @endif
                                             @endfeature
+                                            @if($item->Status == 'threshold reached')
 
-                                            @include('components.leave-review')
+                                               @include('components.leave-review')
+
+                                            @endif                              
                                         </div>
                                         <br/>
                                     @endforeach
@@ -159,8 +162,6 @@
                                                     </button>
                                                 </div>
                                                 @endfeature
-
-                                                @include('components.leave-review')
                                             </div>
                                             <br/>
                                         @endif
@@ -235,7 +236,10 @@
                                                         </p></div>
                                                 </div>
 
+                                                @if($item->Status == 'threshold reached')
                                                 @include('components.leave-review')
+                                                @endif
+
                                             </div>
                                             <br/>
                                         @endif

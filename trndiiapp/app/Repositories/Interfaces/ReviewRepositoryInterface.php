@@ -10,4 +10,5 @@ interface ReviewRepositoryInterface {
     public function getReviewsForSupplier();
     public function storeReviewLike(Request $request);
     public function storeReviewDislike(Request $request);
+    public function checkIfReviewExists(Request $request);
 }

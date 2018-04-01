@@ -2,6 +2,7 @@
 namespace App\Repositories;
 use App\Transaction; 
 use App\Repositories\Interfaces\TransactionRepositoryInterface;
+use App\Review;
 use Auth;
 use DB;
 use Log;
