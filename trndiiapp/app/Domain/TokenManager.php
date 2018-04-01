@@ -2,36 +2,25 @@
 namespace App\Domain;
 use Auth;
 use DB;
-use Stripe\{Stripe, Charge, Customer};
 use App\Transaction;
 use Carbon\Carbon;
 use App\item;
 use App\User;
-use App\Mail\PurchaseCompleted;
-use Illuminate\Support\Facades\Mail;
 use App\Repositories\Interfaces\UserRepositoryInterface as UserRepositoryInterface;
 use App\Repositories\Interfaces\TransactionRepositoryInterface as TransactionRepositoryInterface;
 use App\Repositories\Interfaces\ItemRepositoryInterface as ItemRepositoryInterface;
-use Log;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
 
 class TokenManager {
 
     protected $userRepo;
     protected $transactionRepo;
     protected $itemRepo;
-    protected $logger;
-    protected $mail;
 
-    public function __construct(Mail $mail, Log $logger, UserRepositoryInterface $userRepo, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo){
+    public function __construct(UserRepositoryInterface $userRepo, TransactionRepositoryInterface $transactionRepo, ItemRepositoryInterface $itemRepo){
 
         $this->userRepo = $userRepo;
         $this->transactionRepo = $transactionRepo;
         $this->itemRepo = $itemRepo;
-        $this->logger = $logger;
-        $this->mail = $mail;
-
     }
 
     /**

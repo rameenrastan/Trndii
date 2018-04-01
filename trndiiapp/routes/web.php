@@ -44,8 +44,8 @@ Route::post('/banUserForm', 'AdminController@banUser');
 Route::prefix('supplier')->group(function(){
     Route::get('/login', 'Auth\SupplierLoginController@showLoginForm')->name('supplier.login');
     Route::post('/login', 'Auth\SupplierLoginController@login')->name('supplier.login.submit');
-    Route::get('/', 'SupplierController@index')->name('supplier.home');
-    Route::get('/reviews', 'SupplierController@viewReviews');
+    Route::get('/', 'SupplierController@viewItemsStatus')->name('supplier.home');
+    Route::get('/reviews/{item_id}', 'SupplierController@viewReviews')->name('supplier.reviews');
 });
 
 Route::resource('preregisteredusers', 'PreregisteredUsersController');
@@ -58,9 +58,10 @@ Route::resource('preregisteredusers', 'PreregisteredUsersController');
 Route::resource('item', 'ItemsController');
 
 Route::get('item.create', 'ItemsController@item.create');
+
 Route::post('item.store','ItemsController@store');
 
-Route::get('/confirm/{id}', 'ItemsController@getConfirm'); 
+Route::get('/confirm/{id}', 'ItemsController@getConfirm');
 
 Route::resource('transactions', 'TransactionsController');
 
@@ -122,6 +123,7 @@ Route::post('/leastPopular', 'ItemsController@sortItemsLeastToMostPopular')->nam
 
 Route::get('/shoppingCart', 'CartController@index');
 
+
 Route::post('/shoppingCart', 'CartController@store')->name('cart.store');
 
 
@@ -134,17 +136,17 @@ Route::post('/purchaseHistory', 'ReviewController@store')->name('review.store');
 
 Route::post('/item', 'ReviewController@storeLikeDislike')->name('review.storeLikeDislike');
 
-Route::get('/getMetrics', 'ExportController@getExcelMetrics');
-
+Route::get('/getMetrics', 'ExportController@getExcelMetrics')->middleware('auth:admin');
 
 $router->get('/pdfInfo/{itemId}/{itemName}',[
     'uses' => 'ExportController@getPdfByItem',
     'as'   => 'PdfController'
 ]);
+
 $router->get('/excelInfo/{itemId}/{itemName}',[
-    'uses' => 'ExportController@getExcelByItem',
-    'as'   => 'ExcelController'
-]);
+        'uses' => 'ExportController@getExcelByItem',
+        'as'   => 'ExcelController'
+        ]);
 
 $router->get('/itemThread/{itemId}',[
     'uses' => 'ItemsController@getItemThread',

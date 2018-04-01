@@ -257,4 +257,13 @@ class ItemRepository implements ItemRepositoryInterface{
         DB::table('items')->where('id', $id)->increment('Total_Tokens_Spent', $nbTokens);
 
     }
+
+    public function getHomePageItems()
+    {
+        return DB::table('items')->where('Status', '=', 'pending')->orderBy('Number_Transactions', 'desc')->take(3)->get();
+    }
+
+    public function getHomePageNewestItems(){
+        return DB::table('items')->where('Status', '=', 'pending')->orderBy('created_at', 'desc')->take(4)->get();
+    }
 }

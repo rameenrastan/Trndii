@@ -31,13 +31,15 @@
                                                 </h3>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <h4>
-                                                    Receive <strong>{{$item->model->Tokens_Given}}</strong> tokens upon purchase
-                                                </h4>
+                                        @feature('Token System')
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <h4>
+                                                        Receive <strong>{{$item->model->Tokens_Given}}</strong> tokens upon purchase
+                                                    </h4>
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endfeature
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <form action="{{ route('cart.destroy', $item->rowId) }}" method="POST">
