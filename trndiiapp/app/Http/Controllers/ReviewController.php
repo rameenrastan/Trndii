@@ -49,8 +49,17 @@ class ReviewController extends Controller
             'Comment'=>'required'
         ));
 
-        $this->reviewRepo->storeReview($request);
-        return redirect('/purchaseHistory')->with('success', 'Thank you for your feedback!');
+        $reviewExists = $this->reviewRepo->checkIfReviewExists($request);
+
+        if(!$reviewExists)
+        {
+            $this->reviewRepo->storeReview($request);
+            return redirect('/purchaseHistory')->with('success', 'Thank you for your feedback!');
+        }
+        else
+        {
+            return redirect('/purchaseHistory')->with('error', 'You have already reviewed this item!');
+        }
     }
 
     public function storeLikeDislike(Request $request)

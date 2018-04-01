@@ -80,6 +80,7 @@
                                             @endif
                                             @endfeature
                                             @if($item->Status == 'threshold reached')
+
                                                 <div class="display-group">
                                                 <form action="{{ route('review.store') }}" method="POST">
                                                     {{ csrf_field() }}
@@ -100,7 +101,8 @@
                                                     <input type="submit" value="Submit Review">
                                                 </form>
                                                 </div>
-                                                @endif
+
+                                            @endif
                                         </div>
                                         <br/>
                                     @endforeach
