@@ -7,6 +7,8 @@ use Tests\TestCase;
 use App\Repositories;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Log;
+use App\Transaction;
 
 class ItemRepositoryTest extends TestCase
 {
@@ -14,97 +16,155 @@ class ItemRepositoryTest extends TestCase
     use DatabaseMigrations;
 
     /**
-     * Testing the @update fucntion in Item repository
-     *Expected to change status of item assosiated to the ID to cancelled
+     * Testing the @update function in Item repository
+     * Tests that status of item is correctly set to cancelled
      * @return void
      */
     public function testUpdateRepository()
     {
-        $test_item = new \App\item([
-            'id' => "1",
-            'Name'=> "testItem",
-            'Price'=> 1,
-            'Bulk_Price'=>1,
-            'Threshold'=>20,
-            'Tokens_Given'=>0,
-            'Short_Description' => "test short description",
-            'Long_Description' => "test long description",
-            'Category'=>"Electronics",
-            'Status'=>"pending",
-            'Number_Transactions'=>0,
-            'Start_Date'=>"2018-01-14 00:20:09",
-            'End_Date'=>"2018-08-14 00:20:09",
-            'Picture_URL'=>"test.jpg",
-            'Shipping_To'=>"Canada",
-            'Supplier'=>"FakeSupplier",
-            'created_at'=>"2018-01-14 00:20:09",
-            'updated_at'=>"2018-01-14 00:20:09"
-        ]);
+
+        putenv('DB_CONNECTION=sqlite_testing');
+
+        $test_item = factory(\App\item::class)->make();
+
+        Log::shouldReceive('info');
 
         $test_item->save();
 
         $repository = new Repositories\ItemRepository();
-        $repository->update(1);
+        $repository->update($test_item->id);
 
 
         $this->assertDatabaseHas('items', [
-            'id' => '1',
+            'id' => $test_item->id,
             'Status' => 'cancelled'
         ]);
 
-//       $this->assertTrue(false);
     }
 
     /**
-     * Testing wether our system , correctly creates and stores an item via a request.
+     * Tests that Item Repository's find method returns the correct item.
      * @return void
      */
     public function testFindAnItem()
     {
-        $test_item = new \App\item([
-            'id' => "100",
-            'Name'=> "testItem",
-            'Price'=> 1,
-            'Bulk_Price'=>1,
-            'Threshold'=>20,
-            'Tokens_Given'=>0,
-            'Short_Description' => "test short description",
-            'Long_Description' => "test long description",
-            'Category'=>"Electronics",
-            'Status'=>"pending",
-            'Number_Transactions'=>0,
-            'Start_Date'=>"2018-01-14 00:20:09",
-            'End_Date'=>"2018-08-14 00:20:09",
-            'Picture_URL'=>"test.jpg",
-            'Shipping_To'=>"Canada",
-            'Supplier'=>"FakeSupplier",
-            'created_at'=>"2018-01-14 00:20:09",
-            'updated_at'=>"2018-01-14 00:20:09"
-        ]);
+
+        putenv('DB_CONNECTION=sqlite_testing');
+
+        Log::shouldReceive('info');
+
+        $test_item = factory(\App\item::class)->make();
 
         $test_item->save();
 
-
         $repository = new Repositories\ItemRepository();
-        $item_from_search=    $repository->find(100);
+
+        $item_from_search = $repository->find($test_item->id);
 
         $this->assertTrue(
-        $item_from_search->Name==$test_item->Name &&
-        $item_from_search->Price==$test_item->Price &&
-        $item_from_search->Bulk_Price==$test_item->Bulk_Price &&
-        $item_from_search->Tokens_Given==$test_item->Tokens_Given &&
-        $item_from_search->Threshold==$test_item->Threshold &&
-        $item_from_search->Short_Description==$test_item->Short_Description &&
-        $item_from_search->Long_Description==$test_item->Long_Description &&
-        $item_from_search->Category==$test_item->Category &&
-        $item_from_search->Start_Date==$test_item->Start_Date &&
-        $item_from_search->Status == $test_item->Status &&
-        $item_from_search->End_Date==$test_item->End_Date &&
-        $item_from_search->Picture_URL==$test_item->Picture_URL &&
-        $item_from_search->Shipping_To==$test_item->Shipping_To &&
-        $item_from_search->Supplier==$test_item->Supplier
+        $item_from_search->id == $test_item ->id &&
+        $item_from_search->Name == $test_item->Name
     );
 
-//       $this->assertTrue(($test_item == $item_from_search));
     }
+
+     /**
+     * Tests that an item's number of transactions is properly updated.
+     * @return void
+     */
+    public function testUpdateNumTransactions()
+    {
+
+        putenv('DB_CONNECTION=sqlite_testing');
+
+        Log::shouldReceive('info');
+
+        $item = factory(\App\item::class)->make();
+
+        $item->save();
+
+        $user = factory(\App\User::class)->make();
+
+        $user->save();
+        $repository = new Repositories\ItemRepository();
+
+        $transaction = new Transaction;
+
+        $transaction->email = $user->email;
+        $transaction->item_fk = $item->id;
+        $transaction->charge_id = '';
+        $transaction->tokens_spent = 0;
+
+        $transaction->save();
+
+        $repository->numTransactions($item->id);
+
+        $this->assertDatabaseHas('items', [
+            'id' => $item->id,
+            'Number_Transactions' => 1
+        ]);
+
+    }
+
+    /**
+     * Tests that an item is properly retrieved and returned
+     * @return void
+     */
+    public function testFindItem()
+    {
+
+        putenv('DB_CONNECTION=sqlite_testing');
+
+        Log::shouldReceive('info');
+
+        $item = factory(\App\item::class)->make();
+
+        $item->save();
+
+        $repository = new Repositories\ItemRepository();
+
+        $foundItem = $repository->find($item->id);
+
+        $this->assertTrue($foundItem->is($item));
+
+    }
+
+    /**
+     * Tests that an item's number of transactions is properly updated.
+     * @return void
+     */
+    public function testNumberOfCommits()
+    {
+
+        putenv('DB_CONNECTION=sqlite_testing');
+
+        Log::shouldReceive('info');
+
+        $item = factory(\App\item::class)->make();
+
+        $item->save();
+
+        $user = factory(\App\User::class)->make();
+
+        $this->be($user);
+    
+        $user->save();
+        
+        $repository = new Repositories\ItemRepository();
+
+        $transaction = new Transaction;
+
+        $transaction->email = $user->email;
+        $transaction->item_fk = $item->id;
+        $transaction->charge_id = '';
+        $transaction->tokens_spent = 0;
+
+        $transaction->save();
+
+        $numCommits = $repository->checkCommit($item);
+
+        $this->assertEquals($numCommits, 1);
+
+    }
+
 }

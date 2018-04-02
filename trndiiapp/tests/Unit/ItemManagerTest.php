@@ -18,7 +18,7 @@ class ItemManagerTest extends TestCase
 {
     use DatabaseMigrations;
     /**
-     * A basic test example.
+     * Tests that proper method calls are made in ItemManager's setExpired() method
      *
      * @return void
      */
