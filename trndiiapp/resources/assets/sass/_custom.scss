@@ -195,3 +195,22 @@ icon-submit-button{
 .glyphicon-star-empty{
   color: #14A989;
 }
+
+.filter-submit-btn-active,
+.filter-submit-btn-active:hover,
+.filter-submit-btn-active:focus {
+  background-color: $navbar-default-bg;
+  color: white;
+}
+
+.filter-submit-btn{
+  color: $navbar-default-bg;
+  background-color: transparent;
+}
+
+.filter-submit-btn:hover,
+.filter-submit-btn:focus {
+  color: $navbar-default-bg;
+  background-color: #eeeeee;
+}
+
