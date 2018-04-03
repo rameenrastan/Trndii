@@ -8,62 +8,62 @@
     <div class="container">
         <h2>Search Results</h2>
         @if(count($items) > 0)
-            <div class="panel-heading"><b>Filters</b>
+            <div class="panel-heading">
             <ul class="nav nav-pills">
                 <li>
                     <form action="{{ route('items.ascendingPrice') }}" method="POST">
                         {{ csrf_field() }}
                         <input type="hidden" name="search" value="{{$search}}">
-                        <input class="btn filter-submit-btn" type="submit" value="Ascending Price">
+                        <input class="btn @if($current_filter == "asc_price") filter-submit-btn-active @else filter-submit-btn @endif" type="submit" value="Ascending Price">
                     </form>
                 </li>
                 <li>
                     <form action="{{ route('items.descendingPrice') }}" method="POST">
                         {{ csrf_field() }}
                         <input type="hidden" name="search" value="{{$search}}">
-                        <input class="btn filter-submit-btn" type="submit" value="Descending Price">
+                        <input class="btn @if($current_filter == "desc_price") filter-submit-btn-active @else filter-submit-btn @endif" type="submit" value="Descending Price">
                     </form>
                 </li>
                 <li>
                     <form action="{{ route('items.newestToOldest') }}" method="POST">
                         {{ csrf_field() }}
                         <input type="hidden" name="search" value="{{$search}}">
-                        <input class="btn filter-submit-btn" type="submit" value="Newest Items">
+                        <input class="btn @if($current_filter == "new_first") filter-submit-btn-active @else filter-submit-btn @endif" type="submit" value="Newest Items">
                     </form>
                 </li>
                 <li>
                     <form action="{{ route('items.oldestToNewest') }}" method="POST">
                         {{ csrf_field() }}
                         <input type="hidden" name="search" value="{{$search}}">
-                        <input class="btn filter-submit-btn" type="submit" value="Oldest Items">
+                        <input class="btn @if($current_filter == "old_first") filter-submit-btn-active @else filter-submit-btn @endif" type="submit" value="Oldest Items">
                     </form>
                 </li>
                 <li>
                     <form action="{{ route('items.highestRatings') }}" method="POST">
                         {{ csrf_field() }}
                         <input type="hidden" name="search" value="{{$search}}">
-                        <input class="btn filter-submit-btn" type="submit" value="Highest Ratings">
+                        <input class="btn @if($current_filter == "highest_rating") filter-submit-btn-active @else filter-submit-btn @endif" type="submit" value="Highest Ratings">
                     </form>
                 </li>
                 <li>
                     <form action="{{ route('items.lowestRatings') }}" method="POST">
                         {{ csrf_field() }}
                         <input type="hidden" name="search" value="{{$search}}">
-                        <input class="btn filter-submit-btn" type="submit" value="Lowest Ratings">
+                        <input class="btn @if($current_filter == "lowest_rating") filter-submit-btn-active @else filter-submit-btn @endif" type="submit" value="Lowest Ratings">
                     </form>
                 </li>
                 <li>
                     <form action="{{ route('items.mostPopular') }}" method="POST">
                         {{ csrf_field() }}
                         <input type="hidden" name="search" value="{{$search}}">
-                        <input class="btn filter-submit-btn" type="submit" value="Most Popular">
+                        <input class="btn @if($current_filter == "most_popular") filter-submit-btn-active @else filter-submit-btn @endif" type="submit" value="Most Popular">
                     </form>
                 </li>
                 <li>
                     <form action="{{ route('items.leastPopular') }}" method="POST">
                         {{ csrf_field() }}
                         <input type="hidden" name="search" value="{{$search}}">
-                        <input class="btn filter-submit-btn" type="submit" value="Least Popular">
+                        <input class="btn @if($current_filter == "least_popular") filter-submit-btn-active @else filter-submit-btn @endif" type="submit" value="Least Popular">
                     </form>
                 </li>
             </ul>

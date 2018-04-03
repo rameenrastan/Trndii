@@ -215,8 +215,9 @@ class ItemsController extends Controller
         Log::info(session()->getId() . ' | [Item Search Started]');
         $items = $this->itemRepo->getSearchResults($request);
         $search = $request->search;
+        $current_filter = "none";
         Log::info(session()->getId() . ' | [Item Search Finished]');
-        return view('item.search')->with('items', $items)->with('search', $search);
+        return view('item.search')->with('items', $items)->with('search', $search)->with('current_filter', $current_filter);
         } catch(Exception $e) {
             return $e->getMessage();
             Log::info(session()->getId() . ' | [Item Search Failed]');
@@ -227,56 +228,64 @@ class ItemsController extends Controller
     {
         $items = $this->itemRepo->getItemsAscendingPrice($request);
         $search = $request->search;
-        return view('item.search')->with('items', $items)->with('search', $search);
+        $current_filter = "asc_price";
+        return view('item.search')->with('items', $items)->with('search', $search)->with('current_filter', $current_filter);
     }
 
     public function sortItemsPriceDescending(Request $request)
     {
         $items = $this->itemRepo->getItemsDescengingPrice($request);
         $search = $request->search;
-        return view('item.search')->with('items', $items)->with('search', $search);
+        $current_filter = "desc_price";
+        return view('item.search')->with('items', $items)->with('search', $search)->with('current_filter', $current_filter);
     }
 
     public function sortItemsNewestToOldest(Request $request)
     {
         $items = $this->itemRepo->getNewestToOldestItems($request);
         $search = $request->search;
-        return view('item.search')->with('items', $items)->with('search', $search);
+        $current_filter = "new_first";
+        return view('item.search')->with('items', $items)->with('search', $search)->with('current_filter', $current_filter);
     }
 
     public function sortItemsOldestToNewest(Request $request)
     {
         $items = $this->itemRepo->getOldestToNewestItems($request);
         $search = $request->search;
-        return view('item.search')->with('items', $items)->with('search', $search);
+        $current_filter = "old_first";
+        return view('item.search')->with('items', $items)->with('search', $search)->with('current_filter', $current_filter);
     }
 
     public function sortItemsHighestToLowestReviews(Request $request)
     {
         $items = $this->itemRepo->getHighestToLowestRatingItems($request);
         $search = $request->search;
-        return view('item.search')->with('items', $items)->with('search', $search);
+        $current_filter = "highest_rating";
+        return view('item.search')->with('items', $items)->with('search', $search)->with('current_filter', $current_filter);
     }
 
     public function sortItemsLowestToHighestReviews(Request $request)
     {
         $items = $this->itemRepo->getLowestToHighestRatingItems($request);
         $search = $request->search;
-        return view('item.search')->with('items', $items)->with('search', $search);
+        $current_filter = "lowest_rating";
+        return view('item.search')->with('items', $items)->with('search', $search)->with('current_filter', $current_filter);
     }
 
     public function sortItemsMostToLeastPopular(Request $request)
     {
         $items = $this->itemRepo->getMostToLeastPopularItems($request);
         $search = $request->search;
-        return view('item.search')->with('items', $items)->with('search', $search);
+        $current_filter = "most_popular";
+        return view('item.search')->with('items', $items)->with('search', $search)->with('current_filter', $current_filter);
     }
 
     public function sortItemsLeastToMostPopular(Request $request)
     {
         $items = $this->itemRepo->getLeastToMostPopularItems($request);
         $search = $request->search;
-        return view('item.search')->with('items', $items)->with('search', $search);
+        $current_filter = "least_popular";
+        return view('item.search')->with('items', $items)->with('search', $search)->with('current_filter', $current_filter);
     }
 
     //Get purchase confirmation page
