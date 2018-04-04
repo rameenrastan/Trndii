@@ -184,7 +184,7 @@
                             @if(strpos($item->Shipping_To, Auth::user()->country)!=false)
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Return</button>
                             @else
-                                @if($checkCommit == 0 && $item->Threshold > $item->Number_Transaction)
+                                @if($checkCommit == 0 && $item->Threshold > $item->Number_Transactions)
                                     {!! Form::open(['action' => ['TransactionsController@createTransaction', $item->id], 'method' => 'POST']) !!}
                                     {{Form::hidden('_method', 'PUT')}}
                                     {{Form::submit('Confirm', ['class' => 'btn btn-primary'])}}
