@@ -67,20 +67,20 @@ class ReviewController extends Controller
         if($request->has('LikeSubmit')){
             $likeSaved = $this->reviewRepo->storeReviewLike($request);
             if($likeSaved){
-                return redirect('/item')->with('success', 'Review liked!');
+                return redirect()->back()->with('success', 'Review liked!');
             }
             else{
-                return redirect('/item')->with('error', 'Review already liked!');
+                return redirect()->back()->with('error', 'Review already liked!');
             }
         }
 
         if($request->has('DislikeSubmit')){
             $dislikeSaved = $this->reviewRepo->storeReviewDislike($request);
             if($dislikeSaved){
-                return redirect('/item')->with('success', 'Review disliked!');
+                return redirect()->back()->with('success', 'Review disliked!');
             }
             else{
-                return redirect('/item')->with('error', 'Review already disliked!');
+                return redirect()->back()->with('error', 'Review already disliked!');
             }
         }
     }
