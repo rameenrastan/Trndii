@@ -171,7 +171,9 @@
                                 <p>
                                     {{$item->Name}}
                                     <br> Price: {{$item->Price}}$
+                                    @if(Auth::user()->segment == "Token")
                                     <br> Tokens Gained: {{$item->Tokens_Given}}
+                                    @endif
                                 <!--
                     @if(!(strpos($item->Shipping_To, Auth::user()->country)!==false))
                                     <br> <strong> Warning! This item does not ship to {{Auth::user()->country}} </strong>
