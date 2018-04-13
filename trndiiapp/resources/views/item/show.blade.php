@@ -96,8 +96,8 @@
                     @endif
 
                 @else
-                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#BuyModal">Login
-                        To Purchase
+                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#BuyModal">
+                        Login to Purchase
                     </button>
                 @endif
             </div>
@@ -271,8 +271,9 @@
             <h3>
                 Comments
             </h3>
-            <br>
+        @if(Auth::user())
             <!--Comment Box-->
+            <br>
             <div class="row">
                 <div id="comment-form" class="col-md-8 col-md-offset-2">
                     {{ Form::open(['route' => ['ItemController.addComment', $item->id, "itemShow"], 'method' => 'POST']) }}
@@ -287,6 +288,7 @@
                 </div>
             </div>
             <br>
+        @endif
         </div>
 
         <!--Displaying all comments -->
