@@ -1,22 +1,80 @@
 @extends('layouts.app')
 
-@section('scripts')
-    <script src="{{ asset('js/app.js') }}"></script>
-@endsection
-
 @section('content')
     <div class="container">
+        <h2>Search Results</h2>
+        @if(count($items) > 0)
+            <div class="panel-heading">
+            <ul class="nav nav-pills">
+                <li>
+                    <form action="{{ route('items.ascendingPrice') }}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="search" value="{{$search}}">
+                        <input class="btn @if($current_filter == "asc_price") filter-submit-btn-active @else filter-submit-btn @endif" type="submit" value="Ascending Price">
+                    </form>
+                </li>
+                <li>
+                    <form action="{{ route('items.descendingPrice') }}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="search" value="{{$search}}">
+                        <input class="btn @if($current_filter == "desc_price") filter-submit-btn-active @else filter-submit-btn @endif" type="submit" value="Descending Price">
+                    </form>
+                </li>
+                <li>
+                    <form action="{{ route('items.newestToOldest') }}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="search" value="{{$search}}">
+                        <input class="btn @if($current_filter == "new_first") filter-submit-btn-active @else filter-submit-btn @endif" type="submit" value="Newest Items">
+                    </form>
+                </li>
+                <li>
+                    <form action="{{ route('items.oldestToNewest') }}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="search" value="{{$search}}">
+                        <input class="btn @if($current_filter == "old_first") filter-submit-btn-active @else filter-submit-btn @endif" type="submit" value="Oldest Items">
+                    </form>
+                </li>
+                <li>
+                    <form action="{{ route('items.highestRatings') }}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="search" value="{{$search}}">
+                        <input class="btn @if($current_filter == "highest_rating") filter-submit-btn-active @else filter-submit-btn @endif" type="submit" value="Highest Ratings">
+                    </form>
+                </li>
+                <li>
+                    <form action="{{ route('items.lowestRatings') }}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="search" value="{{$search}}">
+                        <input class="btn @if($current_filter == "lowest_rating") filter-submit-btn-active @else filter-submit-btn @endif" type="submit" value="Lowest Ratings">
+                    </form>
+                </li>
+                <li>
+                    <form action="{{ route('items.mostPopular') }}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="search" value="{{$search}}">
+                        <input class="btn @if($current_filter == "most_popular") filter-submit-btn-active @else filter-submit-btn @endif" type="submit" value="Most Popular">
+                    </form>
+                </li>
+                <li>
+                    <form action="{{ route('items.leastPopular') }}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="search" value="{{$search}}">
+                        <input class="btn @if($current_filter == "least_popular") filter-submit-btn-active @else filter-submit-btn @endif" type="submit" value="Least Popular">
+                    </form>
+                </li>
+            </ul>
+            @endif
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Search Results</div>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
                                 <h2>
-                            <span style='font-weight: bold;'>
-                                Browsing Items <font style="font-size: 20px;">(Total: {{count($items)}})</font>
-                            </span>
+                                    <span style='font-weight: bold;'>
+                                        Browsing Items <font style="font-size: 20px;">(Total: {{$items->total()}})</font>
+                                    </span>
                                 </h2>
                             </div>
                         </div>
@@ -31,7 +89,7 @@
                                         <div class="row is-flex">
                                     @endif
 
-                                    <div class="col-md-3 col-sm-6"
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12"
                                          style="border: 3px solid #ccfff0; padding: 15px;">
                                         <div class="row">
                                             <div class="col-md-12">
@@ -72,6 +130,14 @@
                                             <div><p align="left" style="padding-left:10px">Category:
                                                     <b>{{$item->Category}}</b></p></div>
                                         </div>
+                                        <div class="display-group">
+                                            <div><p align="left" style="padding-left:10px">Ratings:
+                                                    @if($item->Rating > 0)
+                                                    <b>{{$item->Rating}} / 5</b></p></div>
+                                                    @else
+                                                    <b>No Ratings</b></p></div>
+                                                    @endif
+                                        </div>
                                         <div class="progress" style="margin: 20px;">
                                             <div class="progress-bar" role="progressbar"
                                                  aria-valuenow="70"
@@ -89,8 +155,8 @@
                                         <div class="display-group">
                                             <div>
                                                 <form action="{!! route('ItemController', ['itemid'=>$item->id]) !!}">
-                                                    <input class="btn" type="submit"
-                                                           value="View comments for this item"/>
+                                                    <input class="btn btn-default" type="submit"
+                                                           value="View comments"/>
                                                 </form>
                                                 <br>
                                             </div>
@@ -122,6 +188,7 @@
                                     {{ $items->links() }}
                                 </div>
                             @endif
+                        </div>
                     </div>
                 </div>
             </div>

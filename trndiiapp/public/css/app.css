@@ -8538,3 +8538,36 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+icon-submit-button {
+  border: 0;
+  background: none;
+  /*And other css to remove the default button property */
+}
+
+.glyphicon-star {
+  font-size: 18px;
+  color: #14A989;
+}
+
+.glyphicon-star-empty {
+  color: #14A989;
+}
+
+.filter-submit-btn-active,
+.filter-submit-btn-active:hover,
+.filter-submit-btn-active:focus {
+  background-color: #14A989;
+  color: white;
+}
+
+.filter-submit-btn {
+  color: #14A989;
+  background-color: transparent;
+}
+
+.filter-submit-btn:hover,
+.filter-submit-btn:focus {
+  color: #14A989;
+  background-color: #eeeeee;
+}
+

@@ -10,12 +10,17 @@ class ExperimentHandler {
 
     protected $experimentsRepo;
     protected $logger;
+    protected $experimentA;
+    protected $experimentB;
+
     
     public function __construct(Log $logger, Ab $ab, ExperimentsRepositoryInterface $experimentsRepo)
     {
         $this->experimentsRepo = $experimentsRepo;
         $this->ab = $ab;
         $this->logger = $logger;
+        $this->experimentA = "Basic";
+        $this->experimentB = "Token";
     }
 
     public function handleExperiment(User $user, $userSegment)
@@ -27,12 +32,25 @@ class ExperimentHandler {
         {
             $user->segment = $this->ab->getCurrentTest();
             $user->save();
+
+            if($user->segment == $this->experimentA)
+            {
+                $this->experimentsRepo->incrementExperimentAPopulation();
+            }
+            else if($user->segment == $this->experimentB)
+            {
+                $this->experimentsRepo->incrementExperimentBPopulation();
+            }
         }
-        else if($userSegment == "A"){
+        else if($userSegment == $this->experimentA){
+            //turn  off token system here
+            Feature::add('Token System', false);
             Feature::add('Cancel Purchase', false);
             $this->experimentsRepo->incrementExperimentAFrontPageHits();
         }
-        else if($userSegment == "B"){
+        else if($userSegment == $this->experimentB){
+            //turn on token system here
+            Feature::add('Token System', true);
             Feature::add('Cancel Purchase', true);
             $this->experimentsRepo->incrementExperimentBFrontPageHits();
         };
@@ -46,10 +64,10 @@ class ExperimentHandler {
 
     public function incrementNumPurchases($userSegment)
     {
-        if($userSegment == "A"){
+        if($userSegment == $this->experimentA){
             $this->experimentsRepo->incrementExperimentAPurchases();
         }
-        else if($userSegment == "B"){
+        else if($userSegment == $this->experimentB){
             $this->experimentsRepo->incrementExperimentBPurchases();
         };
     }

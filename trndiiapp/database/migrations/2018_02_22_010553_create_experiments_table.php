@@ -18,7 +18,20 @@ class CreateExperimentsTable extends Migration
             $table->string('name')->unique();
             $table->integer('front_page_hits')->default(0);
             $table->integer('number_purchases')->default(0);
+            $table->integer('population_size')->default(0);
         });
+
+        DB::table('experiments')->insert(
+            array(
+                'name' => 'Basic'
+            )
+        );
+
+        DB::table('experiments')->insert(
+            array(
+                'name' => 'Token'
+            )
+        );
     }
 
     /**

@@ -79,26 +79,11 @@
                                                 <p></p>
                                             @endif
                                             @endfeature
-                                            <div class="display-group">
-                                                <form action="{{ route('review.store') }}" method="POST">
-                                                    {{ csrf_field() }}
-                                                    <input type="hidden" name="itemId" value="{{ $item->id }}">
-                                                    <input type="hidden" name="Supplier" value="{{ $item->Supplier}}" >
-                                                    <div class="form-group">
-                                                        <p>Rate this product out of 5</p>
-                                                        <input type="radio" name="Rating" value=1>1
-                                                        <input type="radio" name="Rating" value=2>2
-                                                        <input type="radio" name="Rating" value=3>3
-                                                        <input type="radio" name="Rating" value=4>4
-                                                        <input type="radio" name="Rating" value=5>5
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <p>Comment</p>
-                                                        <textarea name="Comment" cols="30" rows="3" maxlength="191" style="resize: none;"></textarea>
-                                                    </div>
-                                                    <input type="submit" value="Submit Review">
-                                                </form>
-                                            </div>
+                                            @if($item->Status == 'threshold reached')
+
+                                               @include('components.leave-review')
+
+                                            @endif                              
                                         </div>
                                         <br/>
                                     @endforeach
@@ -177,27 +162,6 @@
                                                     </button>
                                                 </div>
                                                 @endfeature
-                                                <div class="display-group">
-                                                <form action="{{ route('review.store') }}" method="POST">
-                                                    {{ csrf_field() }}
-                                                    <input type="hidden" name="itemId" value="{{ $item->id }}">
-                                                    <input type="hidden" name="Supplier" value="{{ $item->Supplier}}" >
-                                                    <div class="form-group">
-                                                        <p>Rate this product out of 5</p>
-                                                        <input type="radio" name="Rating" value=1>1
-                                                        <input type="radio" name="Rating" value=2>2
-                                                        <input type="radio" name="Rating" value=3>3
-                                                        <input type="radio" name="Rating" value=4>4
-                                                        <input type="radio" name="Rating" value=5>5
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <p>Comment</p>
-                                                        <textarea name="Comment" cols="30" rows="3" maxlength="191" style="resize: none;"></textarea>
-                                                    </div>
-                                                    <input type="submit" value="Submit Review">
-                                                </form>
-                                            </div>
-                                                <p></p>
                                             </div>
                                             <br/>
                                         @endif
@@ -271,26 +235,11 @@
                                                             <b>{{\Carbon\Carbon::parse($item->created_at)->format('d/m/Y')}}</b>
                                                         </p></div>
                                                 </div>
-                                                <div class="display-group">
-                                                <form action="{{ route('review.store') }}" method="POST">
-                                                    {{ csrf_field() }}
-                                                    <input type="hidden" name="itemId" value="{{ $item->id }}">
-                                                    <input type="hidden" name="Supplier" value="{{ $item->Supplier}}" >
-                                                    <div class="form-group">
-                                                        <p>Rate this product out of 5</p>
-                                                        <input type="radio" name="Rating" value=1>1
-                                                        <input type="radio" name="Rating" value=2>2
-                                                        <input type="radio" name="Rating" value=3>3
-                                                        <input type="radio" name="Rating" value=4>4
-                                                        <input type="radio" name="Rating" value=5>5
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <p>Comment</p>
-                                                        <textarea name="Comment" cols="30" rows="3" maxlength="191" style="resize: none;"></textarea>
-                                                    </div>
-                                                    <input type="submit" value="Submit Review">
-                                                </form>
-                                            </div>
+
+                                                @if($item->Status == 'threshold reached')
+                                                @include('components.leave-review')
+                                                @endif
+
                                             </div>
                                             <br/>
                                         @endif

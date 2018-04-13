@@ -4,7 +4,7 @@ namespace App\Repositories\Interfaces;
 
 
 
-interface PdfRepositoryInterface {
+interface ExportRepositoryInterface {
 
     public function findAddressByItemId($itemId);
 

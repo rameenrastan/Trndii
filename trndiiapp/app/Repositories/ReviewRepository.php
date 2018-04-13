@@ -29,6 +29,33 @@ class ReviewRepository implements ReviewRepositoryInterface {
         $review->comment = $request->Comment;
 
         $review->save();
+
+        $itemRatingSum = 0;
+
+        $itemReviews = DB::table('reviews')->where('item_id', '=', $request->itemId)->get();
+
+        foreach($itemReviews as $itemReview)
+        {
+            $itemRatingSum += $itemReview->rating;
+        }
+
+        $itemRatingAverage = $itemRatingSum / count($itemReviews);
+
+        DB::table('items')->where('id', '=', $request->itemId)->update(['Rating' => $itemRatingAverage]);
+    }
+
+    public function checkIfReviewExists(Request $request)
+    {
+        $reviews = DB::table('reviews')->select('*')->where([['item_id', '=', $request->itemId], ['user_name', '=', Auth::user()->name]])->get();
+
+        if(count($reviews) > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public function storeReviewLike(Request $request){

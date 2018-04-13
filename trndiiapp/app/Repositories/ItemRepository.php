@@ -28,8 +28,9 @@ class ItemRepository implements ItemRepositoryInterface{
         $item->Name=$request->Name;
         $item->Price=$request->Price;
         $item->Bulk_Price=$request->Bulk_Price;
-        $item->Tokens_Given=$request->Tokens_Given;
-        $item->Total_Tokens_Spent=$request->Total_Tokens_Spent;
+        $item->Actual_Price=$request->Actual_Price;
+        $item->Tokens_Given=($request->Price - $request->Bulk_Price);
+        $item->Total_Tokens_Spent=0;
         $item->Threshold=$request->Threshold;
         $item->Short_Description=$request->Short_Description;
         $item->Long_Description=$request->Long_Description;
@@ -181,6 +182,53 @@ class ItemRepository implements ItemRepositoryInterface{
         return item::search($name)->paginate(16);
     }
 
+    public function getItemsAscendingPrice(Request $request)
+    {
+        $name = $request->search;
+        return item::search($name)->within('items_price_asc')->paginate(16);
+    }
+
+    public function getItemsDescengingPrice(Request $request)
+    {
+        $name = $request->search;
+        return item::search($name)->within('items_price_desc')->paginate(16);
+    }
+
+    public function getNewestToOldestItems(Request $request)
+    {
+        $name = $request->search;
+        return item::search($name)->within('items_newest_to_oldest')->paginate(16);
+    }
+
+    public function getOldestToNewestItems(Request $request)
+    {
+        $name = $request->search;
+        return item::search($name)->within('items_oldest_to_newest')->paginate(16);
+    }
+
+    public function getHighestToLowestRatingItems(Request $request)
+    {
+        $name = $request->search;
+        return item::search($name)->within('items_highest_to_lowest_ratings')->paginate(16);
+    }
+
+    public function getLowestToHighestRatingItems(Request $request)
+    {
+        $name = $request->search;
+        return item::search($name)->within('items_lowest_to_highest_ratings')->paginate(16);
+    }
+
+    public function getMostToLeastPopularItems(Request $request)
+    {
+        $name = $request->search;
+        return item::search($name)->within('items_most_to_least_popular')->paginate(16);
+    }
+
+    public function getLeastToMostPopularItems(Request $request)
+    {
+        $name = $request->search;
+        return item::search($name)->within('items_least_to_most_popular')->paginate(16);
+    }
 
     public function addCommentToItem(Request $request, $itemId)
     {
@@ -208,5 +256,14 @@ class ItemRepository implements ItemRepositoryInterface{
         Log::info('Database query: Adding ' . $nbTokens . ' tokens to total.'); 
         DB::table('items')->where('id', $id)->increment('Total_Tokens_Spent', $nbTokens);
 
+    }
+
+    public function getHomePageItems()
+    {
+        return DB::table('items')->where('Status', '=', 'pending')->orderBy('Number_Transactions', 'desc')->take(3)->get();
+    }
+
+    public function getHomePageNewestItems(){
+        return DB::table('items')->where('Status', '=', 'pending')->orderBy('created_at', 'desc')->take(4)->get();
     }
 }

@@ -2,6 +2,7 @@
 namespace App\Repositories;
 use App\Transaction; 
 use App\Repositories\Interfaces\TransactionRepositoryInterface;
+use App\Review;
 use Auth;
 use DB;
 use Log;
@@ -42,12 +43,12 @@ class TransactionRepository implements TransactionRepositoryInterface {
      * @param  $email, $itemId
      * @return void
      */
-    public function insert($email, $itemId){
+    public function insert($email, $itemId, $chargeId, $tokens){
 
         Log::info(session()->getId() . ' | [Insert Transaction Started] | ' . Auth::user()->email);
         DB::table('transactions')->insert([
 
-               ['email' => $email, 'item_fk' => $itemId]
+               ['email' => $email, 'item_fk' => $itemId, 'charge_id' => $chargeId, 'tokens_spent' => $tokens]
             
             ]);
         Log::info(session()->getId() . ' | [Insert Transaction Completed] | ' . Auth::user()->email);
@@ -61,6 +62,13 @@ class TransactionRepository implements TransactionRepositoryInterface {
     public function getAllByItemId($id){
         return DB::table('transactions')->where('item_fk', $id)->get();
 
+    }
+
+    public function get($email, $itemId){
+        return DB::table('transactions')->where([
+            ['item_fk', '=', $itemId],
+            ['email', '=', $email]
+            ])->first();
     }
 
     /**

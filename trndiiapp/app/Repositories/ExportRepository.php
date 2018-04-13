@@ -9,9 +9,9 @@
 namespace App\Repositories;
 
 use Illuminate\Support\Facades\DB;
-use App\Repositories\Interfaces\PdfRepositoryInterface;
+use App\Repositories\Interfaces\ExportRepositoryInterface;
 
-class PdfRepository implements PdfRepositoryInterface
+class ExportRepository implements ExportRepositoryInterface
 {
 
     /**
@@ -24,7 +24,7 @@ class PdfRepository implements PdfRepositoryInterface
         $addresses = DB::table('users')
             ->join('transactions', 'users.email', '=', 'transactions.email')
             ->join('items', 'items.id', '=', 'transactions.item_fk')
-            ->select('users.name','users.addressline1' , 'users.postalcode', 'users.city', 'users.country')
+            ->select('users.name','users.addressline1' , 'users.postalcode', 'users.city', 'users.country', 'users.email')
             ->where('items.id', $itemId)
             ->get();
         return $addresses;

@@ -8,8 +8,8 @@ return [
 
     //defines tests with distribution levels (segmentation)
     'tests' => [
-        'A' => 1,
-        'B' => 1,
+        'Basic' => 1,
+        'Token' => 1,
     ],
 
 ];

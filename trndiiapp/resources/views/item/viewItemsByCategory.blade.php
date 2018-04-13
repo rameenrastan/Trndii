@@ -26,7 +26,7 @@
                                             <div class="row is-flex">
                                                 @endif
 
-                                                <div class="col-md-3 col-sm-6"
+                                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12"
                                                      style="border: 3px solid #ccfff0; padding: 15px;">
                                                     <div class="row">
                                                         <div class="col-md-12">
@@ -83,7 +83,7 @@
                                                     <div class="display-group">
                                                         <div>
                                                             <form action="{!! route('ItemController', ['itemid'=>$item->id]) !!}">
-                                                                <input class="btn" type="submit" value="View comments for this item"/>
+                                                                <input class="btn btn-default" type="submit" value="View comments"/>
                                                             </form>
                                                             <br>
                                                         </div>
@@ -135,13 +135,12 @@
                                                 <div class="row is-flex">
                                                     @endif
 
-                                                    <div class="col-md-3 col-sm-6"
+                                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12"
                                                          style="border: 3px solid #ccfff0; padding: 15px;">
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <a href="item/{{$item->id}}">
-                                                                    <img alt="{{$item->Name}}"
-                                                                         src="{{$item->Picture_URL}}"
+                                                                    <img alt="{{$item->Name}}" src="{{$item->Picture_URL}}"
                                                                          class="img-thumbnail"/>
                                                                 </a>
                                                             </div>
@@ -155,9 +154,11 @@
                                                                         <h3>
                                                                             ${{$item->Price}}
                                                                         </h3>
+                                                                        <form action="item/{{$item->id}}">
+                                                                            <input class="btn" type="submit" value="Go to page" style="color: white; background-color: #14A989;"/>
+                                                                        </form>
                                                                     </div>
                                                                 </div>
-
                                                             </div>
                                                         </div>
                                                         <br>
@@ -184,15 +185,25 @@
                                                         <div class="row" style="font-size: 16px;">
                                                             <div class="col-md-12 text-center">
                                                                 {{$item->Number_Transactions}} / {{$item->Threshold}}
-                                                                Orders
-                                                                Placed <br><br>
+                                                                Orders Placed
+                                                                <br><br>
                                                             </div>
                                                         </div>
                                                         <div class="display-group">
-                                                            <div><p align="left" style="padding-left:10px">Order placed
+                                                            <div>
+                                                                <form action="{!! route('ItemController', ['itemid'=>$item->id]) !!}">
+                                                                    <input class="btn btn-default" type="submit" value="View comments"/>
+                                                                </form>
+                                                                <br>
+                                                            </div>
+                                                        </div>
+                                                        <div class="display-group">
+                                                            <div>
+                                                                <p align="left" style="padding-left:10px">Order placed
                                                                     on
                                                                     <b>{{\Carbon\Carbon::parse($item->created_at)->format('d/m/Y')}}</b>
-                                                                </p></div>
+                                                                </p>
+                                                            </div>
                                                         </div>
                                                     </div>
 
@@ -220,7 +231,6 @@
     </div>
 
     @endfor
-    </div>
     </div>
 
 @endsection

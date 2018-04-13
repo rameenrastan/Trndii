@@ -18,7 +18,7 @@ class ItemManagerTest extends TestCase
 {
     use DatabaseMigrations;
     /**
-     * A basic test example.
+     * Tests that proper method calls are made in ItemManager's setExpired() method
      *
      * @return void
      */
@@ -43,14 +43,16 @@ class ItemManagerTest extends TestCase
 
         $userRepoMock = Mockery::mock('App\Repositories\UserRepository');
         $itemRepoMock = Mockery::mock('App\Repositories\ItemRepository');
-        $transactionRepoMock = Mockery::mock('App\Repositories\transactionRepository');
+        $transactionRepoMock = Mockery::mock('App\Repositories\TransactionRepository');
+        $paymentManager = Mockery::mock('App\Domain\PaymentManager');
 
         $itemRepoMock->shouldReceive('getExpiredItems')->with()->once();
         $itemRepoMock->shouldReceive('find');
         $transactionRepoMock->shouldReceive('getAllByItemId');
 
-        $itemManager = new ItemManager($itemRepoMock, $transactionRepoMock, $userRepoMock);
+        $itemManager = new ItemManager($itemRepoMock, $transactionRepoMock, $userRepoMock, $paymentManager);
 
         $itemManager->setExpired();
+
     }
 }

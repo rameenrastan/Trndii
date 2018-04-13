@@ -44,7 +44,7 @@ class PaymentsController extends Controller
         try {
         Log::info(session()->getId() . ' | [Update Credit Card Started] | ' . Auth::user()->email); 
 
-        Stripe::setApiKey('sk_test_NT3PRUGQkLOj8cnPlp1X2APb');
+        Stripe::setApiKey(env('STRIPE_SECRET'));
        
         $auth = Auth::user();
         $user = $this->userRepo->findByEmail($auth->email);

@@ -12,12 +12,14 @@ class ItemManager {
     protected $itemRepo;
     protected $transactionRepo;
     protected $userRepo;
+    protected $paymentManager;
 
-    public function __construct(ItemRepositoryInterface $itemRepo, TransactionRepositoryInterface $transactionRepo, UserRepositoryInterface $userRepo)
+    public function __construct(ItemRepositoryInterface $itemRepo, TransactionRepositoryInterface $transactionRepo, UserRepositoryInterface $userRepo, PaymentManager $paymentManager)
     {
         $this->itemRepo=$itemRepo;
         $this->transactionRepo = $transactionRepo;
         $this->userRepo = $userRepo;
+        $this->paymentManager = $paymentManager;
     }
 
     /**
@@ -46,14 +48,16 @@ class ItemManager {
             $this->itemRepo->setExpired($expiredItem->id);
         
             foreach($transactions as $transaction){
-                                
+                
                 $user = $this->userRepo->findByEmail($transaction->email);
+                
+                $this->paymentManager->refund($item->Price, $transaction->charge_id);
+                
                 Mail::to($transaction->email)->send(new ItemExpired($item, $user));
                         
             }      
         }
         }
-
         Log::info(session()->getId() . ' | [Getting Expired Items Completed]');
         } catch (Exception $e) { 
 

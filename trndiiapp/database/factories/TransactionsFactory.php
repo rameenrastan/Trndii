@@ -22,5 +22,7 @@ $factory->define(App\Transaction::class, function (Faker $faker) {
     return [
         'email'=> $random_user,
         'item_fk'=> $random_item,
+        'tokens_spent'=>0,
+        'charge_id'=>1111111,
     ];
 });

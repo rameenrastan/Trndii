@@ -129,28 +129,41 @@ class TransactionsController extends Controller
     {
         try {
 
+        //starting point of DB transactions (all transactions after this point will be rolled back if threshold is exceeded)
+        DB::beginTransaction();
+
         $stripeId = Auth::user()->stripe_id;
         $user = Auth::user();
         
         Log::info(session()->getId() . ' | [Start Purchase Commitment] | ' . $user->email);
 
-        
-
         if($stripeId != ''){
 
-            if($request->has('Tokens_To_Spend')){
             $nbTokensSpent = $request->input('Tokens_To_Spend');
-            $this->itemRepo->addTotalTokens($nbTokensSpent,$id);
-            $this->userRepo->removeTokens($user,$nbTokensSpent); 
+
+            if($request->has('Tokens_To_Spend')){
+
+                if($user->tokens>=$nbTokensSpent&&$nbTokensSpent>-1){
+                    $this->itemRepo->addTotalTokens($nbTokensSpent,$id);
+                    $this->userRepo->removeTokens($user,$nbTokensSpent);
+                }
+                else{
+                    return back()->with('error', 'You cannot spend the amount of tokens you entered');
+                }
             }
-
-            app('App\Http\Controllers\ItemsController')->numTransactions($id);    
+            else{
+                $nbTokensSpent=0;
+            }   
             
-            $item = item::find($id);   
-
+            $item = item::find($id);
+            
             $chargeId = $this->paymentManager->charge($item->Price, $stripeId);
-            
-            $this->transactionRepo->insert(Auth::user()->email, $id);
+
+            $this->transactionRepo->insert($user->email, $id, $chargeId, $nbTokensSpent);
+
+            $this->itemRepo->numTransactions($id);
+
+            $item = item::find($id);  
 
             try {
             Mail::to(Auth::user()->email)->send(new PurchaseConfirmation($item, Auth::user()));
@@ -160,16 +173,27 @@ class TransactionsController extends Controller
 
             if($item->Number_Transactions == $item->Threshold)
             {
-                //$this->paymentManager->chargeCustomers($item->id);
                 $this->itemRepo->setThresholdReached($item->id);
+                $this->paymentManager->purchaseCompletion($item->id);
             }
 
-            Log::info(session()->getId() . ' | [Purchase Commitment Success] | ' . $user->email);
+            $item = item::find($id);
 
-            $this->exp->incrementNumPurchases(Auth::user()->segment);
+            if($item->Number_Transactions > $item->Threshold)
+            {
+                //roll back all DB transactions if threshold was exceeded (result of concurrency issue)
+                DB::rollBack();
+                Log::info(session()->getId() . ' | [Rollback : Threshold Exceeded] | ' . $user->email);
+            }
+            else
+            {
+                DB::commit();
+                Log::info(session()->getId() . ' | [Purchase Commitment Success] | ' . $user->email);
 
-            return redirect('/')->with('success', 'You have successfully commited to this purchase. You will be notified if the item reaches its threshold. Thanks!');
-            
+                $this->exp->incrementNumPurchases(Auth::user()->segment);
+
+                return redirect('/')->with('success', 'You have successfully commited to this purchase. You will be notified if the item reaches its threshold. Thanks!');
+            }
         }
         
         else{

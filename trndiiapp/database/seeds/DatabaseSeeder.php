@@ -49,5 +49,6 @@ class DatabaseSeeder extends Seeder
 
         // transactions
         $this->call(TransactionsTableSeeder::class);
+
     }
 }

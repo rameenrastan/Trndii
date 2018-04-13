@@ -188,6 +188,7 @@ return [
         Laravel\Scout\ScoutServiceProvider::class,
 
         LaravelFeature\Provider\FeatureServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Shopping Cart Service Providers...
@@ -251,6 +252,7 @@ return [
         'AB' => Bart\Ab\Facade::class,
         'Feature' => \LaravelFeature\Facade\Feature::class,
         'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

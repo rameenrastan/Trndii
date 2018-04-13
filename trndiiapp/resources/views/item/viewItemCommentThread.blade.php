@@ -6,22 +6,24 @@
             <h3>
                 Comments on <strong><a href="../item/{{$item->id}}"> {{$item->Name}}</a></strong>
             </h3>
-            <br>
-            <!--Comment Box-->
-            <div class="row">
-                <div id ="comment-form"  class="col-md-8 col-md-offset-2">
-                    {{ Form::open(['route' => ['ItemController.addComment', $item->id, "itemCommentThreadOnly"], 'method' => 'POST']) }}
-                    <div class="row">
-                        <div class="col-md-12">
-                            {{ Form::textarea('comment', null, ['class' => 'form-control', 'rows' => '5', 'columns' => '5', 'placeholder' => 'Leave a comment...', 'resize' => 'none']) }}
+            @if(Auth::user())
+                <!--Comment Box-->
+                <br>
+                <div class="row">
+                    <div id ="comment-form"  class="col-md-8 col-md-offset-2">
+                        {{ Form::open(['route' => ['ItemController.addComment', $item->id, "itemCommentThreadOnly"], 'method' => 'POST']) }}
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ Form::textarea('comment', null, ['class' => 'form-control', 'rows' => '5', 'columns' => '5', 'placeholder' => 'Leave a comment...', 'resize' => 'none']) }}
 
-                            {{ Form::submit('Add Comment', ['class' => 'btn btn-success', 'style' => 'margin-top:15px']) }}
+                                {{ Form::submit('Add Comment', ['class' => 'btn btn-success', 'style' => 'margin-top:15px']) }}
+                            </div>
                         </div>
+                        {{ Form::close() }}
                     </div>
-                    {{ Form::close() }}
                 </div>
-            </div>
-            <br>
+                <br>
+            @endif
         </div>
 
         <!--Displaying all comments -->
@@ -50,6 +52,9 @@
                         <p>{{ $com->comment }} </p>
                     </div>
                 @endforeach
+            <div>
+                &nbsp;
+            </div>
             </div>
         @else
             <div class="col-md-12 text-center">
@@ -64,5 +69,8 @@
                 {{ $itemComments->links() }}
             </div>
         @endif
+        <div>
+            &nbsp;
+        </div>
     </div>
 @endsection
