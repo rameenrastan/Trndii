@@ -89,6 +89,10 @@ Route::post('/search', 'ItemsController@search');
 
 Route::get('/search', 'ItemsController@search');
 
+Route::post('/searchUsers', 'AdminController@searchUsers');
+
+Route::get('/searchUsers', 'AdminController@searchUsers');
+
 Route::post('/ascendingPrice', 'ItemsController@sortItemsPriceAscending')->name('items.ascendingPrice');
 
 Route::get('/ascendingPrice', 'ItemsController@sortItemsPriceAscending')->name('items.ascendingPrice');
@@ -120,6 +124,7 @@ Route::post('/mostPopular', 'ItemsController@sortItemsMostToLeastPopular')->name
 Route::get('/leastPopular', 'ItemsController@sortItemsLeastToMostPopular')->name('items.leastPopular');
 
 Route::post('/leastPopular', 'ItemsController@sortItemsLeastToMostPopular')->name('items.leastPopular');
+
 
 Route::get('/shoppingCart', 'CartController@index');
 

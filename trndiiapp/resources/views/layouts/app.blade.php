@@ -178,10 +178,24 @@
     <script>
         var client = algoliasearch('{{ env("ALGOLIA_APP_ID") }}', '{{ env("ALGOLIA_SEARCH_ONLY") }}');
         var index = client.initIndex('items');
+        var userIndex = client.initIndex('Users');
         autocomplete('#searching', { hint: false }, [
             {
                 source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
                 displayKey: 'Name',
+                templates: {
+                    suggestion: function(suggestion) {
+                        return suggestion._highlightResult.Name.value;
+                    }
+                }
+            }
+        ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+            console.log(suggestion, dataset);
+        });
+        autocomplete('#imsearching', { hint: false }, [
+            {
+                source: autocomplete.sources.hits(userIndex, { hitsPerPage: 10 }),
+                displayKey: 'Email',
                 templates: {
                     suggestion: function(suggestion) {
                         return suggestion._highlightResult.Name.value;

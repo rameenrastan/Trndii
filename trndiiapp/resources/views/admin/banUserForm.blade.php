@@ -17,9 +17,18 @@
                         <div class="form-group">
                             {{Form::label('Email','Email',array('class'=>'col-md-4 control-label'))}}
                             <div class="col-md-6">
-                                {{ Form::select('Email', $userEmails, null, array('class' => 'form-control'))}}
+                                    {{Form::email('Email', null, array('class' => 'form-control','size'=>'30x1'))}}
                             </div>
                         </div>
+
+                        {{--  <div class="form-group">
+                            <form action="{{ action ('AdminController@searchUsers')}}", method="POST">
+                                {{ csrf_field() }}
+                                <div class="col-md-6">
+                                    <input type="text" id="imsearching" class="form-control" placeholder="Search" name="search">
+                                </div>
+                            </form>
+                        </div>  --}}
 
                         <div class="form-group">
                             {{Form::label('Comment','Comment',array('class'=>'col-md-4 control-label'))}}
@@ -50,7 +59,6 @@
 
 
                         {!! Form::close() !!}
-
                     </div>
                 </div>
             </div>

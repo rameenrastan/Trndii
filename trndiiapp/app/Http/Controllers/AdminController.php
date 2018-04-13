@@ -54,6 +54,25 @@ class AdminController extends Controller
 
         return view('admin.banUserForm', compact('userEmails'));
     }
+
+        /**
+     * Gets search results of an admin search bar input.
+     * @param  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function searchUsers(Request $request)
+    {
+        try {
+        Log::info(session()->getId() . ' | [User Email Search Started]');
+        $emails = $this->userRepo->getEmailSearchResults($request);
+        Log::info(session()->getId() . ' | [User Email Search Finished]');
+        return view('user.search')->with('emails', $emails);
+        } catch(Exception $e) {
+            return $e->getMessage();
+            Log::info(session()->getId() . ' | [User Email Search Failed]');
+        }
+    }
+
     public function banUser(Request $request){
         try {
         Log::info(session()->getId() . ' | [Moderation Action Started]');

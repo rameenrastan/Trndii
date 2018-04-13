@@ -27,6 +27,13 @@ class UserRepository implements UserRepositoryInterface {
 
     }
     
+    public function getEmailSearchResults($request)
+    {
+        $email = $request->search;
+        Log::info(session()->getId() . ' | [Search Query Started] | ' . $email);
+        return user::search($email)->paginate(16);
+    }
+
     /**
      * Updates a user's credit card information (Stripe ID in the database)
      * @param  $email, $customerId

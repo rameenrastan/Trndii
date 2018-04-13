@@ -9,5 +9,6 @@ interface UserRepositoryInterface {
     public function update($request, $id);
     public function addTokens($tempUser, $nbTokens);
     public function removeTokens($tempUser, $nbTokens);
-	
+    public function getEmailSearchResults($request);
+
 }
