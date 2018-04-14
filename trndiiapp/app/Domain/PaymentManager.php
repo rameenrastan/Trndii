@@ -43,7 +43,7 @@ class PaymentManager {
     /**
      * Refunds a charge by a given amount
      *
-     * @param  $amount, $chargeId
+     * @param  $amount, $priceMax, $chargeId
      * @return void
      */
     public function refund($amount, $priceMax, $chargeId){
@@ -101,6 +101,25 @@ class PaymentManager {
     }
 
     /**
+     * Full refund used for getExpired() method in Item Manager
+     *
+     * @param  $amount, $chargeId
+     * @return void
+     */
+    public function fullRefund($amount, $chargeId){
+
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        $amount = (int)($amount * 100);
+
+        $refund = Refund::create([
+            "charge" => $chargeId,
+            "amount" => $amount,
+        ]);
+
+    }
+
+    /**
      * Charges a user's credit card
      *
      * @param  $amount, $customerId
@@ -110,7 +129,7 @@ class PaymentManager {
                 try {
                 $this->logger::info(session()->getId() . ' | [Charge Customer Started] | ' . $customerId);
         
-                $amount = $amount * 100; 
+                $amount = (int)($amount * 100); 
                 
                 Stripe::setApiKey(env('STRIPE_SECRET'));    
         

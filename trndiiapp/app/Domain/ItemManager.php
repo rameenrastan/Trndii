@@ -51,7 +51,7 @@ class ItemManager {
                 
                 $user = $this->userRepo->findByEmail($transaction->email);
                 
-                $this->paymentManager->refund($item->Price, $transaction->charge_id);
+                $this->paymentManager->fullRefund($item->Price, $transaction->charge_id);
                 
                 Mail::to($transaction->email)->send(new ItemExpired($item, $user));
                         
