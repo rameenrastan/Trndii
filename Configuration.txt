@@ -1,0 +1,25 @@
+Enviroment set up for Trndii Project
+
+
+Installation:
+
+Clone the project from github
+
+Install php on your local machine
+http://php.net/manual/en/install.windows.php
+
+Run git clone https://github.com/Laradock/laradock.git in trndiiapp folder
+Run composer install in trndiiapp folder
+Run docker-compose up -d nginx mysql in trndiiapp/laradock folder
+
+DB Migrations
+Run docker-compose exec workspace bash in laradock folder
+Run php artisan migrate:refresh
+Run php artisan db:seed to populate database with test data
+
+Testing 
+Run php artisan dusk in trndiiapp folder
+Vue.js and SASS:
+install Node.js
+run npm install
+run npm run watch in trndiiapp folder
