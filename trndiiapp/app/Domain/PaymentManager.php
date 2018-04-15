@@ -29,7 +29,7 @@ class PaymentManager {
      
     public function __construct(Mail $mail, Log $logger, UserRepositoryInterface $userRepo,
                                 TransactionRepositoryInterface $transactionRepo,
-                                ItemRepositoryInterface $itemRepo, TokenManager $tokenManager ){
+                                ItemRepositoryInterface $itemRepo, TokenManager $tokenManager){
     
         $this->userRepo = $userRepo;
         $this->transactionRepo = $transactionRepo;
@@ -167,10 +167,6 @@ class PaymentManager {
                 
         $transactions = $this->transactionRepo->getAllByItemId($id);
 
-        $transaction_log = new Logger('Transaction Logs');
-        $transaction_log->pushHandler(new StreamHandler('storage/logs/transactions/item_' . $item->id . '_transactions.log', Logger::INFO));
-        $transaction_log->addInfo("Item " . $item->id . " transactions: listing all users charged for the purchase of this item...");
-
         $noTokenUsers=new SplFixedArray(0);
         $noTokenUsersCounter=0;
 
@@ -183,8 +179,6 @@ class PaymentManager {
             $user = $this->userRepo->findByEmail($transaction->email);
             $tokensSpent = $transaction->tokens_spent;
 
-            //$this->charge($item->Price, $user->stripe_id);
-
             $this->userRepo->addTokens($user, $item->Tokens_Given);
 
             if($transaction->tokens_spent==0){
@@ -193,11 +187,8 @@ class PaymentManager {
                 $noTokenUsersCounter=$noTokenUsersCounter+1;
             }
 
-            $transaction_log->addInfo("User " . $user->email . " was charged $" . $item->Price);
-
             $moneyBack = $this->tokenManager->calculateCashBackFromTokens($itemPrice, $totalTokens, $tokensSpent, $moneyPool);
             $this->refund($moneyBack, $itemPrice, $transaction->charge_id);
-            $transaction_log->addInfo("User " . $user->email . " has gained $" . $moneyBack . " from spending tokens."); 
 
             app('App\Http\Controllers\TransactionsController')->updatePurchaseHistory($user->email, $id);
 
@@ -206,7 +197,7 @@ class PaymentManager {
 
         //Chose random winner from noTokenUsers
         $winner=$this->tokenManager->chooseNoTokenWinner($noTokenUsers);
-        $this->refundWinner($item,$winner);
+        $this->refundWinner($item, $winner);
 
         $this->logger::info(session()->getId() . ' | [Purchase Completion Completed] | ' . $id);
 
