@@ -1,6 +1,16 @@
 Enviroment set up for Trndii Project
 
 
+
+Enviroment Files
+Located in this folder are two enviroment files, one for the trndiiapp and one for laradock
+Paste them in the trndiiapp folder and laradock folder respectively
+rename them both .env once you have placed them in their respective folders
+
+Install composer
+https://getcomposer.org/doc/00-intro.md
+Set path in enviroment variables to point to composer 
+
 Installation:
 
 Clone the project from github
