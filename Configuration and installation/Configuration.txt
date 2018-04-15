@@ -15,6 +15,9 @@ Installation:
 
 Clone the project from github
 
+Install docker on your local machine
+https://www.docker.com/get-docker
+
 Install php on your local machine
 http://php.net/manual/en/install.windows.php
 
