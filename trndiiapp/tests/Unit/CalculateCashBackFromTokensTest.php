@@ -11,11 +11,11 @@ use Mockery;
 class NoTokenCashBackTest extends TestCase
 {
     /**
-     * Tests that the a user will not receive any cash back if no tokens were spent on the item.
+     * Tests that the a user receives the correct cash back value from spending tokens
      *
      * @return void
      */
-    public function testNoTokenCashBack()
+    public function testCashBackFromTokens()
     {
         $userRepoMock = Mockery::mock('App\Repositories\UserRepository');
         $itemRepoMock = Mockery::mock('App\Repositories\ItemRepository');
