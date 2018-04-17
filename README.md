@@ -18,3 +18,7 @@
 - Run `docker-compose exec workspace bash` in laradock folder
 - Run `php artisan migrate:refresh`
 - Run `php artisan db:seed` to populate database with test data
+
+### Other
+- Jenkins CI server: ec2-13-59-227-206.us-east-2.compute.amazonaws.com (username: trndii, password: trndii123)
+- Logging Platform (Loggly): trndii.loggly.com (username: trndii, password: Trndii123)
